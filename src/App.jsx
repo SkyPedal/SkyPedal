@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
+import RecordActivity from "./components/RecordActivity";
 
 function App() {
   return (
@@ -14,8 +15,7 @@ function App() {
           <div className="flex-grow min-w-0 h-full">
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
-              <Route path="/broke" element={<ActivityFeed />} />
-              {/* TODO: add routes here */}
+              <Route path="/record" element={<RecordActivity />} />
             </Routes>
           </div>
           <InfoSidebar />
