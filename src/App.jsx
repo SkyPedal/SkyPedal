@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import AuthContext from "./context/AuthContext";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -14,9 +11,10 @@ function App() {
       <Router>
         <div className="App flex h-screen w-screen">
           <NavigationSidebar />
-          <div className="w-3/5 flex-grow h-full">
+          <div className="flex-grow min-w-0 h-full">
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
+              <Route path="/broke" element={<ActivityFeed />} />
               {/* TODO: add routes here */}
             </Routes>
           </div>
