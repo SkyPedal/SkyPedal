@@ -5,6 +5,7 @@ import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
 import RecordActivity from "./components/RecordActivity";
+import Leadeboard from "./components/Leaderboard";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
               <Route path="/record" element={<RecordActivity />} />
+              <Route path="/leaders" element={<Leadeboard />} />
             </Routes>
           </div>
           <InfoSidebar />
