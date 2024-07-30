@@ -12,9 +12,9 @@ function App() {
   return (
     <AuthContext.Provider value={{ userid: null, username: null }}>
       <Router>
-        <div className="App">
+        <div className="App flex h-screen w-screen">
           <NavigationSidebar />
-          <div className="w-3/5 fixed top-0 bottom-0">
+          <div className="w-3/5 flex-grow h-full">
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
               {/* TODO: add routes here */}

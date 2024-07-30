@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NavigationSidebar = () => {
   return (
-    <div className="w-1/5 fixed left-0 top-0 bottom-0 border-r-4">
+    <div className="w-1/5 sticky left-0 border-r-4">
       <ul className="p-5">
         <li className="p-5">
           <Link to="/">Home</Link>
