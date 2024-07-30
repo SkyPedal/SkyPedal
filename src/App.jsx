@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
+import Leadeboard from "./components/Leaderboard"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
               <Route path="/broke" element={<ActivityFeed />} />
+              <Route path="/leaders" element={<Leadeboard />} />
               {/* TODO: add routes here */}
             </Routes>
           </div>

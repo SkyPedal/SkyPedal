@@ -1,0 +1,22 @@
+[
+      {
+        "_id": "5cc08495bf3fd62d03f2f4c1",
+        "name": "John",
+        "score": "100"
+      },
+      {
+        "_id": "5cc08495bf3fd62d03f2f4c2",
+        "name": "Mike",
+        "score": "1"
+      },
+      {
+        "_id": "Sample Todo 3",
+        "name": "Maria",
+        "score": "43"
+      },
+      {
+        "_id": "Sample Todo 4",
+        "name": "Bob",
+        "score": "34"
+      }
+    ]
