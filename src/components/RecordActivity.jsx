@@ -9,12 +9,12 @@ const RecordActivity = () => {
   const [time, setTime] = useState(null);
 
   return (
-    <div className="h-full">
+    <div className="h-full p-4 px-36 relative">
       <h1 className="text-3xl text-left pt-5 pl-5">Record Activity</h1>
 
-      <form className="h-full">
-        {/* <div className="flex flex-col p-5 h-full justify-between"> */}
-        <div>
+      {/* <div className="flex flex-col h-full justify-between"> */}
+      <div className="">
+        <form className="">
           <div className="flex flex-col p-5">
             <label htmlFor="activityName" className="text-left text-lg">
               Title
@@ -110,7 +110,8 @@ const RecordActivity = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-end ">
+          {/* Buttons  */}
+          <div className="flex flex-row justify-end p-5 absolute bottom-12 right-36">
             <button
               type="button"
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5 mx-2 max-h-10"
@@ -124,8 +125,8 @@ const RecordActivity = () => {
               Add
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
