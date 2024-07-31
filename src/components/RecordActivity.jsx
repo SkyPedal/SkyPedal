@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { DATABASE_URL } from "../config";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function today() {
   var d = new Date(),
@@ -21,11 +25,69 @@ const RecordActivity = () => {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  const [error, setError] = useState("");
+  const { user_id } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const activity = {
+      title,
+      date,
+      time,
+      start,
+      end,
+      distance,
+      duration,
+    };
+    const success = await saveActivity(activity);
+    console.log("Submit: ", success, error);
+  };
+
+  const saveActivity = async (activity) => {
+    setError("");
+    if (!("time" in activity)) {
+      setError("NO TIME IN ACTIVITY");
+      return false;
+    }
+    if (!("date" in activity)) {
+      setError("NO DATE IN ACTIVITY");
+      return false;
+    }
+    if (!("title" in activity)) {
+      setError("NO TITLE IN ACTIVITY");
+      return false;
+    }
+    if (!("distance" in activity && activity.distance > 0)) {
+      setError("NO DISTANCE IN ACTIVITY");
+      return false;
+    }
+    if (!("duration" in activity && activity.duration > 0)) {
+      setError("NO DURATION IN ACTIVITY");
+      return false;
+    }
+    try {
+      console.log("Posting: ", activity);
+      activity = { ...activity, user_id };
+      await axios.post(`${DATABASE_URL}/activities`, activity);
+      console.log("Posted: ", activity);
+    } catch (error) {
+      setError(`Error posting data: ${error}`);
+      return false;
+    }
+    setDistance(0);
+    setDuration(0);
+    navigate("/");
+    return true;
+  };
+
   return (
     <div className="relative mx-auto h-full max-w-xl p-4">
       <h1 className="pt-5 text-left text-3xl">Record Activity</h1>
+      {error != "" && <span className="text-red-500">{error}</span>}
 
-      <form className="">
+      <form onSubmit={handleSave}>
         <div className="flex flex-col pt-12">
           <label htmlFor="activityName" className="text-left text-lg">
             Title
@@ -80,6 +142,7 @@ const RecordActivity = () => {
                   id="activityStart"
                   name="activityStart"
                   className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
+                  disabled={true}
                   value={start}
                   onChange={(e) => setStart(e.target.value)}
                 />
@@ -92,6 +155,7 @@ const RecordActivity = () => {
                   type="text"
                   id="activityEnd"
                   name="activityEnd"
+                  disabled={true}
                   className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                   value={end}
                   onChange={(e) => setEnd(e.target.value)}
@@ -111,7 +175,7 @@ const RecordActivity = () => {
                 htmlFor="activityDistance"
                 className="pt-5 text-left text-lg"
               >
-                Distance
+                Distance (miles)
               </label>
               <input
                 type="number"
@@ -119,12 +183,12 @@ const RecordActivity = () => {
                 name="activityDistance"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={distance}
-                onChange={(e) => setDistance(e.target.value)}
+                onChange={(e) => setDistance(parseInt(e.target.value))}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="activityTime" className="pt-5 text-left text-lg">
-                Time
+                Duration (minutes)
               </label>
               <input
                 type="number"
@@ -132,7 +196,7 @@ const RecordActivity = () => {
                 name="activityTime"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={duration}
-                onChange={(e) => setDuration(e.target.value)}
+                onChange={(e) => setDuration(parseInt(e.target.value))}
               />
             </div>
           </div>
