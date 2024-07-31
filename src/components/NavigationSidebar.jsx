@@ -19,7 +19,7 @@ const NavigationSidebar = () => {
       <ul className="p-5">
         <li className="md:pt-5 pb-5">
           <Link to="/">
-            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg p-4">
+            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
               <img src={HomeIcon} alt="Home" className="w-8" />
               <p className="pl-4 hidden md:block">Home</p>
             </div>
@@ -27,7 +27,7 @@ const NavigationSidebar = () => {
         </li>
         <li className="md:pt-5 pb-5">
           <Link to="/record">
-            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg p-4">
+            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
               <img src={RecordIcon} alt="Record" className="w-8" />
               <p className="pl-4 hidden md:block"> Record </p>
             </div>
@@ -35,7 +35,7 @@ const NavigationSidebar = () => {
         </li>
         <li className="md:pt-5 pb-5">
           <Link to="/compete">
-            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg p-4">
+            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
               <img src={CompeteIcon} alt="Compete" className="w-8" />
               <p className="pl-4 hidden md:block"> Compete </p>
             </div>
@@ -43,7 +43,7 @@ const NavigationSidebar = () => {
         </li>
         <li className="md:pt-5 pb-5">
           <Link to="/rewards">
-            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg p-4">
+            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
               <img src={RewardsIcon} alt="Rewards" className="w-8" />
               <p className="pl-4 hidden md:block"> Rewards </p>
             </div>
@@ -51,7 +51,7 @@ const NavigationSidebar = () => {
         </li>
         <li className="md:pt-5 pb-5 absolute bottom-0">
           <Link to="/signin">
-            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg p-4">
+            <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
               <img src={SignInIcon} alt="SignIn" className="w-8" />
               <p className="pl-4 hidden md:block"> Sign In</p>
             </div>
