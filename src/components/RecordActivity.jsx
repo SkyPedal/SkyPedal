@@ -184,19 +184,26 @@ const RecordActivity = () => {
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={distance}
                 onChange={(e) => setDistance(parseInt(e.target.value))}
+                min="1"
+                required
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="activityTime" className="pt-5 text-left text-lg">
+              <label
+                htmlFor="activityDuration"
+                className="pt-5 text-left text-lg"
+              >
                 Duration (minutes)
               </label>
               <input
                 type="number"
-                id="activityTime"
-                name="activityTime"
+                id="activityDuration"
+                name="activityDuration"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={duration}
                 onChange={(e) => setDuration(parseInt(e.target.value))}
+                min="1"
+                required
               />
             </div>
           </div>
@@ -206,6 +213,7 @@ const RecordActivity = () => {
           <button
             type="button"
             className="mx-8 mt-5 max-h-10 w-24 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+            onClick={() => navigate("/")}
           >
             Cancel
           </button>
