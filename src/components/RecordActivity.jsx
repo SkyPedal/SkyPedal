@@ -9,11 +9,9 @@ const RecordActivity = () => {
   const [time, setTime] = useState(null);
 
   return (
-    <div className="h-full p-4 max-w-xl mx-auto relative">
-      <h1 className="text-3xl text-left pt-5 ">Record Activity</h1>
+    <div className="relative mx-auto h-full max-w-xl p-4">
+      <h1 className="pt-5 text-left text-3xl">Record Activity</h1>
 
-      {/* <div className="flex flex-col h-full justify-between"> */}
-      {/* <div className=""> */}
       <form className="">
         <div className="flex flex-col pt-12">
           <label htmlFor="activityName" className="text-left text-lg">
@@ -23,51 +21,51 @@ const RecordActivity = () => {
             type="text"
             id="activityName"
             name="activityName"
-            className="border-2 border-solid border-gray-300 rounded-lg p-2"
+            className="rounded-lg border-2 border-solid border-gray-300 p-2"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label htmlFor="activityDate" className="text-left text-lg pt-5">
+          <label htmlFor="activityDate" className="pt-5 text-left text-lg">
             Date
           </label>
           <input
             type="date"
             id="activityDate"
             name="activityDate"
-            className="border-2 border-solid border-gray-300 rounded-lg p-2"
+            className="rounded-lg border-2 border-solid border-gray-300 p-2"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
-              <label htmlFor="activityStart" className="text-left text-lg pt-5">
+              <label htmlFor="activityStart" className="pt-5 text-left text-lg">
                 Start Location
               </label>
               <input
                 type="text"
                 id="activityStart"
                 name="activityStart"
-                className="border-2 border-solid border-gray-300 rounded-lg p-2"
+                className="rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="activityEnd" className="text-left text-lg pt-5">
+              <label htmlFor="activityEnd" className="pt-5 text-left text-lg">
                 End Location
               </label>
               <input
                 type="text"
                 id="activityEnd"
                 name="activityEnd"
-                className="border-2 border-solid border-gray-300 rounded-lg p-2"
+                className="rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
               />
             </div>
           </div>
           <p
-            className="w-full text-center border-b-2 mt-8 mb-2"
+            className="mb-2 mt-8 w-full border-b-2 text-center"
             style={{ lineHeight: "0.1em" }}
           >
             <span className="bg-white pl-2 pr-2">OR</span>
@@ -76,7 +74,7 @@ const RecordActivity = () => {
             <div className="flex flex-col">
               <label
                 htmlFor="activityDistance"
-                className="text-left text-lg pt-5"
+                className="pt-5 text-left text-lg"
               >
                 Distance
               </label>
@@ -84,20 +82,20 @@ const RecordActivity = () => {
                 type="number"
                 id="activityDistance"
                 name="activityDistance"
-                className="border-2 border-solid border-gray-300 rounded-lg p-2"
+                className="rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={distance}
                 onChange={(e) => setDistance(e.target.value)}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="activityTime" className="text-left text-lg pt-5">
+              <label htmlFor="activityTime" className="pt-5 text-left text-lg">
                 Time
               </label>
               <input
                 type="number"
                 id="activityTime"
                 name="activityTime"
-                className="border-2 border-solid border-gray-300 rounded-lg p-2"
+                className="rounded-lg border-2 border-solid border-gray-300 p-2"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               />
@@ -105,22 +103,21 @@ const RecordActivity = () => {
           </div>
         </div>
         {/* Buttons  */}
-        <div className="flex flex-row justify-end absolute bottom-12 right-4 w-full ">
+        <div className="absolute bottom-12 right-4 flex w-full flex-row justify-end">
           <button
             type="button"
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-5 mx-8 max-h-10 w-24"
+            className="mx-8 mt-5 max-h-10 w-24 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 max-h-10 w-24"
+            className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           >
             Add
           </button>
         </div>
       </form>
-      {/* </div> */}
     </div>
   );
 };
