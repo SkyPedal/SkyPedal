@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DATABASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AddLocation from "./AddLocation";
 
 function today() {
   var d = new Date(),
@@ -20,15 +21,31 @@ const RecordActivity = () => {
   const [title, setTitle] = useState("Commute to Work");
   const [date, setDate] = useState(today());
   const [time, setTime] = useState("08:00");
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+  const [start, setStart] = useState("none");
+  const [end, setEnd] = useState("none");
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [locations, setLocations] = useState([]);
 
   const [error, setError] = useState("");
   const { user_id } = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get(
+          `${DATABASE_URL}/locations?user_id=${user_id}`,
+        );
+        setLocations(response.data);
+      } catch (error) {
+        setError(`Error fetching data: ${error}`);
+      }
+    };
+
+    fetchLocations();
+  }, [user_id]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -47,26 +64,6 @@ const RecordActivity = () => {
 
   const saveActivity = async (activity) => {
     setError("");
-    if (!("time" in activity)) {
-      setError("NO TIME IN ACTIVITY");
-      return false;
-    }
-    if (!("date" in activity)) {
-      setError("NO DATE IN ACTIVITY");
-      return false;
-    }
-    if (!("title" in activity)) {
-      setError("NO TITLE IN ACTIVITY");
-      return false;
-    }
-    if (!("distance" in activity && activity.distance > 0)) {
-      setError("NO DISTANCE IN ACTIVITY");
-      return false;
-    }
-    if (!("duration" in activity && activity.duration > 0)) {
-      setError("NO DURATION IN ACTIVITY");
-      return false;
-    }
     try {
       console.log("Posting: ", activity);
       activity = { ...activity, user_id };
@@ -81,6 +78,45 @@ const RecordActivity = () => {
     navigate("/");
     return true;
   };
+
+  useEffect(() => {
+    const getRoute = async () => {
+      setError("");
+      try {
+        const response = await axios.get(
+          `${DATABASE_URL}/routes?start_id=${start}&end_id=${end}`,
+        );
+        const route = response.data[0];
+        console.log("Route: ", route);
+        if (!route) {
+          console.log("No route found");
+          setError("No route found");
+          return;
+        }
+        setDistance(route.distance);
+        setDuration(route.duration);
+      } catch (error) {
+        setError(`Error fetching data: ${error}`);
+      }
+    };
+    if (start !== "none" && end !== "none") {
+      getRoute();
+    }
+  }, [start, end]);
+
+  const handleAddLocation = (location, start = true) => {
+    // TODO: Do callback to fetch locations
+    if (start) setStart(locations[locations.length - 1]);
+    else setEnd(locations[locations.length - 1]);
+  };
+
+  useEffect(() => {
+    if (title === "Commute to Work" && start !== "none" && end !== "none") {
+      const start_title = locations.find((loc) => loc.id === start).name;
+      const end_title = locations.find((loc) => loc.id === end).name;
+      setTitle(`${start_title} to ${end_title}`);
+    }
+  }, [title, start, end, locations]);
 
   return (
     <div className="relative mx-auto h-full max-w-xl p-4">
@@ -137,32 +173,52 @@ const RecordActivity = () => {
                 >
                   Start Location
                 </label>
-                <input
-                  type="text"
+
+                <select
                   id="activityStart"
                   name="activityStart"
                   className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                  disabled={true}
                   value={start}
                   onChange={(e) => setStart(e.target.value)}
-                />
+                >
+                  <option value="none">-- Pick --</option>
+                  {locations.map((location) => (
+                    <option
+                      key={`location-start-${location.id}`}
+                      value={location.id}
+                    >
+                      {location.name}
+                    </option>
+                  ))}
+                  <option value="Add New">Add New</option>
+                </select>
               </div>
               <div className="flex flex-col">
                 <label htmlFor="activityEnd" className="pt-5 text-left text-lg">
                   End Location
                 </label>
-                <input
-                  type="text"
+                <select
                   id="activityEnd"
                   name="activityEnd"
-                  disabled={true}
                   className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
                   value={end}
                   onChange={(e) => setEnd(e.target.value)}
-                />
+                >
+                  <option value="none">-- Pick --</option>
+                  {locations.map((location) => (
+                    <option
+                      key={`location-start-${location.id}`}
+                      value={location.id}
+                    >
+                      {location.name}
+                    </option>
+                  ))}
+                  <option value="Add New">Add New</option>
+                </select>
               </div>
             </div>
           </div>
+          {start === "Add New" && <AddLocation handleAdd={handleAddLocation} />}
           <p
             className="mb-2 mt-8 w-full border-b-2 text-center"
             style={{ lineHeight: "0.1em" }}
@@ -182,9 +238,14 @@ const RecordActivity = () => {
                 id="activityDistance"
                 name="activityDistance"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={distance}
-                onChange={(e) => setDistance(parseInt(e.target.value))}
+                value={distance === 0 ? "" : distance}
+                onChange={(e) =>
+                  setDistance(
+                    e.target.value === "" ? 0 : e.target.valueAsNumber,
+                  )
+                }
                 min="1"
+                disabled={start === "none" && end === "none" ? false : true}
                 required
               />
             </div>
@@ -200,9 +261,14 @@ const RecordActivity = () => {
                 id="activityDuration"
                 name="activityDuration"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={duration}
-                onChange={(e) => setDuration(parseInt(e.target.value))}
+                value={duration === 0 ? "" : duration}
+                onChange={(e) =>
+                  setDuration(
+                    e.target.value === "" ? 0 : e.target.valueAsNumber,
+                  )
+                }
                 min="1"
+                disabled={start === "none" && end === "none" ? false : true}
                 required
               />
             </div>
@@ -219,7 +285,8 @@ const RecordActivity = () => {
           </button>
           <button
             type="submit"
-            className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-red-300"
+            disabled={distance === 0 || duration === 0 ? true : false}
           >
             Add
           </button>
