@@ -166,11 +166,7 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
                 setDistance(e.target.value === "" ? 0 : e.target.valueAsNumber)
               }
               min="1"
-              disabled={
-                formData.start === "none" && formData.end === "none"
-                  ? false
-                  : true
-              }
+              disabled={formData.start !== "none" || formData.end !== "none"}
               required
             />
           </div>
@@ -191,11 +187,7 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
                 setDuration(e.target.value === "" ? 0 : e.target.valueAsNumber)
               }
               min="1"
-              disabled={
-                formData.start === "none" && formData.end === "none"
-                  ? false
-                  : true
-              }
+              disabled={formData.start !== "none" || formData.end !== "none"}
               required
             />
           </div>
