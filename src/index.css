@@ -39,14 +39,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* a {
-    font-weight: 500;
-    color: blue;
-    text-decoration: inherit;
-}
-a:hover {
-color: red;
-} */
+
 
 .bg-sky-gradient-shape {
     background: linear-gradient(
@@ -57,4 +50,11 @@ color: red;
         #0023ff 82%,
         #19a0ff 92%
     );
+}
+.text-sky-indigo {
+    color: var(--sky-indigo);
+}
+
+.bg-sky-indigo {
+    background-color: var(--sky-indigo);
 }

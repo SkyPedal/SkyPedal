@@ -50,7 +50,7 @@ const NavigationSidebar = () => {
           </Link>
         </li>
         <li className="md:p-5 pt-5 pb-5 absolute bottom-0">
-          <Link to="/">
+          <Link to="/signin">
             <div className="flex h-12 items-center">
               <img src={SignInIcon} alt="SignIn" className="w-8" />
               <p className="pl-4 hidden md:block"> Sign In</p>
