@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DATABASE_URL } from "../config";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
@@ -11,9 +11,9 @@ const RecordActivity = () => {
 
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    title: "",
-    date: "",
-    time: "",
+    title: "Commute to Work",
+    date: today(),
+    time: "08:00",
     start: "none",
     end: "none",
     distance: 0,
@@ -63,33 +63,40 @@ const RecordActivity = () => {
     return true;
   };
 
-  useEffect(() => {
-    const getRoute = async (start, end) => {
-      setError("");
-      try {
-        const response = await axios.get(
-          `${DATABASE_URL}/routes?start_id=${start}&end_id=${end}`,
-        );
-        const route = response.data[0];
-        console.log("Route: ", route);
-        if (!route) {
-          console.log("No route found");
-          setError("No route found");
-          return;
-        }
-        setFormData({
-          ...formData,
-          distance: route.distance,
-          duration: route.duration,
-        });
-      } catch (error) {
-        setError(`Error fetching data: ${error}`);
+  const getRoute = useCallback(async (start, end) => {
+    setError("");
+    try {
+      const response = await axios.get(
+        `${DATABASE_URL}/routes?start_id=${start}&end_id=${end}`,
+      );
+      const route = response.data[0];
+      console.log("Route: ", route);
+      if (!route) {
+        console.log("No route found");
+        setError("No route found");
+        return;
       }
-    };
-    if (formData.start !== "none" && formData.end !== "none") {
+      setFormData((prevData) => ({
+        ...prevData,
+        distance: route.distance,
+        duration: route.duration,
+      }));
+    } catch (error) {
+      setError(`Error fetching data: ${error}`);
+    }
+    console.log("Route: ", start, end);
+  }, []);
+
+  useEffect(() => {
+    if (
+      formData.start !== "Add New" &&
+      formData.start !== "none" &&
+      formData.end !== "Add New" &&
+      formData.end !== "none"
+    ) {
       getRoute(formData.start, formData.end);
     }
-  }, [formData]);
+  }, [formData.start, formData.end, getRoute]);
 
   return (
     <div className="relative mx-auto h-full max-w-xl p-4">

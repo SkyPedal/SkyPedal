@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react";
-import today from "../../utils/today";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AddLocation from "./AddLocation";
 import PropTypes from "prop-types";
 
-const ActivityForm = ({ handleSave, locations, setFormData }) => {
-  const [title, setTitle] = useState("Commute to Work");
-  const [date, setDate] = useState(today());
-  const [time, setTime] = useState("08:00");
-  const [start, setStart] = useState("none");
-  const [end, setEnd] = useState("none");
-  const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(0);
+const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
+  const setTitle = useCallback(
+    (title) => setFormData({ ...formData, title }),
+    [formData, setFormData],
+  );
+  const setDate = (date) => setFormData({ ...formData, date });
+  const setTime = (time) => setFormData({ ...formData, time });
+  const setStart = (start) => setFormData({ ...formData, start });
+  const setEnd = (end) => setFormData({ ...formData, end });
+  const setDistance = (distance) => setFormData({ ...formData, distance });
+  const setDuration = (duration) => setFormData({ ...formData, duration });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (title === "Commute to Work" && start !== "none" && end !== "none") {
-      const start_title = locations.find((loc) => loc.id === start).name;
-      const end_title = locations.find((loc) => loc.id === end).name;
+    if (
+      formData.title === "Commute to Work" &&
+      formData.start !== "none" &&
+      formData.start !== "Add New" &&
+      formData.end !== "none" &&
+      formData.end !== "Add New"
+    ) {
+      const start_title = locations.find(
+        (loc) => loc.id === formData.start,
+      ).name;
+      const end_title = locations.find((loc) => loc.id === formData.end).name;
       setTitle(`${start_title} to ${end_title}`);
     }
-  }, [title, start, end, locations]);
-
-  useEffect(() => {
-    setFormData({
-      title,
-      date,
-      time,
-      start,
-      end,
-      distance,
-      duration,
-    });
-  }, [title, date, time, start, end, distance, duration, setFormData]);
+  }, [formData, locations, setTitle]);
 
   const handleAddLocation = (location, start = true) => {
     // TODO: Do callback to fetch locations
@@ -52,7 +50,7 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
           id="activityName"
           name="activityName"
           className="rounded-lg border-2 border-solid border-gray-300 p-2"
-          value={title}
+          value={formData.title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="flex flex-row justify-between">
@@ -65,7 +63,7 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
               id="activityDate"
               name="activityDate"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={date}
+              value={formData.date}
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
@@ -78,7 +76,7 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
               id="activityTime"
               name="activityTime"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={time}
+              value={formData.time}
               onChange={(e) => setTime(e.target.value)}
             />
           </div>
@@ -94,7 +92,7 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
                 id="activityStart"
                 name="activityStart"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={start}
+                value={formData.start}
                 onChange={(e) => setStart(e.target.value)}
               >
                 <option value="none">-- Pick --</option>
@@ -117,7 +115,7 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
                 id="activityEnd"
                 name="activityEnd"
                 className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={end}
+                value={formData.end}
                 onChange={(e) => setEnd(e.target.value)}
               >
                 <option value="none">-- Pick --</option>
@@ -134,7 +132,16 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
             </div>
           </div>
         </div>
-        {start === "Add New" && <AddLocation handleAdd={handleAddLocation} />}
+        {formData.start === "Add New" && (
+          <AddLocation
+            handleAdd={(location) => handleAddLocation(location, true)}
+          />
+        )}
+        {formData.start !== "Add New" && formData.end === "Add New" && (
+          <AddLocation
+            handleAdd={(location) => handleAddLocation(location, false)}
+          />
+        )}
         <p
           className="mb-2 mt-8 w-full border-b-2 text-center"
           style={{ lineHeight: "0.1em" }}
@@ -154,12 +161,16 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
               id="activityDistance"
               name="activityDistance"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={distance === 0 ? "" : distance}
+              value={formData.distance === 0 ? "" : formData.distance}
               onChange={(e) =>
                 setDistance(e.target.value === "" ? 0 : e.target.valueAsNumber)
               }
               min="1"
-              disabled={start === "none" && end === "none" ? false : true}
+              disabled={
+                formData.start === "none" && formData.end === "none"
+                  ? false
+                  : true
+              }
               required
             />
           </div>
@@ -175,12 +186,16 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
               id="activityDuration"
               name="activityDuration"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={duration === 0 ? "" : duration}
+              value={formData.duration === 0 ? "" : formData.duration}
               onChange={(e) =>
                 setDuration(e.target.value === "" ? 0 : e.target.valueAsNumber)
               }
               min="1"
-              disabled={start === "none" && end === "none" ? false : true}
+              disabled={
+                formData.start === "none" && formData.end === "none"
+                  ? false
+                  : true
+              }
               required
             />
           </div>
@@ -198,7 +213,9 @@ const ActivityForm = ({ handleSave, locations, setFormData }) => {
         <button
           type="submit"
           className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-red-300"
-          disabled={distance === 0 || duration === 0 ? true : false}
+          disabled={
+            formData.distance === 0 || formData.duration === 0 ? true : false
+          }
         >
           Add
         </button>
