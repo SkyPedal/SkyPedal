@@ -157,7 +157,7 @@ exports[`ActivityForm > snapshot renders 1`] = `
             class="pt-5 text-left text-lg"
             for="activityDistance"
           >
-            Distance (miles)
+            Distance (m)
           </label>
           <input
             class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
@@ -176,7 +176,7 @@ exports[`ActivityForm > snapshot renders 1`] = `
             class="pt-5 text-left text-lg"
             for="activityDuration"
           >
-            Duration (minutes)
+            Duration (s)
           </label>
           <input
             class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"

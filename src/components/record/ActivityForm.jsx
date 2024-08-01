@@ -154,7 +154,7 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
               htmlFor="activityDistance"
               className="pt-5 text-left text-lg"
             >
-              Distance (miles)
+              Distance (m)
             </label>
             <input
               type="number"
@@ -179,7 +179,7 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
               htmlFor="activityDuration"
               className="pt-5 text-left text-lg"
             >
-              Duration (minutes)
+              Duration (s)
             </label>
             <input
               type="number"
