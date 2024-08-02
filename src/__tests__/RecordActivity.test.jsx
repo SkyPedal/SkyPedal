@@ -1,8 +1,12 @@
 import { render } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import RecordActivity from "../components/RecordActivity";
 import { BrowserRouter as Router } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+
+vi.mock("../utils/today", () => ({
+  default: () => "2021-01-01",
+}));
 
 describe("RecordActivity", () => {
   it("snapshot renders", () => {
