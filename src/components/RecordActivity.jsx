@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import ActivityForm from "./record/ActivityForm";
 import today from "../utils/today";
 import { useNavigate } from "react-router-dom";
-import { getLocations, saveActivity, getRoute } from "../repos/api";
+import useApi from "../repos/api";
+import { useAuth } from "../context/AuthContext";
 
 const RecordActivity = () => {
   const [locations, setLocations] = useState([]);
@@ -18,19 +18,20 @@ const RecordActivity = () => {
     distance: 0,
     duration: 0,
   });
-  const { user_id } = useAuth();
+  const auth = useAuth();
+  const api = useApi(auth);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getLocations(user_id).then((data) => {
+    api.getLocations().then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
         setLocations(data.data);
       }
     });
-  }, [user_id]);
+  }, [api]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const RecordActivity = () => {
       ...formData,
     };
     setError("");
-    const success = await saveActivity(activity, user_id);
+    const success = await api.saveActivity(activity);
     console.log("Submit: ", success, error);
     navigate("/");
   };
@@ -51,7 +52,7 @@ const RecordActivity = () => {
       formData.end !== "none"
     ) {
       setError("");
-      getRoute(formData.start, formData.end).then((data) => {
+      api.getRoute(formData.start, formData.end).then((data) => {
         if (data.error) {
           setError(data.error);
           return;
@@ -63,7 +64,7 @@ const RecordActivity = () => {
         }));
       });
     }
-  }, [formData.start, formData.end]);
+  }, [api, formData.start, formData.end]);
 
   return (
     <div className="relative mx-auto h-full max-w-xl p-4">
