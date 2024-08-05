@@ -5,8 +5,8 @@ import LeaderModel from './utils/Leader.model';
 const Leader = ({ leader }) => {
     return (
         <tr>
-            <td>{leader.name}</td>
-            <td>{leader.score}</td>
+            <td className='leaders'>{leader.name}</td>
+            <td className='leaders'>{leader.score}</td>
         </tr>
     );
 };
