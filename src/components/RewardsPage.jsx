@@ -14,7 +14,7 @@ const RewardsPage = () => {
     //TO DO: rename to active and available rewards!!
 
 
-    // get active user rewards:
+    // get active user rewards: (identical to available rewards code snippet below this one)
     useEffect(() => {
         const getData = async () => {
             setRewardsActive(await getRewardsActive());
@@ -26,6 +26,7 @@ const RewardsPage = () => {
     const getRewardsActive = async () => {
         try {
           const res = await axios.get(`${DATABASE_URL}/users_rewards`);
+        //   console.log(res);
           return res.data.length ? ({ rewards: res.data }) : ({ error: `There are no rewards claimed` });
         }
         catch (e) {
@@ -46,6 +47,7 @@ const RewardsPage = () => {
     const getRewardsAvailable = async () => {
         try {
           const res = await axios.get(`${DATABASE_URL}/rewards`);
+        //   console.log(res.data);
           return res.data.length ? ({ rewards: res.data }) : ({ error: `There are no rewards available` });
         }
         catch (e) {

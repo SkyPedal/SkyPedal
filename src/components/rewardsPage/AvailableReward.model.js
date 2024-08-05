@@ -1,4 +1,4 @@
-export default class RewardModel {
+export default class AvailableRewardModel {
     constructor(rewardName, rewardDescription, rewardAmountRemaining, rewardPointCost, rewardImage, isRewardActive, _id) {
       this.rewardName = rewardName;
       this.rewardDescription = rewardDescription;

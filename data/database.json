@@ -57,14 +57,16 @@
             "id" : 1,
             "name" : "Free coffee",
             "description" : "1 cool free coffee voucher",
-            "point_cost" : 3000000,
+            "point_cost" : 3000,
+            "number_available" : 10,
             "image_link" : "34552345-23452345-23452345.jpg",
             "active" : true
         }, {
             "id" : 2,
             "name" : "Free cookie",
             "description" : "1 cool free cookie voucher",
-            "point_cost" : 80000000,
+            "point_cost" : 800,
+            "number_available" : 15,
             "image_link" : "34552345-23452345-23452345.jpg",
             "active" : true
         }

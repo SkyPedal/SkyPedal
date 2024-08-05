@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const RewardActive = ({ reward }) => {
-    const { rewardName, rewardDescription, rewardPointCost, rewardExpireDate, rewardImage, isRewardActive, _id } = reward;
+    const { rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id } = reward;
     const [date, setDate] = useState(null);
 
     // function today() {
@@ -23,16 +24,24 @@ const RewardActive = ({ reward }) => {
         });
 
         return () => clearInterval(interval);
-    });
+    }, []);
     
-    rewardTimeRemainingSec = Math.floor((rewardExpireDate - date) / 1000);
-    rewardTimeRemainingMin = Math.floor(rewardTimeRemainingSec / 60);
-    rewardTimeRemainingHour = Math.floor(rewardTimeRemainingMin / 60);
+// figure out how to calculate remaining time on the voucher!
+// also I think the new time rn is calculated every second, whoops!
+
+    // console.log("date expiry ", dateExpiry)
+    // console.log("date today ", date)
+
+    // rewardTimeRemainingSec = Math.floor((dateExpiry - date) / 1000);
+    // rewardTimeRemainingMin = Math.floor(rewardTimeRemainingSec / 60);
+    // rewardTimeRemainingHour = Math.floor(rewardTimeRemainingMin / 60);
     
     return (
         <tr>
-            <td ><Link to={`/reward/${_id}`}>{rewardName}</Link></td>
-            <td >Expires in: {rewardTimeRemainingHour>0 ? rewardTimeRemainingHour + " hours" : rewardTimeRemainingMin>0 ? rewardTimeRemainingMin + " mins" : rewardTimeRemainingSec + " seconds" }</td>
+            {/* figure out how to do sql operations to show actual reward data */}
+            <td ><Link to={`/reward/${id}`}>{rewardId}</Link></td>
+            {/* <td >Expires in: {rewardTimeRemainingHour>0 ? rewardTimeRemainingHour + " hours" : rewardTimeRemainingMin>0 ? rewardTimeRemainingMin + " mins" : rewardTimeRemainingSec + " seconds" }</td> */}
+            <td>{dateExpiry}</td>
         </tr>
     );
 };

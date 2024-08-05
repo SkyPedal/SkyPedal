@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import RewardModel from "./Reward.model";
+import AvailableRewardModel from "./AvailableReward.model";
 import RewardAvailable from "./RewardAvailable";
 
 
 const AvailableVouchers = ({ data }) => {
+    // console.log(data);
+
     const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
 
     useEffect(() => {
@@ -19,14 +21,16 @@ const AvailableVouchers = ({ data }) => {
         }
     }, [data]);
 
-    const populateTable = ({ data }) => {
+    const populateTable = (data) => {
+        console.log("Populate table");
         console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
-                const { rewardName, rewardAmountRemaining, rewardPointCost, _id } = currentReward;
-                const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-                // const reward = new RewardModel( rewardName, null, rewardAmountRemaining, rewardPointCost, null, null, _id );
-                return <RewardAvailable reward={reward} key={reward._id} />;
+                const { id, name, description, point_cost, number_available, image_link, active } = currentReward;
+                // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
+                const reward = new AvailableRewardModel( name, null, number_available, point_cost, null, null, id );
+                console.log(reward);
+                return <RewardAvailable reward={reward} key={reward.id} />;
             });
         }
 
