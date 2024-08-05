@@ -1,5 +1,3 @@
-import React from "react";
-
 const ActivityFeed = () => {
   return (
     <div className="">
