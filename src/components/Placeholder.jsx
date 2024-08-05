@@ -1,5 +1,3 @@
-// src/components/Placeholder.js
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./signInPage/Button";
 
@@ -7,8 +5,7 @@ const Placeholder = () => {
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    // Perform sign-in logic here
-    // After successful sign-in, navigate to the profile page
+    //add sign in logic
     navigate('/profile');
   };
 

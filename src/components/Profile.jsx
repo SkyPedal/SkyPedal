@@ -1,12 +1,11 @@
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
-    // Add any account deletion logic here
-    // After deletion, navigate to the sign-in page
+    // Account deletion login.
     navigate('/signin');
   };
 

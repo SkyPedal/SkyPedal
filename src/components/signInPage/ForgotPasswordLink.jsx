@@ -1,7 +1,5 @@
 // src/components/ForgotPasswordLink.js
 
-import React from "react";
-
 const ForgotPasswordLink = () => {
   return (
     <div className="text-right mb-6">
