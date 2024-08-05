@@ -2,6 +2,8 @@ import ActiveVouchers from "./rewardsPage/ActiveVouchers";
 import AvailableVouchers from "./rewardsPage/AvailableVouchers";
 import Header from "./rewardsPage/Header";
 import { DATABASE_URL } from "../config";
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 
 const RewardsPage = () => {

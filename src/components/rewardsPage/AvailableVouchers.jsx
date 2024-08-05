@@ -1,43 +1,54 @@
+import { useEffect, useState } from "react";
+import RewardModel from "./Reward.model";
+import RewardAvailable from "./RewardAvailable";
 
 
-const AvailableVouchers = () => {
+const AvailableVouchers = ({ data }) => {
+    const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
+
+    useEffect(() => {
+        if (data?.error) {
+            setDataStatus({ name: `error`, message: data.error });
+        }
+        else if (data?.rewards) {
+            const ds = data.rewards.length > 0 ? { name: `data`, message: null } : { name: `nodata`, message: `There were no rewards previously saved` };
+            setDataStatus(ds);
+        }
+        else {
+            setDataStatus({ name: `loading`, message: `Data is loading...` });
+        }
+    }, [data]);
+
+    const populateTable = ({ data }) => {
+        console.log(data);
+        if (data?.rewards?.length > 0) {
+            return data.rewards.map(currentReward => {
+                const { rewardName, rewardAmountRemaining, rewardPointCost, _id } = currentReward;
+                const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
+                // const reward = new RewardModel( rewardName, null, rewardAmountRemaining, rewardPointCost, null, null, _id );
+                return <RewardAvailable reward={reward} key={reward._id} />;
+            });
+        }
+
+        return (
+            <tr><td id={dataStatus.name} colSpan="3">{dataStatus.message}</td></tr>
+        );
+    }
 
     return (
-        <>
-            Available Vouchers
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="todoDescription">Description:&nbsp;</label>
-                    <input
-                        type="text"
-                        name="todoDescription"
-                        placeholder="Todo description"
-                        className="form-control"
-                        value={todoDescription}
-                        onChange={event => setTodoDescription(event.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="todoDateCreated">Created on:&nbsp;</label>
-                    {todo && `${new Date(todo.todoDateCreated).toLocaleDateString()} @ ${new Date(todo.todoDateCreated).toLocaleTimeString()}`}
-                    {!todo && <DateCreated updateDateCreated={dateCreated => setTodoDateCreated(dateCreated)} />}
-                </div>
-                { todo &&
-                    <div className="form-group">
-                        <label htmlFor="todoCompleted">Completed:&nbsp;</label>
-                        <input
-                            type="checkbox"
-                            name="todoCompleted"
-                            checked={todoCompleted}
-                            onChange={event => setTodoCompleted(event.target.checked)}
-                        />
-                    </div>
-                }
-                {/* <div className="form-group">
-                    <input type="submit" value="Submit" className={`btn ${!todoDescription ? `btn-danger` : `btn-primary`}`} disabled={!todoDescription} />
-                </div> */}
-            </form>
-        </>
+        <div className="">
+            <h3>Available Vouchers</h3>
+            <table className="">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Remaining</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>{populateTable(data)}</tbody>
+            </table>
+        </div>
     );
 }
 

@@ -1,0 +1,72 @@
+{
+    "users" : [{
+        "id": 1,
+        "email" : "will@sky.uk",
+        "firstname" : "will",
+        "lastname" : "moolman",
+        "password_hash" : "23457andsf",
+        "profile_picture" : "default.jpg",
+
+        "office" : "Livingston",
+        "points_remaining" : 42
+    }],
+
+    "activities" : [
+        {
+            "id": 1,
+            "date": "today",
+            "gps": ["coordinates"],
+            "activity_time": "3h",
+            "distance": "3miles",
+            "type": "cycling|running|walking",
+            "user_id" : "FK(user)",
+            "joined_friends" : ["FK(user)"],
+            "co2_saving" : "3kg",
+            "cost_saving" : "3gbp",
+            "points_earned" : 234
+        } 
+    ],
+
+    "users_rewards" : [
+        {
+            "id": 1,
+            "reward_id": 1,
+            "user_id": 1,
+            "date_redeemed": "thursday",
+            "date_expiry": "2024/09/06 T 12:00",
+            "has_used" : false
+        }, {
+            "id": 2,
+            "reward_id": 1,
+            "user_id": 1,
+            "date_redeemed": "last thursday",
+            "date_expiry": "2024/09/09 T 10:00",
+            "has_used" : true
+        }, {
+            "id": 3,
+            "reward_id": 2,
+            "user_id": 1,
+            "date_redeemed": "last wednesday",
+            "date_expiry": "2024/09/01 T 18:00",
+            "has_used" : false
+        }
+    ],
+
+    "rewards" : [
+        {
+            "id" : 1,
+            "name" : "Free coffee",
+            "description" : "1 cool free coffee voucher",
+            "point_cost" : 3000000,
+            "image_link" : "34552345-23452345-23452345.jpg",
+            "active" : true
+        }, {
+            "id" : 2,
+            "name" : "Free cookie",
+            "description" : "1 cool free cookie voucher",
+            "point_cost" : 80000000,
+            "image_link" : "34552345-23452345-23452345.jpg",
+            "active" : true
+        }
+    ]
+}
