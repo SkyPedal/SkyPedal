@@ -1,8 +1,17 @@
+// src/components/Placeholder.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./signInPage/Button";
 
 const Placeholder = () => {
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    // Perform sign-in logic here
+    // After successful sign-in, navigate to the profile page
+    navigate('/profile');
+  };
+
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="p-16 bg-white border rounded-lg shadow-lg max-w-lg w-full">
@@ -38,11 +47,9 @@ const Placeholder = () => {
               Sign Up
             </Button>
           </Link>
-          <Link to="/signin">
-            <Button className="bg-sky-indigo text-gray-300 p-3 rounded">
-              Sign In
-            </Button>
-          </Link>
+          <Button className="bg-sky-indigo text-gray-300 p-3 rounded" onClick={handleSignIn}>
+            Sign In
+          </Button>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
 import Placeholder from "./components/Placeholder";
 import SignUpPage from "./components/SignUpPage";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
               <Route path="/broke" element={<ActivityFeed />} />
               <Route path="/signin" element={<Placeholder />} />
               <Route path="/signup" element={<SignUpPage />}/>
+              <Route path="/profile" element={<Profile />} />
               {/* TODO: add routes here */}
             </Routes>
           </div>
