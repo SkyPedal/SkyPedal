@@ -9,9 +9,10 @@ const Leaderboard = () => {
         return <Leader leader={leader} key={leader._id} />
     });
     return (
-        <div className="">
+        <div className="container">
+        <div className="row">
             <h3>Leaderboard</h3>
-            <table>
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -20,6 +21,7 @@ const Leaderboard = () => {
                 </thead>
                 <tbody>{leaders}</tbody>
             </table>
+        </div>
         </div>
     );
 };
