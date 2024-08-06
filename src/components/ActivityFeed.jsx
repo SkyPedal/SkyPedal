@@ -47,8 +47,10 @@ const ActivityFeed = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-100 h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Activity Feed</h1>
-      <div className="space-y-6 h-full overflow-y-auto">
+      <div className="h-[10%]">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Activity Feed</h1>
+      </div>
+      <div className="space-y-6 h-[90%] overflow-y-auto">
         {activities.map((activity) => (
           <div key={activity.id} className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-4">
