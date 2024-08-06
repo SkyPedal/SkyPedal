@@ -40,7 +40,7 @@ const ActiveVouchers = ({ data }) => {
     }
 
     return (
-        <div className="m-5 mb-10">
+        <div className="m-5 mb-10 shadow-lg rounded-lg">
             <h3 className="flex justify-start text-xl font-bold pl-5">Your Active Vouchers</h3>
             <table className="w-full p-5 border-spacing-y-1 border-separate">
                 <thead>
