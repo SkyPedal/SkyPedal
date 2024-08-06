@@ -8,20 +8,22 @@ import InfoSidebar from "./components/InfoSidebar";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import Profile from "./components/Profile";
+
+import RecordActivity from "./components/RecordActivity";
+
 function App() {
   return (
-    <AuthContext.Provider value={{ userid: null, username: null }}>
+    <AuthContext.Provider value={{ user_id: 1, user_name: "TestUser123" }}>
       <Router>
         <div className="App flex h-screen w-screen">
           <NavigationSidebar />
-          <div className="flex-grow min-w-0 h-full">
+          <div className="h-full min-w-0 flex-grow">
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
-              <Route path="/broke" element={<ActivityFeed />} />
               <Route path="/signin" element={<SignInPage />} />
               <Route path="/signup" element={<SignUpPage />}/>
               <Route path="/profile" element={<Profile />} />
-              {/* TODO: add routes here */}
+              <Route path="/record" element={<RecordActivity />} />
             </Routes>
           </div>
           <InfoSidebar />
