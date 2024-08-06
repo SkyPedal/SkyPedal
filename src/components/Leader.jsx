@@ -4,10 +4,11 @@ import LeaderModel from './utils/Leader.model';
 
 const Leader = ({ leader }) => {
     return (
-        <tr>
-            <td className='leaders'>{leader.name}</td>
-            <td className='leaders'>{leader.score}</td>
-        </tr>
+        <div className="scoreItem">
+            <span className="leaderboardPosition">{leader.position}</span>
+            <span className="userName">{leader.firstname} {leader.lastname}</span>
+            <span className="userScore">{leader.score}</span>
+        </div>
     );
 };
 

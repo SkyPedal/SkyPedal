@@ -1,7 +1,9 @@
 export default class LeaderModel {
-    constructor(name, score, _id) {
-      this.name = name;
+    constructor(position, firstname, lastname, score, id) {
+      this.position = position;
+      this.firstname = firstname;
+      this.lastname = lastname;
       this.score = score;
-      this._id = _id;
+      this.id = id;
     }
   }
