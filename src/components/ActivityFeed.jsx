@@ -108,12 +108,12 @@ const activities = [
   }
 ];
 
+
 const activityIcons = {
   cycling: <FaBicycle className="text-blue-500" />,
   running: <FaRunning className="text-red-500" />,
   walking: <FaWalking className="text-green-500" />,
 };
-
 const ActivityFeed = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-100 h-screen">
