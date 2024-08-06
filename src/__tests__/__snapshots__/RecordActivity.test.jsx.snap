@@ -44,7 +44,7 @@ exports[`RecordActivity > snapshot renders 1`] = `
               id="activityDate"
               name="activityDate"
               type="date"
-              value="2024-07-31"
+              value="2021-01-01"
             />
           </div>
           <div
@@ -80,14 +80,22 @@ exports[`RecordActivity > snapshot renders 1`] = `
               >
                 Start Location
               </label>
-              <input
+              <select
                 class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                disabled=""
                 id="activityStart"
                 name="activityStart"
-                type="text"
-                value=""
-              />
+              >
+                <option
+                  value="none"
+                >
+                  -- Pick --
+                </option>
+                <option
+                  value="Add New"
+                >
+                  Add New
+                </option>
+              </select>
             </div>
             <div
               class="flex flex-col"
@@ -98,14 +106,22 @@ exports[`RecordActivity > snapshot renders 1`] = `
               >
                 End Location
               </label>
-              <input
+              <select
                 class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                disabled=""
                 id="activityEnd"
                 name="activityEnd"
-                type="text"
-                value=""
-              />
+              >
+                <option
+                  value="none"
+                >
+                  -- Pick --
+                </option>
+                <option
+                  value="Add New"
+                >
+                  Add New
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -129,7 +145,7 @@ exports[`RecordActivity > snapshot renders 1`] = `
               class="pt-5 text-left text-lg"
               for="activityDistance"
             >
-              Distance (miles)
+              Distance (m)
             </label>
             <input
               class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
@@ -138,7 +154,7 @@ exports[`RecordActivity > snapshot renders 1`] = `
               name="activityDistance"
               required=""
               type="number"
-              value="0"
+              value=""
             />
           </div>
           <div
@@ -148,7 +164,7 @@ exports[`RecordActivity > snapshot renders 1`] = `
               class="pt-5 text-left text-lg"
               for="activityDuration"
             >
-              Duration (minutes)
+              Duration (s)
             </label>
             <input
               class="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
@@ -157,7 +173,7 @@ exports[`RecordActivity > snapshot renders 1`] = `
               name="activityDuration"
               required=""
               type="number"
-              value="0"
+              value=""
             />
           </div>
         </div>
@@ -172,7 +188,8 @@ exports[`RecordActivity > snapshot renders 1`] = `
           Cancel
         </button>
         <button
-          class="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          class="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-red-300"
+          disabled=""
           type="submit"
         >
           Add
