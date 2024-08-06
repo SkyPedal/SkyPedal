@@ -1,19 +1,5 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "email": "will@sky.uk",
-      "firstname": "will",
-      "lastname": "moolman",
-      "password_hash": "23457andsf",
-      "profile_picture": "default.jpg",
-
-      "office": "Livingston",
-      "points_remaining": 42
-    }
-  ],
-
-  "locations": [
+"locations": [
     {
       "id": 1,
       "name": "Home",
@@ -46,22 +32,6 @@
       "used": 0,
       "distance": 3500,
       "duration": 1200
-    }
-  ],
-
-  "activities": [
-    {
-      "id": 1,
-      "date": "today",
-      "gps": ["coordinates"],
-      "activity_time": "3h",
-      "distance": "3miles",
-      "type": "cycling|running|walking",
-      "user_id": "FK(user)",
-      "joined_friends": ["FK(user)"],
-      "co2_saving": "3kg",
-      "cost_saving": "3gbp",
-      "points_earned": 234
     }
   ],
     "users" : [{
@@ -97,8 +67,8 @@
         "profile_picture" : "default.jpg",
 
         "office" : "Leeds",
-        "points_remaining" : 10000000,
-        "score" : 40
+        "points_remaining" : 10000,
+        "score" : 100000
     }
 ],
 
