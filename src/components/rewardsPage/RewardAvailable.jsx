@@ -5,9 +5,9 @@ const RewardAvailable = ({ reward }) => {
   
     return (
         <tr>
-            <td ><Link to={`/reward/${_id}`}>{rewardName}</Link></td>
-            <td >{rewardAmountRemaining}</td>
-            <td>{rewardPointCost}</td>
+            <td className='bg-slate-200 rounded-l-lg'><Link to={`/reward/${_id}`}>{rewardName}</Link></td>
+            <td className='bg-slate-200 py-1'>{rewardAmountRemaining}</td>
+            <td className='bg-slate-200 rounded-r-lg'>{rewardPointCost}</td>
         </tr>
     );
 };

@@ -39,9 +39,9 @@ const RewardActive = ({ reward }) => {
     return (
         <tr>
             {/* figure out how to do sql operations to show actual reward data */}
-            <td ><Link to={`/reward/${id}`}>{rewardId}</Link></td>
+            <td  className='bg-slate-200 rounded-l-lg py-1'><Link to={`/reward/${id}`}>{rewardId}</Link></td>
             {/* <td >Expires in: {rewardTimeRemainingHour>0 ? rewardTimeRemainingHour + " hours" : rewardTimeRemainingMin>0 ? rewardTimeRemainingMin + " mins" : rewardTimeRemainingSec + " seconds" }</td> */}
-            <td>{dateExpiry}</td>
+            <td className='bg-slate-200 rounded-r-lg'>{dateExpiry}</td>
         </tr>
     );
 };

@@ -40,14 +40,14 @@ const AvailableVouchers = ({ data }) => {
     }
 
     return (
-        <div className="">
-            <h3>Available Vouchers</h3>
-            <table className="">
+        <div className="m-5">
+            <h3 className="flex justify-start text-xl font-bold pl-5">Available Vouchers</h3>
+            <table className="w-full p-5 border-spacing-y-1 border-separate">
                 <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Remaining</th>
-                        <th>Cost</th>
+                    <tr className="text-sm text-slate-500">
+                        <th className="font-medium">Description</th>
+                        <th className="font-medium">Remaining</th>
+                        <th className="font-medium">Cost</th>
                     </tr>
                 </thead>
                 <tbody>{populateTable(data)}</tbody>
