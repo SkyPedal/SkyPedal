@@ -1,112 +1,8 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { FaBicycle, FaRunning, FaWalking, FaLeaf, FaPiggyBank, FaStar } from 'react-icons/fa';
-
-const activities = [
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'running',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'walking',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  },
-  {
-    id: 1,
-    date: 'today',
-    gps: ['coordinates'],
-    activity_time: '3h',
-    distance: '3 miles',
-    type: 'cycling',
-    user_id: 1,
-    joined_friends: [1],
-    co2_saving: '3kg',
-    cost_saving: '3gbp',
-    points_earned: 234,
-  }
-];
+import {DATABASE_URL} from '../config.json';
+import axios from 'axios';
 
 
 const activityIcons = {
@@ -115,6 +11,40 @@ const activityIcons = {
   walking: <FaWalking className="text-green-500" />,
 };
 const ActivityFeed = () => {
+  console.log(DATABASE_URL);
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const response = await axios.get(
+          `${DATABASE_URL}/activities`,
+        );
+        console.log(response);
+        if (response.status != 200) {
+          throw new Error('Network response was not ok');
+        }
+        setActivities(response.data); 
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchActivities();
+  }, []);
+
+  if (loading) {
+    return <div className="max-w-4xl mx-auto p-4">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="max-w-4xl mx-auto p-4">Error: {error.message}</div>;
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gray-100 h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Activity Feed</h1>
