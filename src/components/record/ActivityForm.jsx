@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AddLocation from "./AddLocation";
+import DistanceDuration from "./DistanceDuration";
 import PropTypes from "prop-types";
+import StartEnd from "./StartEnd";
 
 const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
   const setTitle = useCallback(
@@ -81,117 +82,27 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
             />
           </div>
         </div>
-        <div className="mt-12">
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-col">
-              <label htmlFor="activityStart" className="pt-5 text-left text-lg">
-                Start Location
-              </label>
-
-              <select
-                id="activityStart"
-                name="activityStart"
-                className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={formData.start}
-                onChange={(e) => setStart(e.target.value)}
-              >
-                <option value="none">-- Pick --</option>
-                {locations.map((location) => (
-                  <option
-                    key={`location-start-${location.id}`}
-                    value={location.id}
-                  >
-                    {location.name}
-                  </option>
-                ))}
-                <option value="Add New">Add New</option>
-              </select>
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="activityEnd" className="pt-5 text-left text-lg">
-                End Location
-              </label>
-              <select
-                id="activityEnd"
-                name="activityEnd"
-                className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={formData.end}
-                onChange={(e) => setEnd(e.target.value)}
-              >
-                <option value="none">-- Pick --</option>
-                {locations.map((location) => (
-                  <option
-                    key={`location-start-${location.id}`}
-                    value={location.id}
-                  >
-                    {location.name}
-                  </option>
-                ))}
-                <option value="Add New">Add New</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        {formData.start === "Add New" && (
-          <AddLocation
-            handleAdd={(location) => handleAddLocation(location, true)}
-          />
-        )}
-        {formData.start !== "Add New" && formData.end === "Add New" && (
-          <AddLocation
-            handleAdd={(location) => handleAddLocation(location, false)}
-          />
-        )}
+        <StartEnd
+          locations={locations}
+          start={formData.start}
+          end={formData.end}
+          setStart={setStart}
+          setEnd={setEnd}
+          handleAddLocation={handleAddLocation}
+        />
         <p
           className="mb-2 mt-8 w-full border-b-2 text-center"
           style={{ lineHeight: "0.1em" }}
         >
           <span className="bg-white pl-2 pr-2">OR</span>
         </p>
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
-            <label
-              htmlFor="activityDistance"
-              className="pt-5 text-left text-lg"
-            >
-              Distance (m)
-            </label>
-            <input
-              type="number"
-              id="activityDistance"
-              name="activityDistance"
-              className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.distance === 0 ? "" : formData.distance}
-              onChange={(e) =>
-                setDistance(e.target.value === "" ? 0 : e.target.valueAsNumber)
-              }
-              min="1"
-              disabled={formData.start !== "none" || formData.end !== "none"}
-              required
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="activityDuration"
-              className="pt-5 text-left text-lg"
-            >
-              Duration (s)
-            </label>
-            <input
-              type="number"
-              id="activityDuration"
-              name="activityDuration"
-              className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.duration === 0 ? "" : formData.duration}
-              onChange={(e) =>
-                setDuration(e.target.value === "" ? 0 : e.target.valueAsNumber)
-              }
-              min="1"
-              disabled={formData.start !== "none" || formData.end !== "none"}
-              required
-            />
-          </div>
-        </div>
+        <DistanceDuration
+          distance={formData.distance}
+          duration={formData.duration}
+          setDistance={setDistance}
+          setDuration={setDuration}
+          disabled={formData.start !== "none" || formData.end !== "none"}
+        />
       </div>
       {/* Buttons  */}
       <div className="absolute bottom-12 right-4 flex w-full flex-row justify-end">

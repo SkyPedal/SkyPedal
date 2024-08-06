@@ -18,6 +18,7 @@ const RecordActivity = () => {
     distance: 0,
     duration: 0,
   });
+
   const auth = useAuth();
   const api = useApi(auth);
 
