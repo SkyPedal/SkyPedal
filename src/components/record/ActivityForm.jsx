@@ -1,10 +1,12 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DistanceDuration from "./DistanceDuration";
 import PropTypes from "prop-types";
 import StartEnd from "./StartEnd";
+import TabSelector from "./TabSelector";
 
 const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
+  const [tab, setTab] = useState("startEnd");
   const setTitle = useCallback(
     (title) => setFormData({ ...formData, title }),
     [formData, setFormData],
@@ -18,6 +20,10 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
 
   const navigate = useNavigate();
 
+  const changeTab = (tab) => {
+    setTab(tab);
+  };
+
   useEffect(() => {
     if (
       formData.title === "Commute to Work" &&
@@ -26,10 +32,13 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
       formData.end !== "none" &&
       formData.end !== "Add New"
     ) {
+      console.log(`Setting title with ${formData.start} and ${formData.end}`);
       const start_title = locations.find(
-        (loc) => loc.id === formData.start,
+        (loc) => loc.id.toString() === formData.start,
       ).name;
-      const end_title = locations.find((loc) => loc.id === formData.end).name;
+      const end_title = locations.find(
+        (loc) => loc.id.toString() === formData.end,
+      ).name;
       setTitle(`${start_title} to ${end_title}`);
     }
   }, [formData, locations, setTitle]);
@@ -40,9 +49,18 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
     else setEnd(locations[locations.length - 1]);
   };
 
+  const canTabChange =
+    (tab === "startEnd" &&
+      formData.start === "none" &&
+      formData.end === "none") ||
+    (tab === "distanceDuration" &&
+      formData.distance === 0 &&
+      formData.duration === 0) ||
+    (tab === "dragDrop" && true);
+
   return (
-    <form onSubmit={handleSave}>
-      <div className="flex flex-col pt-12">
+    <form onSubmit={handleSave} className="h-[90%]">
+      <div className="flex h-full flex-col pt-12">
         <label htmlFor="activityName" className="text-left text-lg">
           Title
         </label>
@@ -82,28 +100,49 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
             />
           </div>
         </div>
-        <StartEnd
-          locations={locations}
-          start={formData.start}
-          end={formData.end}
-          setStart={setStart}
-          setEnd={setEnd}
-          handleAddLocation={handleAddLocation}
-        />
-        <p
-          className="mb-2 mt-8 w-full border-b-2 text-center"
-          style={{ lineHeight: "0.1em" }}
-        >
-          <span className="bg-white pl-2 pr-2">OR</span>
-        </p>
-        <DistanceDuration
-          distance={formData.distance}
-          duration={formData.duration}
-          setDistance={setDistance}
-          setDuration={setDuration}
-          disabled={formData.start !== "none" || formData.end !== "none"}
-        />
+        {/* Tab Content */}
+        <div className="mt-5 flex h-[65%] flex-col justify-between border-y-2 py-2">
+          <div className="pt-2">
+            <TabSelector
+              currentTab={tab}
+              changeTab={changeTab}
+              lock={!canTabChange}
+            />
+            {tab === "startEnd" && (
+              <StartEnd
+                locations={locations}
+                start={formData.start}
+                end={formData.end}
+                setStart={setStart}
+                setEnd={setEnd}
+                handleAddLocation={handleAddLocation}
+              />
+            )}
+            {tab === "distanceDuration" && (
+              <DistanceDuration
+                distance={formData.distance}
+                duration={formData.duration}
+                setDistance={setDistance}
+                setDuration={setDuration}
+                disabled={formData.start !== "none" || formData.end !== "none"}
+              />
+            )}
+          </div>
+
+          <div className="left-4 flex flex-row justify-start pb-2">
+            <p className="mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2">
+              {formData.distance} miles
+            </p>
+            <p className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2">
+              {formData.duration} mins
+            </p>
+            <p className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2">
+              No GPS
+            </p>
+          </div>
+        </div>
       </div>
+
       {/* Buttons  */}
       <div className="absolute bottom-12 right-4 flex w-full flex-row justify-end">
         <button
@@ -127,7 +166,6 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
   );
 };
 
-// const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
 PropTypes.ActivityForm = {
   handleSave: PropTypes.func.isRequired,
   locations: PropTypes.array.isRequired,

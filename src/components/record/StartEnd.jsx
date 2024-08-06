@@ -10,7 +10,7 @@ const StartEnd = ({
 }) => {
   return (
     <>
-      <div className="mt-12">
+      <div className="">
         <div className="flex flex-row justify-between">
           <div className="flex flex-col">
             <label htmlFor="activityStart" className="pt-5 text-left text-lg">
