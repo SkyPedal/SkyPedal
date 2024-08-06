@@ -5,11 +5,9 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
-import Placeholder from "./components/Placeholder";
+import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import Profile from "./components/Profile";
-
-
 function App() {
   return (
     <AuthContext.Provider value={{ userid: null, username: null }}>
@@ -20,7 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
               <Route path="/broke" element={<ActivityFeed />} />
-              <Route path="/signin" element={<Placeholder />} />
+              <Route path="/signin" element={<SignInPage />} />
               <Route path="/signup" element={<SignUpPage />}/>
               <Route path="/profile" element={<Profile />} />
               {/* TODO: add routes here */}
