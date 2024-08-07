@@ -1,43 +1,52 @@
 import { useNavigate } from "react-router-dom";
+import profilePicture from '../assets/icons/user.png'; // Corrected import path
 
 const Profile = () => {
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
-    // Account deletion login.
+    // Account deletion logic
     navigate('/signin');
   };
 
   return (
     <div className="flex items-center justify-center h-full w-full p-8">
       <div className="bg-white border rounded-lg shadow-lg p-8 w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-6 text-sky-indigo">Profile Settings</h1>
+        <h1 className="text-3xl font-bold mb-6 sky-gradient-text">Profile Settings</h1>
 
         <div className="mb-6">
-          <label className="block text-lg mb-2 text-sky-indigo">Preferred Mode of Transport</label>
-          <input
-            type="text"
-            placeholder="Preferred Mode of Transport"
+  
+          <img
+            src={profilePicture}
+            alt="Profile"
             className="w-full p-3 border border-gray-300 rounded"
           />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-lg mb-2 text-sky-indigo">Email</label>
+          <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Sam@mail.com</p>
+        </div>
+
+        <div className="flex mb-6">
+          <div className="w-1/2 mr-2">
+            <label className="block text-lg mb-2 text-sky-indigo">First Name</label>
+            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Sam</p>
+          </div>
+          <div className="w-1/2 ml-2">
+            <label className="block text-lg mb-2 text-sky-indigo">Last Name</label>
+            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Elliott</p>
+          </div>
         </div>
 
         <div className="flex mb-6">
           <div className="w-1/2 mr-2">
             <label className="block text-lg mb-2 text-sky-indigo">Office</label>
-            <input
-              type="text"
-              placeholder="Office"
-              className="w-full p-3 border border-gray-300 rounded"
-            />
+            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Brentwood</p>
           </div>
           <div className="w-1/2 ml-2">
-            <label className="block text-lg mb-2 text-sky-indigo">Saved Home (optional)</label>
-            <input
-              type="text"
-              placeholder="Saved Home (optional)"
-              className="w-full p-3 border border-gray-300 rounded"
-            />
+            <label className="block text-lg mb-2 text-sky-indigo">Points Remaining</label>
+            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">42</p>
           </div>
         </div>
 

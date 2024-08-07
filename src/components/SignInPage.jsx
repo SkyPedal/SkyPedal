@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./signInPage/Button";
 
-const Placeholder = () => {
+const SignInPage = () => {
   const navigate = useNavigate();
 
   const handleSignIn = () => {
@@ -12,7 +12,7 @@ const Placeholder = () => {
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="p-16 bg-white border rounded-lg shadow-lg max-w-lg w-full">
-        <h1 className="text-3xl font-bold mb-6 text-sky-indigo">Sign In</h1>
+        <h1 className="text-3xl font-bold mb-6 sky-gradient-text">Let's Get Started</h1>
 
         <div className="mb-6">
           <label className="block text-lg mb-2 text-sky-indigo">Sky Email:</label>
@@ -53,4 +53,4 @@ const Placeholder = () => {
   );
 };
 
-export default Placeholder;
+export default SignInPage;
