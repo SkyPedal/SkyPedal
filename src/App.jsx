@@ -10,6 +10,7 @@ import SignUpPage from "./components/SignUpPage";
 import Profile from "./components/Profile";
 
 import RecordActivity from "./components/RecordActivity";
+import RewardsPage from "./components/RewardsPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />}/>
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
+              <Route path="/rewards" element={<RewardsPage />} />
             </Routes>
           </div>
           <InfoSidebar />
@@ -32,5 +34,6 @@ function App() {
     </AuthContext.Provider>
   );
 }
+
 
 export default App;
