@@ -1,53 +1,61 @@
-import { useState, useEffect } from 'react';
-import LeaderModel from './utils/Leader.model';
-import Leader from "./Leader";
-import './css/Leaderboard.css';
+import { useState, useEffect } from "react";
+import LeaderModel from "./utils/Leader.model";
+import Leader from "./leaderboard/Leader";
+import "./css/Leaderboard.css";
+import { useAuth } from "../context/AuthContext";
+import useApi from "../repos/api";
 
+const Leaderboard = () => {
+  const auth = useAuth();
+  const api = useApi(auth);
 
-const Leaderboard = ({data}) => {
+  const [leaders, setLeaders] = useState([]);
+  const [error, setError] = useState("");
 
+  useEffect(() => {
+    api.getUsers().then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setLeaders(data.data);
+      }
+    });
+  }, [api]);
 
-    const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
-
-    useEffect(() => {
-        if (data?.error) {
-            setDataStatus({ name: `error`, message: data.error });
-        }
-        else if (data?.leaders) {
-            const ds = data.leaders.length > 0 ? { name: `data`, message: null } : { name: `nodata`, message: `There were no todos previously saved` };
-            setDataStatus(ds);
-        }
-        else {
-            setDataStatus({ name: `loading`, message: `Data is loading...` });
-        }
-    }, [data]);
-
-    const populateTable = () => {
-        var currPosition = 1;
-        if (data?.leaders?.length > 0) {
-            const sampleLeaders = data.leaders.sort(function(a, b){
-                return b.score - a.score;
-            });
-            return sampleLeaders.map(currentLeader => {
-                const leader = new LeaderModel(currPosition, currentLeader.firstname, currentLeader.lastname, currentLeader.score, currentLeader.id);
-                currPosition++;
-                return <Leader leader={leader} key={leader.id} />
-            });
-        }
-
-        return (
-            <tr><td id={dataStatus.name} colSpan="3">{dataStatus.message}</td></tr>
+  const populateTable = () => {
+    var currPosition = 1;
+    if (leaders.length > 0) {
+      console.log(leaders);
+      const sampleLeaders = leaders.sort(function (a, b) {
+        return b.score - a.score;
+      });
+      return sampleLeaders.map((currentLeader) => {
+        const leader = new LeaderModel(
+          currPosition,
+          currentLeader.firstname,
+          currentLeader.lastname,
+          currentLeader.score,
+          currentLeader.id,
         );
+        currPosition++;
+        return <Leader leader={leader} key={leader.id} />;
+      });
     }
-
     return (
-        <div lassName="leaderboard">
-            <h3 className="pt-5 text-3xl margin-top-30px">Leaderboard</h3>
-            <table className="leaderTable center">
-                <tbody>{populateTable()}</tbody>
-            </table>
-        </div>
+      <tr>
+        <td colSpan="3">{error}</td>
+      </tr>
     );
+  };
+
+  return (
+    <div className="leaderboard flex flex-col justify-start">
+      <h3 className="text-3xl">Leaderboard</h3>
+      <table className="leaderTable">
+        <tbody>{populateTable()}</tbody>
+      </table>
+    </div>
+  );
 };
 
 export default Leaderboard;
