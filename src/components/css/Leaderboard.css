@@ -1,62 +1,63 @@
 .table {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .leaders {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .userName {
-    font-size: 16px;
-    color: #333;
-    font-weight: bold;
-    text-align: left;
-    width: 80%;
-  }
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+  width: 80%;
+}
 
-  .leaderboardPosition {
-    width: 5%;
-  }
+.leaderboardPosition {
+  width: 5%;
+}
 
-  .leaderTable {
-    width: 60%;
-    align-items: center;
-    overflow: scroll;
-    margin-top: 40px;
-  }
+.leaderTable {
+  width: 60%;
+  align-items: center;
+  overflow: scroll;
+  margin-top: 40px;
+}
 
-  .scoreItem:hover {
-    transform: scale(1.05); /* Slightly increase the size */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow for highlighting */
-  }
-  
-  .userScore {
-    font-size: 16px;
-    color: #00138B;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
+.scoreItem:hover {
+  transform: scale(1.05); /* Slightly increase the size */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow for highlighting */
+}
 
-  .leaderboard {
-    display: flex;
-    align-items: center;
-    padding: 5%;
-    margin-top: 50px;
-    background-color: #9a4b7c;
-    color: "var(--sky-indigo)";
-  }
+.userScore {
+  font-size: 16px;
+  color: #00138b;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
 
-  .scoreItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #00138B;
-    border-radius: 8px;
-    padding: 10px 20px;
-    margin: 10px auto; /* Centering and maintaining vertical margin */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Set a fixed width */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition for hover effect */
-  }
+.leaderboard {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 5%;
+  color: rgba(var(--sky-indigo));
+}
+
+.scoreItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #00138b;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px auto; /* Centering and maintaining vertical margin */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Set a fixed width */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Transition for hover effect */
+}
