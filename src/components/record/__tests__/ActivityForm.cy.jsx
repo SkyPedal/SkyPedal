@@ -2,6 +2,7 @@ import ActivityForm from "../ActivityForm.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import AuthContext from "../../../context/AuthContext";
 import sampleData from "../../../../database.sample.json";
+import { expect } from "chai";
 
 describe("<ActivityForm />", () => {
   beforeEach(() => {
@@ -130,6 +131,73 @@ describe("<ActivityForm />", () => {
         distance: 2000,
         duration: 600,
         geoJson: null,
+      });
+  });
+
+  it("GPX input works", () => {
+    const handleSave = cy.spy();
+    const ActivityFormWrapper = () => {
+      const locations = sampleData.locations;
+      return (
+        <Router>
+          <AuthContext.Provider
+            value={{ user_id: 1, user_name: "TestUser123" }}
+          >
+            <ActivityForm
+              locations={locations}
+              handleSave={handleSave}
+              setError={() => null}
+              api={{
+                getRoute: (start, end) => {
+                  console.log("cy", start, end);
+                  return new Promise((resolve) => {
+                    if (start === "1" && end === "2")
+                      return resolve({
+                        data: { distance: 2000, duration: 600 },
+                      });
+                    return resolve({ error: "invalid route" });
+                  });
+                },
+              }}
+            />
+          </AuthContext.Provider>
+        </Router>
+      );
+    };
+    cy.mount(<ActivityFormWrapper />);
+
+    cy.get("button[name='dragDrop']").click();
+
+    cy.get("input[id='dropzone-file']").selectFile("src/assets/Lunch_Run.gpx", {
+      force: true,
+    });
+
+    cy.get("[data-cy='distance-chip']").should("have.text", "2.32 km");
+    cy.get("[data-cy='duration-chip']").should("have.text", "16 mins");
+    cy.get("[data-cy='gps-chip']").should("have.text", "GPS");
+    cy.get("button[name='save']").should("not.be.disabled");
+    cy.get("button[name='save']").click();
+    cy.wrap(handleSave)
+      .should("have.been.calledOnce")
+      .should((spy) => {
+        const activity = spy.getCall(0).args[0];
+
+        const expected = {
+          title: "Lunch Run",
+          date: "2024-06-08",
+          time: "11:52",
+          distance: 2320,
+          duration: 982,
+        };
+
+        expect(activity).to.include(expected);
+
+        expect(activity.geoJson).to.be.an("object");
+        expect(activity.geoJson.features).to.be.an("array");
+        expect(activity.geoJson.features[0].geometry).to.be.an("object");
+        expect(
+          activity.geoJson.features[0].geometry.coordinates,
+        ).to.have.lengthOf(221);
       });
   });
 });
