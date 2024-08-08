@@ -1,25 +1,27 @@
-import {
-  act,
-  fireEvent,
-  render,
-  renderHook,
-  screen,
-  waitFor,
-} from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { describe, expect, it, vi } from "vitest";
-import useFormData from "../components/record/FormData";
-// import { Router } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
-import ActivityForm from "../components/record/ActivityForm";
-import { BrowserRouter as Router } from "react-router-dom";
+// import {
+//   act,
+//   fireEvent,
+//   render,
+//   renderHook,
+//   screen,
+//   waitFor,
+// } from "@testing-library/react";
+// import "@testing-library/jest-dom";
+// import { describe, expect, it, vi } from "vitest";
+// import useFormData from "../components/record/FormData";
+// // import { Router } from "react-router-dom";
 // import AuthContext from "../context/AuthContext";
-import sampleData from "../../database.sample";
+// import ActivityForm from "../components/record/ActivityForm";
+// import { BrowserRouter as Router } from "react-router-dom";
+// // import AuthContext from "../context/AuthContext";
+// import sampleData from "../../database.sample";
 // import useFormData from "../components/record/FormData";
 
 // vi.mock("../utils/today", () => ({
 //   default: () => "2021-01-01",
 // }));
+
+cy.mount(
 
 describe("ActivityForm", () => {
   // it("snapshot renders", () => {

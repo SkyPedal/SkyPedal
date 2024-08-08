@@ -5,8 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: "happy-dom",
-    include: ["src/**/*.test.js", "src/**/*.test.jsx"],
+    // environment: "happy-dom",
+    include: ["src/**/*.test.js", "src/**/*.cy.jsx", "src/**/*.cy.js"],
     globals: true,
   },
 });

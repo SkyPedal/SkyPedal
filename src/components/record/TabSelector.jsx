@@ -4,6 +4,7 @@ const TabSelector = ({ currentTab, changeTab, lock }) => {
       <div className="flex rounded-xl bg-gray-300">
         {/* Tab selector */}
         <button
+          name="startEnd"
           type="button"
           className={
             "m-2 w-20 rounded-lg p-1 text-sm" +
@@ -17,6 +18,7 @@ const TabSelector = ({ currentTab, changeTab, lock }) => {
           Location
         </button>
         <button
+          name="distanceDuration"
           type="button"
           className={
             "m-2 w-20 rounded-lg p-1 text-sm" +
@@ -30,6 +32,7 @@ const TabSelector = ({ currentTab, changeTab, lock }) => {
           Manual
         </button>
         <button
+          name="dragDrop"
           type="button"
           className={
             "m-2 w-20 rounded-lg p-1 text-sm" +

@@ -4,10 +4,40 @@ import PropTypes from "prop-types";
 import StartEnd from "./StartEnd";
 import TabSelector from "./TabSelector";
 import DragDrop from "./DragDrop";
+import useFormData from "./FormData";
 
-const ActivityForm = ({ handleSave, locations, formData }) => {
+const ActivityForm = ({ handleSave, locations, setError, api }) => {
   const [tab, setTab] = useState("startEnd");
   const [reset, setReset] = useState(false);
+  const formData = useFormData();
+
+  useEffect(() => {
+    const { start, end } = formData.data;
+    console.log("Update Route Info");
+    console.log(start, end);
+    const startEndSet =
+      start !== "Add New" &&
+      start !== "none" &&
+      end !== "Add New" &&
+      end !== "none";
+    if (startEndSet) {
+      console.log("hm");
+      setError("");
+      api.getRoute(start, end).then((res) => {
+        if (res.error) {
+          setError(res.error);
+          return;
+        }
+        if (
+          res.data.distance !== formData.data.distance ||
+          res.data.duration !== formData.data.duration
+        ) {
+          formData.setField("distance", res.data.distance);
+          formData.setField("duration", res.data.duration);
+        }
+      });
+    }
+  }, [formData, api, setError]);
 
   useEffect(() => {
     if (reset) {
@@ -18,6 +48,19 @@ const ActivityForm = ({ handleSave, locations, formData }) => {
 
   const changeTab = (tab) => {
     setTab(tab);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("IM SUBMITTING");
+    handleSave({
+      title: formData.data.title,
+      date: formData.data.date,
+      time: formData.data.time,
+      distance: formData.data.distance,
+      duration: formData.data.duration,
+      geoJson: formData.data.geoJson,
+    });
   };
 
   useEffect(() => {
@@ -57,7 +100,7 @@ const ActivityForm = ({ handleSave, locations, formData }) => {
     (tab === "dragDrop" && formData.data.geoJson === null);
 
   return (
-    <form onSubmit={handleSave} className="h-[90%]">
+    <form onSubmit={handleSubmit} className="h-[90%]">
       <div className="flex h-full flex-col pt-12">
         <label htmlFor="activityName" className="text-left text-lg">
           Title
@@ -123,23 +166,29 @@ const ActivityForm = ({ handleSave, locations, formData }) => {
 
           <div className="left-4 flex flex-row justify-start pb-2">
             <p
-              data-testid="distance-text"
+              data-cy="distance-chip"
               className="mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
             >
               {(formData.data.distance / 1000).toFixed(2)} km
             </p>
             <p
-              data-testid="duration-text"
+              data-cy="duration-chip"
               className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
             >
               {Math.round(formData.data.duration / 60)} mins
             </p>
             {formData.data.geoJson ? (
-              <p className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-green-100 px-4 py-2">
+              <p
+                data-cy="gps-chip"
+                className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-green-100 px-4 py-2"
+              >
                 GPS
               </p>
             ) : (
-              <p className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2">
+              <p
+                data-cy="gps-chip"
+                className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
+              >
                 No GPS
               </p>
             )}
@@ -150,6 +199,7 @@ const ActivityForm = ({ handleSave, locations, formData }) => {
       {/* Buttons  */}
       <div className="absolute bottom-12 right-4 flex w-full flex-row justify-end">
         <button
+          name="clear"
           type="button"
           className="mx-8 mt-5 max-h-10 w-24 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => setReset(true)}
@@ -157,6 +207,7 @@ const ActivityForm = ({ handleSave, locations, formData }) => {
           Clear
         </button>
         <button
+          name="save"
           type="submit"
           className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-red-300"
           disabled={
