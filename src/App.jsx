@@ -8,6 +8,7 @@ import InfoSidebar from "./components/InfoSidebar";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import Profile from "./components/Profile";
+import Activity from "./components/Activity";
 
 import RecordActivity from "./components/RecordActivity";
 import RewardsPage from "./components/RewardsPage";
@@ -26,6 +27,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/activity/:id" element={<Activity />}/>
             </Routes>
           </div>
           <InfoSidebar />

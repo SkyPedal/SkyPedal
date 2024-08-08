@@ -1,4 +1,5 @@
 import { FaBicycle, FaRunning, FaWalking, FaLeaf, FaPiggyBank, FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const activityIcons = {
     cycling: <FaBicycle className="text-blue-500" />,
@@ -33,6 +34,11 @@ const ActivityOverview = ({activity}, key) => {
                 <FaStar className="mr-2 text-yellow-500" />
                 Points Earned: <span className="ml-1 font-medium text-gray-800">{activity.points_earned}</span>
                 </p>
+            </div>
+            <div className='flex justify-end mt-4'>
+                <Link to={`/activity/${activity.id}`} className='text-blue-500 hover:underline'>
+                    View Details
+                </Link>
             </div>
         </div>
     );
