@@ -1,10 +1,16 @@
 import "./App.css";
+import "./index.css";
 import AuthContext from "./context/AuthContext";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
 import InfoSidebar from "./components/InfoSidebar";
+import SignInPage from "./components/SignInPage";
+import SignUpPage from "./components/SignUpPage";
+import Profile from "./components/Profile";
+
 import RecordActivity from "./components/RecordActivity";
+import RewardsPage from "./components/RewardsPage";
 
 function App() {
   return (
@@ -15,7 +21,11 @@ function App() {
           <div className="h-full min-w-0 flex-grow">
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/signup" element={<SignUpPage />}/>
+              <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
+              <Route path="/rewards" element={<RewardsPage />} />
             </Routes>
           </div>
           <InfoSidebar />
@@ -24,5 +34,6 @@ function App() {
     </AuthContext.Provider>
   );
 }
+
 
 export default App;
