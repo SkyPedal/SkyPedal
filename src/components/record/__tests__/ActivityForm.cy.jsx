@@ -1,6 +1,4 @@
-import React from "react";
 import ActivityForm from "../ActivityForm.jsx";
-import useFormData from "../FormData";
 import { BrowserRouter as Router } from "react-router-dom";
 import AuthContext from "../../../context/AuthContext";
 import sampleData from "../../../../database.sample.json";
@@ -78,6 +76,59 @@ describe("<ActivityForm />", () => {
         time: "08:00",
         distance: 1000,
         duration: 3600,
+        geoJson: null,
+      });
+  });
+  it("location input works", () => {
+    const handleSave = cy.spy();
+    const ActivityFormWrapper = () => {
+      const locations = sampleData.locations;
+      return (
+        <Router>
+          <AuthContext.Provider
+            value={{ user_id: 1, user_name: "TestUser123" }}
+          >
+            <ActivityForm
+              locations={locations}
+              handleSave={handleSave}
+              setError={() => null}
+              api={{
+                getRoute: (start, end) => {
+                  console.log("cy", start, end);
+                  return new Promise((resolve) => {
+                    if (start === "1" && end === "2")
+                      return resolve({
+                        data: { distance: 2000, duration: 600 },
+                      });
+                    return resolve({ error: "invalid route" });
+                  });
+                },
+              }}
+            />
+          </AuthContext.Provider>
+        </Router>
+      );
+    };
+    cy.mount(<ActivityFormWrapper />);
+
+    cy.get("button[name='startEnd']").click();
+
+    cy.get("select[name='activityStart']").select("Home");
+    cy.get("select[name='activityEnd']").select("Work - Watermark");
+
+    cy.get("[data-cy='distance-chip']").should("have.text", "2.00 km");
+    cy.get("[data-cy='duration-chip']").should("have.text", "10 mins");
+    cy.get("[data-cy='gps-chip']").should("have.text", "No GPS");
+    cy.get("button[name='save']").should("not.be.disabled");
+    cy.get("button[name='save']").click();
+    cy.wrap(handleSave)
+      .should("have.been.calledOnce")
+      .should("have.been.calledWith", {
+        title: "Home to Work - Watermark",
+        date: "2021-01-01",
+        time: "08:00",
+        distance: 2000,
+        duration: 600,
         geoJson: null,
       });
   });
