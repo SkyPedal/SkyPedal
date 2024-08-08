@@ -1,47 +1,107 @@
-import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import AddLocation from "./AddLocation";
+import { useEffect, useState } from "react";
+import DistanceDuration from "./DistanceDuration";
 import PropTypes from "prop-types";
+import StartEnd from "./StartEnd";
+import TabSelector from "./TabSelector";
+import DragDrop from "./DragDrop";
+import useFormData from "./FormData";
 
-const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
-  const setTitle = useCallback(
-    (title) => setFormData({ ...formData, title }),
-    [formData, setFormData],
-  );
-  const setDate = (date) => setFormData({ ...formData, date });
-  const setTime = (time) => setFormData({ ...formData, time });
-  const setStart = (start) => setFormData({ ...formData, start });
-  const setEnd = (end) => setFormData({ ...formData, end });
-  const setDistance = (distance) => setFormData({ ...formData, distance });
-  const setDuration = (duration) => setFormData({ ...formData, duration });
+const ActivityForm = ({ handleSave, locations, setError, api }) => {
+  const [tab, setTab] = useState("startEnd");
+  const [reset, setReset] = useState(false);
+  const formData = useFormData();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const { start, end } = formData.data;
+    console.log("Update Route Info");
+    console.log(start, end);
+    const startEndSet =
+      start !== "Add New" &&
+      start !== "none" &&
+      end !== "Add New" &&
+      end !== "none";
+    if (startEndSet) {
+      console.log("hm");
+      setError("");
+      api.getRoute(start, end).then((res) => {
+        if (res.error) {
+          setError(res.error);
+          return;
+        }
+        if (
+          res.data.distance !== formData.data.distance ||
+          res.data.duration !== formData.data.duration
+        ) {
+          formData.setField("distance", res.data.distance);
+          formData.setField("duration", res.data.duration);
+        }
+      });
+    }
+  }, [formData, api, setError]);
+
+  useEffect(() => {
+    if (reset) {
+      formData.reset();
+      setReset(false);
+    }
+  }, [reset, formData]);
+
+  const changeTab = (tab) => {
+    setTab(tab);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("IM SUBMITTING");
+    handleSave({
+      title: formData.data.title,
+      date: formData.data.date,
+      time: formData.data.time,
+      distance: formData.data.distance,
+      duration: formData.data.duration,
+      geoJson: formData.data.geoJson,
+    });
+  };
 
   useEffect(() => {
     if (
-      formData.title === "Commute to Work" &&
-      formData.start !== "none" &&
-      formData.start !== "Add New" &&
-      formData.end !== "none" &&
-      formData.end !== "Add New"
+      formData.data.title === "Commute to Work" &&
+      formData.data.start !== "none" &&
+      formData.data.start !== "Add New" &&
+      formData.data.end !== "none" &&
+      formData.data.end !== "Add New"
     ) {
+      console.log(
+        `Setting title with ${formData.data.start} and ${formData.data.end}`,
+      );
       const start_title = locations.find(
-        (loc) => loc.id === formData.start,
+        (loc) => loc.id.toString() === formData.data.start,
       ).name;
-      const end_title = locations.find((loc) => loc.id === formData.end).name;
-      setTitle(`${start_title} to ${end_title}`);
+      const end_title = locations.find(
+        (loc) => loc.id.toString() === formData.data.end,
+      ).name;
+      formData.setField("title", `${start_title} to ${end_title}`);
     }
-  }, [formData, locations, setTitle]);
+  }, [formData, locations]);
 
   const handleAddLocation = (location, start = true) => {
     // TODO: Do callback to fetch locations
-    if (start) setStart(locations[locations.length - 1]);
-    else setEnd(locations[locations.length - 1]);
+    if (start) formData.setField("start", locations[locations.length - 1]);
+    else formData.setField("end", locations[locations.length - 1]);
   };
 
+  const canTabChange =
+    (tab === "startEnd" &&
+      formData.data.start === "none" &&
+      formData.data.end === "none") ||
+    (tab === "distanceDuration" &&
+      formData.data.distance === 0 &&
+      formData.data.duration === 0) ||
+    (tab === "dragDrop" && formData.data.geoJson === null);
+
   return (
-    <form onSubmit={handleSave}>
-      <div className="flex flex-col pt-12">
+    <form onSubmit={handleSubmit} className="h-[90%]">
+      <div className="flex h-full flex-col pt-12">
         <label htmlFor="activityName" className="text-left text-lg">
           Title
         </label>
@@ -50,8 +110,8 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
           id="activityName"
           name="activityName"
           className="rounded-lg border-2 border-solid border-gray-300 p-2"
-          value={formData.title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={formData.data.title}
+          onChange={(e) => formData.setField("title", e.target.value)}
         />
         <div className="flex flex-row justify-between">
           <div className="flex flex-col">
@@ -63,8 +123,8 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
               id="activityDate"
               name="activityDate"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.date}
-              onChange={(e) => setDate(e.target.value)}
+              value={formData.data.date}
+              onChange={(e) => formData.setField("date", e.target.value)}
             />
           </div>
           <div className="flex flex-col">
@@ -76,137 +136,84 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
               id="activityTime"
               name="activityTime"
               className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.time}
-              onChange={(e) => setTime(e.target.value)}
+              value={formData.data.time}
+              onChange={(e) => formData.setField("time", e.target.value)}
             />
           </div>
         </div>
-        <div className="mt-12">
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-col">
-              <label htmlFor="activityStart" className="pt-5 text-left text-lg">
-                Start Location
-              </label>
+        {/* Tab Content */}
+        <div className="mt-5 flex h-[65%] flex-col justify-between border-y-2 py-2">
+          <div className="pt-2">
+            <TabSelector
+              currentTab={tab}
+              changeTab={changeTab}
+              lock={!canTabChange}
+            />
+            {tab === "startEnd" && (
+              <StartEnd
+                locations={locations}
+                formData={formData}
+                handleAddLocation={handleAddLocation}
+              />
+            )}
+            {tab === "distanceDuration" && (
+              <DistanceDuration formData={formData} reset={reset} />
+            )}
+            {tab === "dragDrop" && (
+              <DragDrop reset={reset} formData={formData} />
+            )}
+          </div>
 
-              <select
-                id="activityStart"
-                name="activityStart"
-                className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={formData.start}
-                onChange={(e) => setStart(e.target.value)}
-              >
-                <option value="none">-- Pick --</option>
-                {locations.map((location) => (
-                  <option
-                    key={`location-start-${location.id}`}
-                    value={location.id}
-                  >
-                    {location.name}
-                  </option>
-                ))}
-                <option value="Add New">Add New</option>
-              </select>
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="activityEnd" className="pt-5 text-left text-lg">
-                End Location
-              </label>
-              <select
-                id="activityEnd"
-                name="activityEnd"
-                className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-                value={formData.end}
-                onChange={(e) => setEnd(e.target.value)}
-              >
-                <option value="none">-- Pick --</option>
-                {locations.map((location) => (
-                  <option
-                    key={`location-start-${location.id}`}
-                    value={location.id}
-                  >
-                    {location.name}
-                  </option>
-                ))}
-                <option value="Add New">Add New</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        {formData.start === "Add New" && (
-          <AddLocation
-            handleAdd={(location) => handleAddLocation(location, true)}
-          />
-        )}
-        {formData.start !== "Add New" && formData.end === "Add New" && (
-          <AddLocation
-            handleAdd={(location) => handleAddLocation(location, false)}
-          />
-        )}
-        <p
-          className="mb-2 mt-8 w-full border-b-2 text-center"
-          style={{ lineHeight: "0.1em" }}
-        >
-          <span className="bg-white pl-2 pr-2">OR</span>
-        </p>
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
-            <label
-              htmlFor="activityDistance"
-              className="pt-5 text-left text-lg"
+          <div className="left-4 flex flex-row justify-start pb-2">
+            <p
+              data-cy="distance-chip"
+              className="mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
             >
-              Distance (m)
-            </label>
-            <input
-              type="number"
-              id="activityDistance"
-              name="activityDistance"
-              className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.distance === 0 ? "" : formData.distance}
-              onChange={(e) =>
-                setDistance(e.target.value === "" ? 0 : e.target.valueAsNumber)
-              }
-              min="1"
-              disabled={formData.start !== "none" || formData.end !== "none"}
-              required
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="activityDuration"
-              className="pt-5 text-left text-lg"
+              {(formData.data.distance / 1000).toFixed(2)} km
+            </p>
+            <p
+              data-cy="duration-chip"
+              className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
             >
-              Duration (s)
-            </label>
-            <input
-              type="number"
-              id="activityDuration"
-              name="activityDuration"
-              className="w-52 rounded-lg border-2 border-solid border-gray-300 p-2"
-              value={formData.duration === 0 ? "" : formData.duration}
-              onChange={(e) =>
-                setDuration(e.target.value === "" ? 0 : e.target.valueAsNumber)
-              }
-              min="1"
-              disabled={formData.start !== "none" || formData.end !== "none"}
-              required
-            />
+              {Math.round(formData.data.duration / 60)} mins
+            </p>
+            {formData.data.geoJson ? (
+              <p
+                data-cy="gps-chip"
+                className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-green-100 px-4 py-2"
+              >
+                GPS
+              </p>
+            ) : (
+              <p
+                data-cy="gps-chip"
+                className="mx-2 mt-5 rounded-lg border-2 border-solid border-gray-300 bg-gray-100 px-4 py-2"
+              >
+                No GPS
+              </p>
+            )}
           </div>
         </div>
       </div>
+
       {/* Buttons  */}
       <div className="absolute bottom-12 right-4 flex w-full flex-row justify-end">
         <button
+          name="clear"
           type="button"
           className="mx-8 mt-5 max-h-10 w-24 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => navigate("/")}
+          onClick={() => setReset(true)}
         >
-          Cancel
+          Clear
         </button>
         <button
+          name="save"
           type="submit"
           className="mt-5 max-h-10 w-24 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-red-300"
           disabled={
-            formData.distance === 0 || formData.duration === 0 ? true : false
+            formData.data.distance === 0 || formData.data.duration === 0
+              ? true
+              : false
           }
         >
           Add
@@ -216,11 +223,15 @@ const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
   );
 };
 
-// const ActivityForm = ({ handleSave, locations, formData, setFormData }) => {
 PropTypes.ActivityForm = {
   handleSave: PropTypes.func.isRequired,
   locations: PropTypes.array.isRequired,
-  formData: PropTypes.object.isRequired,
+  formData: {
+    data: PropTypes.object.isRequired,
+    setField: PropTypes.func.isRequired,
+    set: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+  },
   setFormData: PropTypes.func.isRequired,
 };
 

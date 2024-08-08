@@ -1,4 +1,4 @@
-function today() {
+const today = () => {
   var d = new Date(),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
@@ -8,6 +8,6 @@ function today() {
   if (day.length < 2) day = "0" + day;
 
   return [year, month, day].join("-");
-}
+};
 
 export default today;
