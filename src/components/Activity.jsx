@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {DATABASE_URL} from '../config.json';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank } from 'react-icons/fa';
+import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank, FaMap } from 'react-icons/fa';
 
 const Activity = () => {
     const [activities, setActivities] = useState([]);
@@ -74,12 +74,26 @@ const Activity = () => {
                 </div>
             </div>
 
-            {/* <div className="mt-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-700">Joined Friends</h2>
-                <ul className="list-disc list-inside text-gray-600">
+            {/* Map Placeholder */}
+            <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">Activity Route</h2>
+                <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <FaMap className="text-gray-500 text-6xl" />
+                    <p className="text-gray-500 ml-4">Map Placeholder</p>
+                </div>
+            </div>
 
-                </ul>
-            </div> */}
+            {/* Joined friends */}
+            <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">Joined Friends</h2>
+                <div className="bg-gray-100 p-4 rounded-lg">
+                    <p className="text-gray-600">List Placeholder</p>
+                </div>
+            </div>
+
+            <div className='text-right p-[5%]'>
+                <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Delete Activity</button>
+            </div>
         </div>
     );
 }
