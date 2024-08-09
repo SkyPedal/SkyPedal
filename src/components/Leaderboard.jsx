@@ -82,15 +82,19 @@ const Leaderboard = () => {
 
 
   return (
-    <div className="leaderboard flex flex-col justify-start">
+    <>
+    <div className="leaderboardScroll flex flex-col justify-start">
       <h3 className="text-3xl">Leaderboard</h3>
       <table className="leaderTable">
         <tbody>{populateTable()}</tbody>
       </table>
-      <table className="leaderTableUser">
-        <tr>{curr}</tr>
-      </table>
     </div>
+    <div className="userLeaderboard flex flex-col justify-start">
+    <table className="leaderTableUser">
+      <tr>{curr}</tr>
+    </table>
+    </div>
+    </>
   );
 };
 
