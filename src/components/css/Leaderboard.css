@@ -25,6 +25,12 @@
   margin-top: 40px;
 }
 
+.leaderTableUser {
+    width: 60%;
+    align-items: center;
+    margin-top: 100px;
+  }
+
 .scoreItem:hover {
   transform: scale(1.05); /* Slightly increase the size */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow for highlighting */

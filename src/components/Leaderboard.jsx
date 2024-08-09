@@ -21,6 +21,8 @@ const Leaderboard = () => {
       }
     });
   }, [api]);
+  
+  var curr
 
   const populateTable = () => {
     var currPosition = 1;
@@ -37,6 +39,16 @@ const Leaderboard = () => {
           currentLeader.score,
           currentLeader.id,
         );
+        if (currentLeader.id === auth.user_id) {
+            const userScore = new LeaderModel(
+                currPosition,
+                "you",
+                "",
+                currentLeader.score,
+                currentLeader.id,
+            );
+            curr = <Leader leader={userScore} />
+        }
         currPosition++;
         return <Leader leader={leader} key={leader.id} />;
       });
@@ -48,11 +60,35 @@ const Leaderboard = () => {
     );
   };
 
+  const rankings = () => {
+    var currPosition = 1;
+      console.log(leaders);
+      const sampleLeaders = leaders.sort(function (a, b) {
+        return b.score - a.score;
+      });
+      return sampleLeaders.map((currentLeader) => {
+        const leader = new LeaderModel(
+          currPosition,
+          currentLeader.firstname,
+          currentLeader.lastname,
+          currentLeader.score,
+          currentLeader.id,
+        );
+        currPosition++;
+        return leader;
+      });
+  };
+
+
+
   return (
     <div className="leaderboard flex flex-col justify-start">
       <h3 className="text-3xl">Leaderboard</h3>
       <table className="leaderTable">
         <tbody>{populateTable()}</tbody>
+      </table>
+      <table className="leaderTableUser">
+        <tr>{curr}</tr>
       </table>
     </div>
   );
