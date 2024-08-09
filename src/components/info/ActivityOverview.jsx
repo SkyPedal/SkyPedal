@@ -18,17 +18,17 @@ const ActivityOverview = ({activity}, key) => {
                 <div className="text-right">
                 <p className="text-gray-500">{activity.date}</p>
                 <p className="text-gray-700 font-medium">{activity.activity_time}</p>
-                <p className="text-gray-700 font-medium">{activity.distance}</p>
+                <p className="text-gray-700 font-medium">{activity.distance} km</p>
                 </div>
             </div>
             <div className="mt-4 space-y-2">
                 <p className="flex items-center text-gray-600">
                 <FaLeaf className="mr-2 text-green-500" />
-                CO2 Saving: <span className="ml-1 font-medium text-gray-800">{activity.co2_saving}</span>
+                CO2 Saving: <span className="ml-1 font-medium text-gray-800">{activity.co2_saving} kg</span>
                 </p>
                 <p className="flex items-center text-gray-600">
                 <FaPiggyBank className="mr-2 text-yellow-500" />
-                Cost Saving: <span className="ml-1 font-medium text-gray-800">{activity.cost_saving}</span>
+                Cost Saving: <span className="ml-1 font-medium text-gray-800">£{activity.cost_saving}</span>
                 </p>
                 <p className="flex items-center text-gray-600">
                 <FaStar className="mr-2 text-yellow-500" />

@@ -48,7 +48,7 @@ const Activity = () => {
     const activity = activities.find(act => act.id === parseInt(id));
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg p-[5%]">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                     {activityIcons[activity.type]}
@@ -74,12 +74,12 @@ const Activity = () => {
                 </div>
             </div>
 
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <h2 className="text-xl font-semibold mb-4 text-gray-700">Joined Friends</h2>
                 <ul className="list-disc list-inside text-gray-600">
 
                 </ul>
-            </div>
+            </div> */}
         </div>
     );
 }
