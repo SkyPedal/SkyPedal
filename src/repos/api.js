@@ -39,6 +39,14 @@ const useApi = (auth) => {
           return { error: `Error fetching data: ${error}` };
         }
       },
+      getUsers: async () => {
+        try {
+          const response = await axios.get(`${DATABASE_URL}/users`);
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+      }
     };
   }, [user_id]);
   return api;
