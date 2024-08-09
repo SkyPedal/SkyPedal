@@ -46,7 +46,7 @@ const useApi = (auth) => {
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
         }
-      },
+      }
     };
   }, [user_id]);
   return api;
