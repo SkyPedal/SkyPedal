@@ -4,6 +4,22 @@ import AuthContext from "../../../context/AuthContext";
 import sampleData from "../../../../database.sample.json";
 import { expect } from "chai";
 
+const api = {
+  getRoute: (start, end) => {
+    console.log(start, end);
+    return new Promise((resolve) => {
+      if (start === "1" && end === "2")
+        return resolve({
+          data: { distanceM: 2000, durationS: 600, geoJson: "sampleGeojson" },
+        });
+      return resolve({ error: "invalid route" });
+    });
+  },
+  getLocations: async () => {
+    return { data: sampleData.locations };
+  },
+};
+
 describe("<ActivityForm />", () => {
   beforeEach(() => {
     cy.clock(new Date("2021-01-01"));
@@ -11,13 +27,12 @@ describe("<ActivityForm />", () => {
 
   it("renders with default values", () => {
     const ActivityFormWrapper = () => {
-      const locations = sampleData.locations;
       return (
         <Router>
           <AuthContext.Provider
             value={{ user_id: 1, user_name: "TestUser123" }}
           >
-            <ActivityForm locations={locations} handleSave={() => null} />
+            <ActivityForm handleSave={() => null} api={api} />
           </AuthContext.Provider>
         </Router>
       );
@@ -48,10 +63,9 @@ describe("<ActivityForm />", () => {
             value={{ user_id: 1, user_name: "TestUser123" }}
           >
             <ActivityForm
-              locations={locations}
+              api={api}
               handleSave={handleSave}
               setError={() => null}
-              api={() => null}
             />
           </AuthContext.Provider>
         </Router>
@@ -83,28 +97,15 @@ describe("<ActivityForm />", () => {
   it("location input works", () => {
     const handleSave = cy.spy();
     const ActivityFormWrapper = () => {
-      const locations = sampleData.locations;
       return (
         <Router>
           <AuthContext.Provider
             value={{ user_id: 1, user_name: "TestUser123" }}
           >
             <ActivityForm
-              locations={locations}
               handleSave={handleSave}
               setError={() => null}
-              api={{
-                getRoute: (start, end) => {
-                  console.log("cy", start, end);
-                  return new Promise((resolve) => {
-                    if (start === "1" && end === "2")
-                      return resolve({
-                        data: { distance: 2000, duration: 600 },
-                      });
-                    return resolve({ error: "invalid route" });
-                  });
-                },
-              }}
+              api={api}
             />
           </AuthContext.Provider>
         </Router>
@@ -119,7 +120,7 @@ describe("<ActivityForm />", () => {
 
     cy.get("[data-cy='distance-chip']").should("have.text", "2.00 km");
     cy.get("[data-cy='duration-chip']").should("have.text", "10 mins");
-    cy.get("[data-cy='gps-chip']").should("have.text", "No GPS");
+    cy.get("[data-cy='gps-chip']").should("have.text", "GPS");
     cy.get("button[name='save']").should("not.be.disabled");
     cy.get("button[name='save']").click();
     cy.wrap(handleSave)
@@ -130,7 +131,7 @@ describe("<ActivityForm />", () => {
         time: "08:00",
         distance: 2000,
         duration: 600,
-        geoJson: null,
+        geoJson: "sampleGeojson",
       });
   });
 
@@ -147,18 +148,7 @@ describe("<ActivityForm />", () => {
               locations={locations}
               handleSave={handleSave}
               setError={() => null}
-              api={{
-                getRoute: (start, end) => {
-                  console.log("cy", start, end);
-                  return new Promise((resolve) => {
-                    if (start === "1" && end === "2")
-                      return resolve({
-                        data: { distance: 2000, duration: 600 },
-                      });
-                    return resolve({ error: "invalid route" });
-                  });
-                },
-              }}
+              api={api}
             />
           </AuthContext.Provider>
         </Router>
