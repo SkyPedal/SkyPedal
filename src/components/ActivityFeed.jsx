@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import {DATABASE_URL} from '../config.json';
-import axios from 'axios';
-import ActivityOverview from './info/ActivityOverview';
-
+import React from "react";
+import { useState, useEffect } from "react";
+import { STATIC_DATABASE_URL } from "../config.json";
+import axios from "axios";
+import ActivityOverview from "./info/ActivityOverview";
 
 const ActivityFeed = () => {
   const [activities, setActivities] = useState([]);
@@ -13,13 +12,11 @@ const ActivityFeed = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await axios.get(
-          `${DATABASE_URL}/activities`,
-        );
+        const response = await axios.get(`${STATIC_DATABASE_URL}/activities`);
         if (response.status != 200) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
-        setActivities(response.data); 
+        setActivities(response.data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -31,15 +28,15 @@ const ActivityFeed = () => {
   }, []);
 
   if (loading) {
-    return <div className="max-w-4xl mx-auto p-4">Loading...</div>;
+    return <div className="mx-auto max-w-4xl p-4">Loading...</div>;
   }
 
   if (error) {
-    return <div className="max-w-4xl mx-auto p-4">Error: {error.message}</div>;
+    return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-100 h-screen">
+    <div className="mx-auto h-screen max-w-4xl bg-gray-100 p-6">
       <div className="h-[10%]">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Activity Feed</h1>
         <div className='h-[10%] text-right'>
@@ -50,9 +47,9 @@ const ActivityFeed = () => {
           </label>
         </div>
       </div>
-      <div className="space-y-6 h-[90%] overflow-y-auto">
+      <div className="h-[90%] space-y-6 overflow-y-auto">
         {activities.map((activity) => (
-          <ActivityOverview activity={activity} key={activity.id}/>
+          <ActivityOverview activity={activity} key={activity.id} />
         ))}
       </div>
     </div>

@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import Activity from "./components/Activity";
 
 import RecordActivity from "./components/RecordActivity";
+import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />}/>
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
+              <Route path="/compete" element={<Leaderboard />} />
               <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/activity/:id" element={<Activity />}/>
             </Routes>

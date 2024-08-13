@@ -3,13 +3,38 @@
     {
       "id": 1,
       "email": "will@sky.uk",
-      "firstname": "will",
-      "lastname": "moolman",
+      "firstname": "Will",
+      "lastname": "Moolman",
       "password_hash": "23457andsf",
       "profile_picture": "default.jpg",
 
       "office": "Livingston",
-      "points_remaining": 42
+      "points_remaining": 420,
+      "score": 10
+    },
+    {
+      "id": 2,
+      "email": "John@sky.uk",
+      "firstname": "John",
+      "lastname": "Johnson",
+      "password_hash": "f24f34fr",
+      "profile_picture": "default.jpg",
+
+      "office": "Livingston",
+      "points_remaining": 2,
+      "score": 230
+    },
+    {
+      "id": 3,
+      "email": "rayan@sky.uk",
+      "firstname": "Rayan",
+      "lastname": "Gosling",
+      "password_hash": "r4f34f4",
+      "profile_picture": "default.jpg",
+
+      "office": "Leeds",
+      "points_remaining": 10000000,
+      "score": 40
     }
   ],
 
