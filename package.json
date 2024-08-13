@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "dev": "vite",
+    "prod": "vite --port 80 --host 0.0.0.0",
     "build": "vite build",
     "test": "npx cypress run --browser electron --component",
     "coverage": "vitest --coverage",
