@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt, FaCloudDownloadAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import gpxParser from "gpxParser";
+import gpxParser from "gpxparser";
 
 const DragDrop = ({ reset, formData }) => {
   const [gpxFile, setGpxFile] = useState(null);
