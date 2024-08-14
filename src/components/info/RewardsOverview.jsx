@@ -1,6 +1,28 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import useApi from "../../repos/api";
+import { Link } from "react-router-dom";
+
 const RewardsOverview = () => {
   const categoryHeaderCSS = "text-sm text-left p-1 pl-4 text-gray-500";
   const categoryDataCSS = "text-lg p-1 pb-0";
+  const auth = useAuth();
+  const api = useApi(auth);
+
+  const [rewards, setRewards] = useState({});
+  const [getError, setGetError] = useState(``);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await api.getRewardsActive();
+      setRewards(res);
+      if (res.error)
+        setGetError(`Data not available from server: ${res.error.message}`);
+    };
+
+    getData();
+  }, []);
+
   return (
     <div className="m-1 flex flex-col">
       <h1 className="text-center">Rewards</h1>
@@ -8,9 +30,19 @@ const RewardsOverview = () => {
       <i className={categoryHeaderCSS}>Points</i>
       <p className={categoryDataCSS}>100</p>
       <i className={categoryHeaderCSS}>Active Rewards</i>
-      <p className={categoryDataCSS}>Reward 1</p>
-      <p className={categoryDataCSS}>Reward 2</p>
-      <p className={categoryDataCSS}>Reward 3</p>
+      {rewards?.rewards?.slice(0,3).map((reward) => {
+        const {
+          id,
+          dateRedeemed,
+          dateExpiry,
+          hasUsed,
+          rewardId,
+          userId,
+          rewardName,
+        } = reward;
+        // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
+        return <Link className={categoryDataCSS} to={`/rewards/${id}`}>{rewardName}</Link>;
+      })}
     </div>
   );
 };

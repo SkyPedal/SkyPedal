@@ -26,9 +26,9 @@ const ActiveVouchers = ({ data }) => {
         console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
-                const { id, reward_id, user_id, date_redeemed, date_expiry, has_used } = currentReward;
+                const { id, dateRedeemed, dateExpiry, hasUsed, rewardId, userId, rewardName } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-                const reward = new ActiveRewardModel( reward_id, user_id, date_redeemed, date_expiry, has_used, id );
+                const reward = new ActiveRewardModel( rewardName, userId, dateRedeemed, dateExpiry, hasUsed, id );
                 console.log(reward);
                 return <RewardActive reward={reward} key={reward.id} />;
             });

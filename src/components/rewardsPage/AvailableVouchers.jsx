@@ -26,9 +26,9 @@ const AvailableVouchers = ({ data }) => {
         console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
-                const { id, name, description, point_cost, number_available, image_link, active } = currentReward;
+                const { id, name, description, pointCost, numberAvailable, imageLink, active } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-                const reward = new AvailableRewardModel( name, null, number_available, point_cost, null, null, id );
+                const reward = new AvailableRewardModel( name, null, numberAvailable, pointCost, null, null, id );
                 console.log(reward);
                 return <RewardAvailable reward={reward} key={reward.id} />;
             });
