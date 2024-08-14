@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {STATIC_DATABASE_URL} from '../config.json';
+import {LOCAL_DATABASE_URL} from '../config.json';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank, FaMap } from 'react-icons/fa';
 
 const Activity = () => {
-    const [activities, setActivities] = useState([]);
+    const [activity, setActivity] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -15,17 +15,19 @@ const Activity = () => {
         running: <FaRunning className="text-red-500 text-4xl" />,
         walking: <FaWalking className="text-green-500 text-4xl" />,
     };
+
+    const { id } = useParams();
   
     useEffect(() => {
-      const fetchActivities = async () => {
+      const fetchActivity = async () => {
         try {
           const response = await axios.get(
-            `${STATIC_DATABASE_URL}/activities`,
+            `${LOCAL_DATABASE_URL}/activities/getById?id=${id}`,
           );
           if (response.status != 200) {
             throw new Error('Network response was not ok');
           }
-          setActivities(response.data); 
+          setActivity(response.data); 
           setLoading(false);
         } catch (error) {
           setError(error);
@@ -33,7 +35,7 @@ const Activity = () => {
         }
       };
   
-      fetchActivities();
+      fetchActivity();
     }, []);
 
     if (loading) {
@@ -43,9 +45,6 @@ const Activity = () => {
     if (error) {
         return <div className="max-w-4xl mx-auto p-4">Error: {error.message}</div>;
     }
-
-    const { id } = useParams();
-    const activity = activities.find(act => act.id === parseInt(id));
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg p-[5%]">
