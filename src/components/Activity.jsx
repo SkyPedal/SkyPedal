@@ -10,13 +10,13 @@ const Activity = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const { id } = useParams();
+
     const activityIcons = {
         cycling: <FaBicycle className="text-blue-500 text-4xl" />,
         running: <FaRunning className="text-red-500 text-4xl" />,
         walking: <FaWalking className="text-green-500 text-4xl" />,
     };
-
-    const { id } = useParams();
   
     useEffect(() => {
       const fetchActivity = async () => {
