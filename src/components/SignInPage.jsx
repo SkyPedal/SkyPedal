@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./signInPage/Button";
+import { useAuth } from "../context/AuthContext";
+import useApi from "../repos/api";
+import { useState } from "react";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -9,8 +12,9 @@ const SignInPage = () => {
   const [inputPassword, setInputPassword] = useState('');
 
   const handleSignIn = async () => {
-    const query = {inputEmail, inputPassword}
-    const signin = await api.queryRegister(query)
+    const query = {login: inputEmail, password: inputPassword}
+    const signin = await api.queryAuthenticate(query)
+    auth.setToken(signin.data.accessToken)
     navigate('/profile');
   };
 
