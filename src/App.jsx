@@ -12,6 +12,7 @@ import Profile from "./components/Profile";
 import RecordActivity from "./components/RecordActivity";
 import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
+import Activity from "./components/Activity";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
               <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/activity/:id" element={<Activity />}></Route>
             </Routes>
           </div>
           <InfoSidebar />
