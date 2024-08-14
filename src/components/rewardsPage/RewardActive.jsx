@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const RewardActive = ({ reward }) => {
-  const { rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id } = reward;
+const RewardActive = ({ reward, statusSetter }) => {
+  const { rewardName, rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id } = reward;
   const [date, setDate] = useState(null);
+
+  console.log("rewardId is ", rewardId);
+  console.log("id is ", id);
+  statusSetter("activate");
 
   // function today() {
   //     var d = new Date(),
@@ -37,12 +41,11 @@ const RewardActive = ({ reward }) => {
 
   return (
     <tr>
-      {/* figure out how to do sql operations to show actual reward data */}
       <td className="rounded-l-lg bg-slate-200 py-1 hover:bg-red-100 hover:underline">
-        <Link to={`/rewards/${id}`}>{rewardId}</Link>
+        <Link to={`/rewards/${rewardId}`}>{rewardName}</Link>
       </td>
       {/* <td >Expires in: {rewardTimeRemainingHour>0 ? rewardTimeRemainingHour + " hours" : rewardTimeRemainingMin>0 ? rewardTimeRemainingMin + " mins" : rewardTimeRemainingSec + " seconds" }</td> */}
-      <td className="rounded-r-lg bg-slate-200">{dateExpiry}</td>
+      <td className="rounded-r-lg bg-slate-200">{dateExpiry.replace("T", " ").slice(0,16)}</td>
     </tr>
   );
 };

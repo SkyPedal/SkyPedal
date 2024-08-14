@@ -13,8 +13,14 @@ import RecordActivity from "./components/RecordActivity";
 import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
 import Reward from "./components/rewardsPage/Reward";
+import { useState } from "react";
 
 function App() {
+  const [rewardStatus, setRewardStatus] = useState("");
+  const statusSetter = (data) => {
+    setRewardStatus(data)
+  }
+
   return (
     <AuthContext.Provider value={{ user_id: 1, user_name: "TestUser123" }}>
       <Router>
@@ -28,8 +34,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
-              <Route path="/rewards" element={<RewardsPage />} />
-              <Route path="/rewards/:id" element={<Reward />}/>
+              <Route path="/rewards" element={<RewardsPage statusSetter={statusSetter}/>} />
+              <Route path="/rewards/:id" element={<Reward status={rewardStatus}/>}/>
             </Routes>
           </div>
           <InfoSidebar />

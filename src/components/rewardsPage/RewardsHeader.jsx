@@ -1,6 +1,6 @@
 
 
-const Header = () => {
+const RewardsHeader = () => {
 
     return (
         <header className="flex justify-between items-center m-5 mb-5 rounded-2xl border-4 border-transparent shadow-lg" style={{
@@ -13,4 +13,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default RewardsHeader;

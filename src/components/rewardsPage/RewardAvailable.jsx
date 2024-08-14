@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
-const RewardAvailable = ({ reward }) => {
+const RewardAvailable = ({ reward, statusSetter }) => {
     const { rewardName, rewardDescription, rewardAmountRemaining, rewardPointCost, rewardImage, isRewardActive, _id } = reward;
+    statusSetter("redeem");
   
     return (
         <tr>

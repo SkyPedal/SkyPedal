@@ -1,13 +1,13 @@
 import ActiveVouchers from "./rewardsPage/ActiveVouchers";
 import AvailableVouchers from "./rewardsPage/AvailableVouchers";
-import Header from "./rewardsPage/Header";
+import RewardsHeader from "./rewardsPage/RewardsHeader";
 import { STATIC_DATABASE_URL, DATABASE_URL } from "../config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import useApi from "../repos/api";
 
-const RewardsPage = () => {
+const RewardsPage = ( {statusSetter} ) => {
   const [rewardsAvailable, setRewardsAvailable] = useState({});
   const [rewardsActive, setRewardsActive] = useState({});
   const [getError, setGetError] = useState(``);
@@ -54,11 +54,11 @@ const RewardsPage = () => {
     <>
       {/* {getError && <Modal handleClose={() => setGetError(``)} message={getError} />} */}
       {/* Rewards header */}
-      <Header />
+      <RewardsHeader />
       {/* Active Vouchers Table */}
-      <ActiveVouchers data={rewardsActive} />
+      <ActiveVouchers data={rewardsActive} statusSetter={statusSetter}/>
       {/* Available Vouchers Table */}
-      <AvailableVouchers data={rewardsAvailable} />
+      <AvailableVouchers data={rewardsAvailable} statusSetter={statusSetter}/>
     </>
   );
 };

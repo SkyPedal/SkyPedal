@@ -3,7 +3,7 @@ import AvailableRewardModel from "./AvailableReward.model";
 import RewardAvailable from "./RewardAvailable";
 
 
-const AvailableVouchers = ({ data }) => {
+const AvailableVouchers = ({ data, statusSetter }) => {
     // console.log(data);
 
     const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
@@ -30,7 +30,7 @@ const AvailableVouchers = ({ data }) => {
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
                 const reward = new AvailableRewardModel( name, null, numberAvailable, pointCost, null, null, id );
                 console.log(reward);
-                return <RewardAvailable reward={reward} key={reward.id} />;
+                return <RewardAvailable reward={reward} key={reward.id} statusSetter={statusSetter} />;
             });
         }
 

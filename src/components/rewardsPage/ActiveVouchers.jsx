@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import RewardActive from "./RewardActive";
 
 
-const ActiveVouchers = ({ data }) => {
+const ActiveVouchers = ({ data, statusSetter }) => {
 
     const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
 
@@ -28,9 +28,9 @@ const ActiveVouchers = ({ data }) => {
             return data.rewards.map(currentReward => {
                 const { id, dateRedeemed, dateExpiry, hasUsed, rewardId, userId, rewardName } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-                const reward = new ActiveRewardModel( rewardName, userId, dateRedeemed, dateExpiry, hasUsed, id );
+                const reward = new ActiveRewardModel( rewardName, rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id );
                 console.log(reward);
-                return <RewardActive reward={reward} key={reward.id} />;
+                return <RewardActive reward={reward} key={reward.id} statusSetter={statusSetter}/>;
             });
         }
 
@@ -46,7 +46,7 @@ const ActiveVouchers = ({ data }) => {
                 <thead>
                     <tr className="text-sm text-slate-500">
                         <th className="font-medium">Name</th>
-                        <th className="font-medium">Expires in</th>
+                        <th className="font-medium">Expires on</th>
                     </tr>
                 </thead>
                 <tbody>{populateTable(data)}</tbody>
