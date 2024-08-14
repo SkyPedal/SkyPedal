@@ -3,9 +3,14 @@ import Button from "./signInPage/Button";
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
+  const api = useApi(auth);
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
 
-  const handleSignIn = () => {
-    //add sign in logic
+  const handleSignIn = async () => {
+    const query = {inputEmail, inputPassword}
+    const signin = await api.queryRegister(query)
     navigate('/profile');
   };
 
@@ -20,6 +25,8 @@ const SignInPage = () => {
             type="email"
             placeholder="Enter your email"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputEmail}
+            onChange={(e) => setInputEmail(e.target.value)}
           />
         </div>
 
@@ -29,6 +36,8 @@ const SignInPage = () => {
             type="password"
             placeholder="Enter your password"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputPassword}
+            onChange={(e) => setInputPassword(e.target.value)}
           />
         </div>
 

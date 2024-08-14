@@ -34,8 +34,8 @@ const Leaderboard = () => {
       return sampleLeaders.map((currentLeader) => {
         const leader = new LeaderModel(
           currPosition,
-          currentLeader.firstname,
-          currentLeader.lastname,
+          currentLeader.firstName,
+          currentLeader.lastName,
           currentLeader.score,
           currentLeader.id,
         );

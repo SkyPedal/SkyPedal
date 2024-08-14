@@ -6,6 +6,26 @@ const useApi = (auth) => {
   const { user_id } = auth;
   const api = useMemo(() => {
     return {
+      queryRegister: async (query) => {
+        try {
+          const response = await axios.get(
+            `${DATABASE_URL}/users/register?query=${query}`,
+          );
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+      },
+      queryAuthenticate: async (query) => {
+        try {
+          const response = await axios.get(
+            `${DATABASE_URL}/authenticate?query=${query}`,
+          );
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+      },
       getLocations: async () => {
         try {
           const response = await axios.get(
@@ -62,7 +82,7 @@ const useApi = (auth) => {
       },
       getUsers: async () => {
         try {
-          const response = await axios.get(`${STATIC_DATABASE_URL}/users`);
+          const response = await axios.get(`${DATABASE_URL}/users/getAll`);
           return { data: response.data };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
