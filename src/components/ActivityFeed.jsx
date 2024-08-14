@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { LOCAL_DATABASE_URL } from "../config.json";
+import { DATABASE_URL } from "../config.json";
 import axios from "axios";
 import ActivityOverview from "./info/ActivityOverview";
 
@@ -12,8 +12,9 @@ const ActivityFeed = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await axios.get(`${LOCAL_DATABASE_URL}/activities/getAll`);
+        const response = await axios.get(`${DATABASE_URL}/activities/getAll`);
         if (response.status != 200) {
+          console.log(response);
           throw new Error("Network response was not ok");
         }
         setActivities(response.data);
@@ -32,6 +33,7 @@ const ActivityFeed = () => {
   }
 
   if (error) {
+    console.log(error);
     return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }
 

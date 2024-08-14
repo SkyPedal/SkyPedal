@@ -1,5 +1,4 @@
 {
   "STATIC_DATABASE_URL": "http://localhost:3001",
-  "DATABASE_URL": "http://localhost:9000",
-  "LOCAL_DATABASE_URL": "http://localhost:8080"
+  "DATABASE_URL": "http://localhost:9000"
 }

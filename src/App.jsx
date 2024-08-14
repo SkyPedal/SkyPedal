@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import Activity from "./components/Activity";
 
 import RecordActivity from "./components/RecordActivity";
+import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
 
 function App() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {LOCAL_DATABASE_URL} from '../config.json';
+import {DATABASE_URL} from '../config.json';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank, FaMap } from 'react-icons/fa';
@@ -22,7 +22,7 @@ const Activity = () => {
       const fetchActivity = async () => {
         try {
           const response = await axios.get(
-            `${LOCAL_DATABASE_URL}/activities/getById?id=${id}`,
+            `${DATABASE_URL}/activities/getById?id=${id}`,
           );
           if (response.status != 200) {
             throw new Error('Network response was not ok');
