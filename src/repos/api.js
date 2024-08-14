@@ -3,13 +3,13 @@ import { DATABASE_URL, STATIC_DATABASE_URL } from "../config";
 import axios from "axios";
 
 const useApi = (auth) => {
-  const { user_id } = auth;
+  const { userId } = auth;
   const api = useMemo(() => {
     return {
       getLocations: async () => {
         try {
           const response = await axios.get(
-            `${DATABASE_URL}/locations?userId=${user_id}`,
+            `${DATABASE_URL}/locations?userId=${userId}`,
           );
           return { data: response.data };
         } catch (error) {
@@ -19,7 +19,7 @@ const useApi = (auth) => {
       queryLocation: async (query) => {
         try {
           const response = await axios.get(
-            `${DATABASE_URL}/locations/search?query=${query}&userId=${user_id}`,
+            `${DATABASE_URL}/locations/search?query=${query}&userId=${userId}`,
           );
           return { data: response.data };
         } catch (error) {
@@ -29,7 +29,7 @@ const useApi = (auth) => {
       saveLocation: async (name, lat, lng) => {
         try {
           const response = await axios.post(
-            `${DATABASE_URL}/locations?userId=${user_id}`,
+            `${DATABASE_URL}/locations?userId=${userId}`,
             { name, lat, lng },
           );
           return { data: response.data };
@@ -39,7 +39,7 @@ const useApi = (auth) => {
       },
       saveActivity: async (activity) => {
         try {
-          activity = { ...activity, user_id };
+          activity = { ...activity, userId };
           await axios.post(`${STATIC_DATABASE_URL}/activities`, activity);
           return { data: "ok" };
         } catch (error) {
@@ -49,7 +49,7 @@ const useApi = (auth) => {
       getRoute: async (start, end) => {
         try {
           const response = await axios.get(
-            `${DATABASE_URL}/routes/start/${start}/end/${end}?userId=${user_id}`,
+            `${DATABASE_URL}/routes/start/${start}/end/${end}?userId=${userId}`,
           );
           const route = response.data;
           if (!route) {
@@ -69,7 +69,7 @@ const useApi = (auth) => {
         }
       },
     };
-  }, [user_id]);
+  }, [userId]);
   return api;
 };
 
