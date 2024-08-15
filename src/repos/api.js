@@ -14,7 +14,7 @@ const useApi = (auth) => {
           );
           return { data: response.data };
         } catch (error) {
-          return { error: `Error fetching data: ${error}` };
+          return { error: `Error: ${error}` };
         }
       },
       queryAuthenticate: async (query) => {
@@ -24,7 +24,7 @@ const useApi = (auth) => {
           );
           return { data: response.data };
         } catch (error) {
-          return { error: `Error fetching data: ${error}` };
+          return { error: `Error: ${error}` };
         }
       },
       getLocations: async () => {
