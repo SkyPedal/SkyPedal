@@ -39,7 +39,10 @@ const RewardsPage = () => {
 
   const getRewardsAvailable = async () => {
     try {
-      const res = await axios.get(`${DATABASE_URL}/rewards/getActive`);
+      const res = await axios.get(`${DATABASE_URL}/rewards/getActive`, { headers: {
+        'Authorization': `Bearer ${token}`
+        
+    } });
       //   console.log(res.data);
       return res.data.length
         ? { rewards: res.data }

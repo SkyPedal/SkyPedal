@@ -11,7 +11,7 @@ const Reward = () => {
   const [reward, setReward] = useState({});
   const [error, setError] = useState(null);
 
-  const { id, rewardStatus } = useParams();
+  const { rewardId, rewardStatus } = useParams();
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -21,11 +21,14 @@ const Reward = () => {
     };
 
     getData();
-  }, [id]);
+  }, [rewardId]);
 
   const getReward = async () => {
     try {
-      const res = await axios.get(`${DATABASE_URL}/rewards/${id}`);
+      const res = await axios.get(`${DATABASE_URL}/rewards/${rewardId}`, { headers: {
+        'Authorization': `Bearer ${token}`
+        
+    } });
       console.log(res);
       return res.data.usersRewards.length
         ? { rewards: res.data }
@@ -36,7 +39,7 @@ const Reward = () => {
     }
   };
 
-  const addUserReward = async (rewardId, userId) => {
+  const redeemUserReward = async (rewardId, userId) => {
     try {
       const response = await axios.post(
         `${DATABASE_URL}/users_rewards`,
@@ -46,6 +49,17 @@ const Reward = () => {
     } catch (error) {
       return { error: `Error fetching data: ${error}` };
     }
+  }
+
+  const activateUserReward = async (userRewardId) => {
+    try {
+        const response = await axios.patch(
+          `${DATABASE_URL}/users_rewards/${userRewardId}`,
+        );
+        return { data: response.data };
+      } catch (error) {
+        return { error: `Error fetching data: ${error}` };
+      }
   }
 
   const handleSubmit = (e) => {
@@ -58,9 +72,9 @@ const Reward = () => {
     setError("");
 
     if (rewardStatus == "activate") {
-        const success = await addUserReward(reward?.rewards?.id, auth.user_id);
+        const success = await redeemUserReward(reward?.rewards?.id, auth.userId);
     } else if (rewardStatus == "redeem") {
-        "do something";
+        const success = await activateUserReward(reward?.rewards?.usersRewards.id);
     }
     console.log("Submit: ", success, error);
     navigate("/rewards");
@@ -117,6 +131,8 @@ const Reward = () => {
         </table>
 
         {addButton()}
+
+        <p>{reward?.rewards?.usersRewards}</p>
     </form>
   );
 };

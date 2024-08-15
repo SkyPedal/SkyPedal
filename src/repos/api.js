@@ -94,7 +94,10 @@ const useApi = (auth) => {
       },
       getRewardsActive: async () => {
         try {
-          const res = await axios.get(`${DATABASE_URL}/users_rewards/user/${auth.user_id}`);
+          const res = await axios.get(`${DATABASE_URL}/users_rewards/user/${auth.user_id}`, { headers: {
+            'Authorization': `Bearer ${token}`
+            
+        } });
           //   console.log(res);
           return res.data.length
             ? { rewards: res.data }
