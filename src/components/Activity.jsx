@@ -4,13 +4,16 @@ import {DATABASE_URL} from '../config.json';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank, FaMap } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Activity = () => {
     const [activity, setActivity] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [names, setNames] = useState([]);
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const activityIcons = {
         cycling: <FaBicycle className="text-blue-500 text-4xl" />,
@@ -28,15 +31,49 @@ const Activity = () => {
             throw new Error('Network response was not ok');
           }
           setActivity(response.data); 
+        
+          const listOfFriends = [];
+          for(const friendId of response.data.joined_friends){
+            try {
+                const friend = await axios.get(
+                  `${DATABASE_URL}/users/${friendId}`,
+                );
+                if (friend.status != 200) {
+                  throw new Error('Network response was not ok');
+                }
+
+                listOfFriends.push(friend.data.name);
+                } catch (error) {
+                    setError(error);
+                    setLoading(false);
+                }
+          }
+          setNames(listOfFriends);
           setLoading(false);
         } catch (error) {
           setError(error);
           setLoading(false);
         }
       };
-  
+
       fetchActivity();
     }, []);
+
+    async function deletePressed() {
+        try {
+            const response = await axios.delete(
+                `${DATABASE_URL}/activities/delete?id=${id}`,
+            );
+            if (response.status != 200) {
+                throw new Error('Network response was not ok');
+            }
+            setLoading(false);
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }
+       navigate('/');
+    }
 
     if (loading) {
         return <div className="max-w-4xl mx-auto p-4">Loading...</div>;
@@ -86,12 +123,14 @@ const Activity = () => {
             <div className="mt-6">
                 <h2 className="text-xl font-semibold mb-4 text-gray-700">Joined Friends</h2>
                 <div className="bg-gray-100 p-4 rounded-lg">
-                    <p className="text-gray-600">List Placeholder</p>
+                <div className="h-[90%] space-y-6 overflow-y-auto">
+                {names.map((name) => (<p>{name}</p>))}
+                </div>
                 </div>
             </div>
 
             <div className='text-right p-[5%]'>
-                <button type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Delete Activity</button>
+                <button type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onClick={deletePressed}>Delete Activity</button>
             </div>
         </div>
     );
