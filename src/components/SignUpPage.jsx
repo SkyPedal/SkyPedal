@@ -18,7 +18,8 @@ const SignUpPage = () => {
   const [error, setError] = useState("");
 
   const handleSignUp = async () => {
-    const query = {firstName: inputFirstName, lastName: inputLastName, officeLocation: inputOffice, email: inputEmail, password: inputPassword}
+    const query = {firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: inputPassword, rewardPoints: 0, officeLocation: inputOffice};
+
     const signup = await api.queryRegister(query)
     if(signup.error) {
       setError(signup.error)

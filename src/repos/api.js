@@ -3,8 +3,8 @@ import { DATABASE_URL, STATIC_DATABASE_URL } from "../config";
 import axios from "axios";
 
 const useApi = (auth) => {
-  const { token } = auth;
-  const { userId } = auth;
+  const { userId, token } = auth;
+
   const api = useMemo(() => {
     return {
       queryRegister: async (query) => {
@@ -102,7 +102,7 @@ const useApi = (auth) => {
         try {
           const response = await axios.get(`${DATABASE_URL}/users/all?`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              'Authorization': `Bearer ${token}`
             },
           });
           return { data: response.data };
@@ -110,6 +110,40 @@ const useApi = (auth) => {
           return { error: `Error fetching data: ${error}` };
         }
       },
+      queryUserById: async () => {
+        try {
+          const response = await axios.get(`${DATABASE_URL}/users/whoami`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching user data: ${error}` };
+        }
+      },
+      deleteAccount: async () => {
+        try {
+          let id = userId;
+          if (!id) {
+            const { data, error } = await api.queryUserById();
+            if (error) {
+              return { error: `Error fetching user ID: ${error}` };
+            }
+            id = data.id;
+          }
+
+          const response = await axios.delete(`${DATABASE_URL}/users/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error deleting account: ${error}` };
+        }
+      },
+      
     };
   }, [token, userId]);
   return api;
