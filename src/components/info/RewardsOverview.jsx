@@ -41,7 +41,7 @@ const RewardsOverview = () => {
           rewardName,
         } = reward;
         // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-        return <Link className={categoryDataCSS} to={`/rewards/${id}`}>{rewardName}</Link>;
+        return <Link className={categoryDataCSS} to={`/rewards/${id}/activate`}>{rewardName}</Link>;
       })}
     </div>
   );

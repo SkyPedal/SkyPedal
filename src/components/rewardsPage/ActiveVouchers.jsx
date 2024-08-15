@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import RewardActive from "./RewardActive";
 
 
-const ActiveVouchers = ({ data, statusSetter }) => {
+const ActiveVouchers = ({ data }) => {
 
     const [dataStatus, setDataStatus] = useState({ name: `loading`, message: `Data is loading...` });
 
@@ -30,7 +30,7 @@ const ActiveVouchers = ({ data, statusSetter }) => {
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
                 const reward = new ActiveRewardModel( rewardName, rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id );
                 console.log(reward);
-                return <RewardActive reward={reward} key={reward.id} statusSetter={statusSetter}/>;
+                return <RewardActive reward={reward} key={reward.id} />;
             });
         }
 

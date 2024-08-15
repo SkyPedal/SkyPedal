@@ -7,14 +7,13 @@ import { useAuth } from "../../context/AuthContext";
 
 
 // add value which tracks whether reward needs to be activated or moved from available to activatable
-const Reward = ( props ) => {
+const Reward = () => {
   const [reward, setReward] = useState({});
   const [error, setError] = useState(null);
 
-  const { id } = useParams();
+  const { id, rewardStatus } = useParams();
   const auth = useAuth();
   const navigate = useNavigate();
-  const status = props.status;
 
   useEffect(() => {
     const getData = async () => {
@@ -58,9 +57,9 @@ const Reward = ( props ) => {
   const handleSave = async () => {
     setError("");
 
-    if (status == "activate") {
+    if (rewardStatus == "activate") {
         const success = await addUserReward(reward?.rewards?.id, auth.user_id);
-    } else if (status == "redeem") {
+    } else if (rewardStatus == "redeem") {
         "do something";
     }
     console.log("Submit: ", success, error);
@@ -69,7 +68,7 @@ const Reward = ( props ) => {
 
   const addButton = () => {
 
-    if (status == "activate") {
+    if (rewardStatus == "activate") {
         return (
             <button
                 name="save"
@@ -79,7 +78,7 @@ const Reward = ( props ) => {
                 Activate Reward
             </button>
         );
-    } else if (status == "redeem") {
+    } else if (rewardStatus == "redeem") {
         return (
             <button
                 name="save"

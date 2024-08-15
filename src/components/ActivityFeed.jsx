@@ -4,7 +4,7 @@ import { STATIC_DATABASE_URL } from "../config.json";
 import axios from "axios";
 import ActivityOverview from "./info/ActivityOverview";
 
-const ActivityFeed = () => {
+const ActivityFeed = ( {statusSetter} ) => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +44,7 @@ const ActivityFeed = () => {
       </div>
       <div className="h-[90%] space-y-6 overflow-y-auto">
         {activities.map((activity) => (
-          <ActivityOverview activity={activity} key={activity.id} />
+          <ActivityOverview activity={activity} key={activity.id} statusSetter={statusSetter} />
         ))}
       </div>
     </div>

@@ -7,7 +7,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import useApi from "../repos/api";
 
-const RewardsPage = ( {statusSetter} ) => {
+const RewardsPage = () => {
   const [rewardsAvailable, setRewardsAvailable] = useState({});
   const [rewardsActive, setRewardsActive] = useState({});
   const [getError, setGetError] = useState(``);
@@ -56,9 +56,9 @@ const RewardsPage = ( {statusSetter} ) => {
       {/* Rewards header */}
       <RewardsHeader />
       {/* Active Vouchers Table */}
-      <ActiveVouchers data={rewardsActive} statusSetter={statusSetter}/>
+      <ActiveVouchers data={rewardsActive} />
       {/* Available Vouchers Table */}
-      <AvailableVouchers data={rewardsAvailable} statusSetter={statusSetter}/>
+      <AvailableVouchers data={rewardsAvailable} />
     </>
   );
 };

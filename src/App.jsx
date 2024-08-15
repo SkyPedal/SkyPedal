@@ -17,9 +17,6 @@ import { useState } from "react";
 
 function App() {
   const [rewardStatus, setRewardStatus] = useState("");
-  const statusSetter = (data) => {
-    setRewardStatus(data)
-  }
 
   return (
     <AuthContext.Provider value={{ user_id: 1, user_name: "TestUser123" }}>
@@ -34,8 +31,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
-              <Route path="/rewards" element={<RewardsPage statusSetter={statusSetter}/>} />
-              <Route path="/rewards/:id" element={<Reward status={rewardStatus}/>}/>
+              <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/rewards/:id/:rewardStatus" element={<Reward />}/>
             </Routes>
           </div>
           <InfoSidebar />
