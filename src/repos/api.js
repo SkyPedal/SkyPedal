@@ -3,8 +3,10 @@ import { DATABASE_URL, STATIC_DATABASE_URL } from "../config";
 import axios from "axios";
 
 const useApi = (auth) => {
-  const { token } = auth;
-  const { userId } = auth;
+  const { userId, token } = auth;
+
+
+
   const api = useMemo(() => {
     return {
       queryRegister: async (query) => {
@@ -83,17 +85,31 @@ const useApi = (auth) => {
       },
       getUsers: async () => {
         try {
-          const response = await axios.get(`${DATABASE_URL}/users/getAll?`, { headers: {
-            'Authorization': `Bearer ${token}`
-            
-        } });
+          const response = await axios.get(`${DATABASE_URL}/users/getAll`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
           return { data: response.data };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
         }
       },
+      queryUserById: async () => {
+        try {
+          const response = await axios.get(`${DATABASE_URL}/users/whoami`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching user data: ${error}` };
+        }
+      },
     };
-  }, [userId]);
+  }, [userId, token]);
+
   return api;
 };
 

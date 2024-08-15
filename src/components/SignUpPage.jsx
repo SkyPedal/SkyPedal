@@ -17,7 +17,7 @@ const SignUpPage = () => {
   const [inputOffice, setInputOffice] = useState('');
 
   const handleSignUp = async () => {
-    const query = {name: inputFirstName, email: inputEmail, password: inputPassword}
+    const query = {firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: inputPassword, rewardPoints: 0, officeLocation: inputOffice};
     const signup = await api.queryRegister(query)
     navigate('/signin');
   };
