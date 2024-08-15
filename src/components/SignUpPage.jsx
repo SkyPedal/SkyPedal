@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useApi from "../repos/api";
 import { useAuth } from "../context/AuthContext";
@@ -19,6 +19,7 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     const query = {firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: inputPassword, rewardPoints: 0, officeLocation: inputOffice};
+
     const signup = await api.queryRegister(query)
     if(signup.error) {
       setError(signup.error)
@@ -32,6 +33,8 @@ const SignUpPage = () => {
       }
       else {
         auth.setToken(signin.data.accessToken)
+        const me = await api.getCurrentUser(signin.data.accessToken); 
+        auth.setUserId(me.data.id); 
         navigate('/profile');
       }
     }
