@@ -27,8 +27,13 @@ const SignUpPage = () => {
     {
       const query2 = {login: inputEmail, password: inputPassword}
       const signin = await api.queryAuthenticate(query2)
-      auth.setToken(signin.data.accessToken)
-      navigate('/profile');
+      if(signin.error){
+        setError(signin.error)
+      }
+      else {
+        auth.setToken(signin.data.accessToken)
+        navigate('/profile');
+      }
     }
   };
 
