@@ -19,6 +19,10 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     const query = {firstName: inputFirstName, lastName: inputLastName, email: inputEmail, password: inputPassword, rewardPoints: 0, officeLocation: inputOffice};
+    if(inputConfirmPassword !== inputPassword) {
+      setError("passwords to not match")
+      return
+    }
     const signup = await api.queryRegister(query)
     if(signup.error) {
       setError(signup.error)
