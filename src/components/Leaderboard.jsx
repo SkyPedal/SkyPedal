@@ -21,8 +21,8 @@ const Leaderboard = () => {
       }
     });
   }, [api]);
-  
-  var curr
+
+  var curr;
 
   const populateTable = () => {
     var currPosition = 1;
@@ -34,20 +34,20 @@ const Leaderboard = () => {
       return sampleLeaders.map((currentLeader) => {
         const leader = new LeaderModel(
           currPosition,
-          currentLeader.firstname,
-          currentLeader.lastname,
+          currentLeader.firstName,
+          currentLeader.lastName,
           currentLeader.score,
           currentLeader.id,
         );
-        if (currentLeader.id === auth.user_id) {
-            const userScore = new LeaderModel(
-                currPosition,
-                "you",
-                "",
-                currentLeader.score,
-                currentLeader.id,
-            );
-            curr = <Leader leader={userScore} />
+        if (currentLeader.id === auth.userId) {
+          const userScore = new LeaderModel(
+            currPosition,
+            "you",
+            "",
+            currentLeader.score,
+            currentLeader.id,
+          );
+          curr = <Leader leader={userScore} />;
         }
         currPosition++;
         return <Leader leader={leader} key={leader.id} />;
@@ -62,38 +62,36 @@ const Leaderboard = () => {
 
   const rankings = () => {
     var currPosition = 1;
-      console.log(leaders);
-      const sampleLeaders = leaders.sort(function (a, b) {
-        return b.score - a.score;
-      });
-      return sampleLeaders.map((currentLeader) => {
-        const leader = new LeaderModel(
-          currPosition,
-          currentLeader.firstname,
-          currentLeader.lastname,
-          currentLeader.score,
-          currentLeader.id,
-        );
-        currPosition++;
-        return leader;
-      });
+    console.log(leaders);
+    const sampleLeaders = leaders.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    return sampleLeaders.map((currentLeader) => {
+      const leader = new LeaderModel(
+        currPosition,
+        currentLeader.firstname,
+        currentLeader.lastname,
+        currentLeader.score,
+        currentLeader.id,
+      );
+      currPosition++;
+      return leader;
+    });
   };
-
-
 
   return (
     <>
-    <div className="leaderboardScroll flex flex-col justify-start">
-      <h3 className="text-3xl">Leaderboard</h3>
-      <table className="leaderTable">
-        <tbody>{populateTable()}</tbody>
-      </table>
-    </div>
-    <div className="userLeaderboard flex flex-col justify-start">
-    <table className="leaderTableUser">
-      <tr>{curr}</tr>
-    </table>
-    </div>
+      <div className="leaderboardScroll flex flex-col justify-start">
+        <h3 className="text-3xl">Leaderboard</h3>
+        <table className="leaderTable">
+          <tbody>{populateTable()}</tbody>
+        </table>
+      </div>
+      <div className="userLeaderboard flex flex-col justify-start">
+        <table className="leaderTableUser">
+          <tr>{curr}</tr>
+        </table>
+      </div>
     </>
   );
 };

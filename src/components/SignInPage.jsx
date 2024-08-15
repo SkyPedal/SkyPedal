@@ -1,12 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./signInPage/Button";
+import { useAuth } from "../context/AuthContext";
+import useApi from "../repos/api";
+import { useState } from "react";
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
+  const api = useApi(auth);
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [error, setError] = useState("");
 
-  const handleSignIn = () => {
-    //add sign in logic
-    navigate('/profile');
+  const handleSignIn = async () => {
+    const query = {login: inputEmail, password: inputPassword}
+    const signin = await api.queryAuthenticate(query)
+    if(signin.error){
+      setError(signin.error)
+    }
+    else{
+      auth.setToken(signin.data.accessToken)
+      navigate('/profile');
+    }
   };
 
   return (
@@ -20,6 +35,8 @@ const SignInPage = () => {
             type="email"
             placeholder="Enter your email"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputEmail}
+            onChange={(e) => setInputEmail(e.target.value)}
           />
         </div>
 
@@ -29,6 +46,8 @@ const SignInPage = () => {
             type="password"
             placeholder="Enter your password"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputPassword}
+            onChange={(e) => setInputPassword(e.target.value)}
           />
         </div>
 
@@ -48,6 +67,7 @@ const SignInPage = () => {
             Sign In
           </Button>
         </div>
+        <div>{error}</div>
       </div>
     </div>
   );

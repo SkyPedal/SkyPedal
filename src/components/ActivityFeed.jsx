@@ -52,12 +52,13 @@ const ActivityFeed = () => {
   }
 
   if (error) {
+    console.log(error);
     return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }
 
   return (
     <div className="mx-auto h-screen max-w-4xl bg-gray-100 p-6">
-      <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
+      <div className="flex h-12 items-center md:p-4">
       <img src={logo} alt="Home" className="w-8" />
       <p className="pl-4 hidden md:block" style={{color: "var(--sky-indigo)"}}>Pedal Pushers</p>
     </div>
