@@ -27,7 +27,11 @@ const SignUpPage = () => {
     };
     const signup = await api.queryRegister(query);
     if (signup.error) {
-      setError(signup.error);
+      if (signup.error.includes("403"))
+        setError(
+          <span className="text-red-500">Please enter required fields</span>,
+        );
+      else setError(signup.error);
     } else {
       const query2 = { login: inputEmail, password: inputPassword };
       const signin = await api.queryAuthenticate(query2);
