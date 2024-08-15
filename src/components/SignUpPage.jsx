@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useApi from "../repos/api";
 import { useAuth } from "../context/AuthContext";
@@ -25,6 +25,12 @@ const SignUpPage = () => {
       rewardPoints: 0,
       officeLocation: inputOffice,
     };
+    
+    if(inputConfirmPassword !== inputPassword) {
+      setError("passwords to not match")
+      return
+    }
+    
     const signup = await api.queryRegister(query);
     if (signup.error) {
       if (signup.error.includes("403"))
@@ -39,6 +45,8 @@ const SignUpPage = () => {
         setError(signin.error);
       } else {
         auth.setToken(signin.data.accessToken);
+        const me = await api.getCurrentUser(signin.data.accessToken); 
+        auth.setUserId(me.data.id); 
         navigate("/");
       }
     }
