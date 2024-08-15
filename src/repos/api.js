@@ -100,7 +100,7 @@ const useApi = (auth) => {
     },
       getUsers: async () => {
         try {
-          const response = await axios.get(`${DATABASE_URL}/users/getAll?`, {
+          const response = await axios.get(`${DATABASE_URL}/users/all?`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
