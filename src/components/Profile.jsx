@@ -23,9 +23,11 @@ const Profile = () => {
     fetchUserData();
   }, [api, auth.userId]);
 
-  const handleDeleteAccount = () => {
-    // Account deletion logic
-    navigate('/signin');
+  const handleDeleteAccount = async () => {
+
+    const { data, error } = await api.deleteAccount(auth.userId);
+      auth.logout(); 
+      navigate('/signin');
   };
 
   return (

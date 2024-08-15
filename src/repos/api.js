@@ -5,8 +5,6 @@ import axios from "axios";
 const useApi = (auth) => {
   const { userId, token } = auth;
 
-
-
   const api = useMemo(() => {
     return {
       queryRegister: async (query) => {
@@ -107,6 +105,28 @@ const useApi = (auth) => {
           return { error: `Error fetching user data: ${error}` };
         }
       },
+      deleteAccount: async () => {
+        try {
+          let id = userId;
+          if (!id) {
+            const { data, error } = await api.queryUserById();
+            if (error) {
+              return { error: `Error fetching user ID: ${error}` };
+            }
+            id = data.id;
+          }
+
+          const response = await axios.delete(`${DATABASE_URL}/users/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error deleting account: ${error}` };
+        }
+      },
+      
     };
   }, [userId, token]);
 
