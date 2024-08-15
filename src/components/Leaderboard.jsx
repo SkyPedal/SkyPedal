@@ -29,14 +29,14 @@ const Leaderboard = () => {
     if (leaders.length > 0) {
       console.log(leaders);
       const sampleLeaders = leaders.sort(function (a, b) {
-        return b.score - a.score;
+        return b.rewardPoints - a.rewardPoints;
       });
       return sampleLeaders.map((currentLeader) => {
         const leader = new LeaderModel(
           currPosition,
           currentLeader.firstName,
           currentLeader.lastName,
-          currentLeader.score,
+          currentLeader.rewardPoints,
           currentLeader.id,
         );
         if (currentLeader.id === auth.userId) {
@@ -44,7 +44,7 @@ const Leaderboard = () => {
             currPosition,
             "you",
             "",
-            currentLeader.score,
+            currentLeader.rewardPoints,
             currentLeader.id,
           );
           curr = <Leader leader={userScore} />;
@@ -58,25 +58,6 @@ const Leaderboard = () => {
         <td colSpan="3">{error}</td>
       </tr>
     );
-  };
-
-  const rankings = () => {
-    var currPosition = 1;
-    console.log(leaders);
-    const sampleLeaders = leaders.sort(function (a, b) {
-      return b.score - a.score;
-    });
-    return sampleLeaders.map((currentLeader) => {
-      const leader = new LeaderModel(
-        currPosition,
-        currentLeader.firstname,
-        currentLeader.lastname,
-        currentLeader.score,
-        currentLeader.id,
-      );
-      currPosition++;
-      return leader;
-    });
   };
 
   return (

@@ -20,6 +20,8 @@ const SignInPage = () => {
     }
     else{
       auth.setToken(signin.data.accessToken)
+      const me = await api.getCurrentUser(signin.data.accessToken); 
+      auth.setUserId(me.data.id)
       navigate('/profile');
     }
   };

@@ -81,11 +81,20 @@ const useApi = (auth) => {
           return { error: `Error fetching data: ${error}` };
         }
       },
+      getCurrentUser: async (query) => {
+        try {
+          const response = await axios.get(`${DATABASE_URL}/users/whoami`, { headers: {
+            'Authorization': `Bearer ${query}`
+        } });
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+    },
       getUsers: async () => {
         try {
-          const response = await axios.get(`${DATABASE_URL}/users/getAll?`, { headers: {
+          const response = await axios.get(`${DATABASE_URL}/users/all?`, { headers: {
             'Authorization': `Bearer ${token}`
-            
         } });
           return { data: response.data };
         } catch (error) {
