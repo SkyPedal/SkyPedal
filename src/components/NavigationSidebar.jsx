@@ -19,7 +19,7 @@ const NavigationSidebar = () => {
     >
       <ul className="p-5">
         <li className="pb-5 md:pt-5">
-          <Link to="/">
+          <Link to={auth.token ? "/" : "/signin"}>
             <div className="flex h-12 items-center rounded-lg transition hover:bg-red-100 md:p-4">
               <img src={HomeIcon} alt="Home" className="w-8" />
               <p className="hidden pl-4 md:block">Home</p>
@@ -27,7 +27,7 @@ const NavigationSidebar = () => {
           </Link>
         </li>
         <li className="pb-5 md:pt-5">
-          <Link to="/record">
+          <Link to={auth.token ? "/record" : "/signin"}>
             <div className="flex h-12 items-center rounded-lg transition hover:bg-red-100 md:p-4">
               <img src={RecordIcon} alt="Record" className="w-8" />
               <p className="hidden pl-4 md:block"> Record </p>
@@ -35,7 +35,7 @@ const NavigationSidebar = () => {
           </Link>
         </li>
         <li className="pb-5 md:pt-5">
-          <Link to="/compete">
+          <Link to={auth.token ? "/compete" : "/signin"}>
             <div className="flex h-12 items-center rounded-lg transition hover:bg-red-100 md:p-4">
               <img src={CompeteIcon} alt="Compete" className="w-8" />
               <p className="hidden pl-4 md:block"> Compete </p>
@@ -43,7 +43,7 @@ const NavigationSidebar = () => {
           </Link>
         </li>
         <li className="pb-5 md:pt-5">
-          <Link to="/rewards">
+          <Link to={auth.token ? "/rewards" : "/signin"}>
             <div className="flex h-12 items-center rounded-lg transition hover:bg-red-100 md:p-4">
               <img src={RewardsIcon} alt="Rewards" className="w-8" />
               <p className="hidden pl-4 md:block"> Rewards </p>
