@@ -15,11 +15,26 @@ const SignUpPage = () => {
   const [inputPassword, setInputPassword] = useState('');
   const [inputConfirmPassword, setInputConfirmPassword] = useState('');
   const [inputOffice, setInputOffice] = useState('');
+  const [error, setError] = useState("");
 
   const handleSignUp = async () => {
     const query = {name: inputFirstName, email: inputEmail, password: inputPassword}
     const signup = await api.queryRegister(query)
-    navigate('/signin');
+    if(signup.error) {
+      setError(signup.error)
+    }
+    else
+    {
+      const query2 = {login: inputEmail, password: inputPassword}
+      const signin = await api.queryAuthenticate(query2)
+      if(signin.error){
+        setError(signin.error)
+      }
+      else {
+        auth.setToken(signin.data.accessToken)
+        navigate('/profile');
+      }
+    }
   };
 
   return (
@@ -99,6 +114,7 @@ const SignUpPage = () => {
         >
           Sign Up
         </button>
+        <div>{error}</div>
       </div>
     </div>
   );
