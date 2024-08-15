@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import AuthContext from "./context/AuthContext";
+import AuthProvider from "./context/AuthProvider";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavigationSidebar from "./components/NavigationSidebar";
 import ActivityFeed from "./components/ActivityFeed";
@@ -14,12 +14,13 @@ import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
 import Reward from "./components/rewardsPage/Reward";
 import { useState } from "react";
+import Activity from "./components/Activity";
 
 function App() {
   const [rewardStatus, setRewardStatus] = useState("");
 
   return (
-    <AuthContext.Provider value={{ user_id: 1, user_name: "TestUser123" }}>
+    <AuthProvider>
       <Router>
         <div className="App flex h-screen w-screen">
           <NavigationSidebar />
@@ -27,20 +28,20 @@ function App() {
             <Routes>
               <Route path="/" element={<ActivityFeed />} />
               <Route path="/signin" element={<SignInPage />} />
-              <Route path="/signup" element={<SignUpPage />}/>
+              <Route path="/signup" element={<SignUpPage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
               <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/rewards/:id/:rewardStatus" element={<Reward />}/>
+              <Route path="/activity/:id" element={<Activity />}></Route>
             </Routes>
           </div>
           <InfoSidebar />
         </div>
       </Router>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
-
 
 export default App;

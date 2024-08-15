@@ -1,6 +1,6 @@
 import ActivityForm from "../ActivityForm.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
-import AuthContext from "../../../context/AuthContext";
+import AuthProvider from "../../../context/AuthProvider";
 import sampleData from "../../../../database.sample.json";
 import { expect } from "chai";
 
@@ -29,11 +29,9 @@ describe("<ActivityForm />", () => {
     const ActivityFormWrapper = () => {
       return (
         <Router>
-          <AuthContext.Provider
-            value={{ user_id: 1, user_name: "TestUser123" }}
-          >
+          <AuthProvider value={{ user_id: 1, user_name: "TestUser123" }}>
             <ActivityForm handleSave={() => null} api={api} />
-          </AuthContext.Provider>
+          </AuthProvider>
         </Router>
       );
     };
@@ -59,15 +57,13 @@ describe("<ActivityForm />", () => {
       const locations = sampleData.locations;
       return (
         <Router>
-          <AuthContext.Provider
-            value={{ user_id: 1, user_name: "TestUser123" }}
-          >
+          <AuthProvider value={{ user_id: 1, user_name: "TestUser123" }}>
             <ActivityForm
               api={api}
               handleSave={handleSave}
               setError={() => null}
             />
-          </AuthContext.Provider>
+          </AuthProvider>
         </Router>
       );
     };
@@ -99,15 +95,13 @@ describe("<ActivityForm />", () => {
     const ActivityFormWrapper = () => {
       return (
         <Router>
-          <AuthContext.Provider
-            value={{ user_id: 1, user_name: "TestUser123" }}
-          >
+          <AuthProvider value={{ user_id: 1, user_name: "TestUser123" }}>
             <ActivityForm
               handleSave={handleSave}
               setError={() => null}
               api={api}
             />
-          </AuthContext.Provider>
+          </AuthProvider>
         </Router>
       );
     };
@@ -141,16 +135,14 @@ describe("<ActivityForm />", () => {
       const locations = sampleData.locations;
       return (
         <Router>
-          <AuthContext.Provider
-            value={{ user_id: 1, user_name: "TestUser123" }}
-          >
+          <AuthProvider value={{ user_id: 1, user_name: "TestUser123" }}>
             <ActivityForm
               locations={locations}
               handleSave={handleSave}
               setError={() => null}
               api={api}
             />
-          </AuthContext.Provider>
+          </AuthProvider>
         </Router>
       );
     };
