@@ -10,28 +10,30 @@ const useApi = (auth) => {
       queryRegister: async (query) => {
         try {
           const response = await axios.post(
-            `${DATABASE_URL}/users/register`, query
+            `${DATABASE_URL}/users/register`,
+            query,
           );
           return { data: response.data };
         } catch (error) {
-          return { error: `Error fetching data: ${error}` };
+          return { error: `Error: ${error}` };
         }
       },
       queryAuthenticate: async (query) => {
         try {
           const response = await axios.post(
-            `${DATABASE_URL}/authenticate`, query
+            `${DATABASE_URL}/authenticate`,
+            query,
           );
           return { data: response.data };
         } catch (error) {
-          return { error: `Error fetching data: ${error}` };
+          return { error: `Error: ${error}` };
         }
       },
       getLocations: async () => {
         try {
-          const response = await axios.get(
-            `${DATABASE_URL}/locations?userId=${userId}`,
-          );
+          const response = await axios.get(`${DATABASE_URL}/locations`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           return { data: response.data };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
@@ -40,7 +42,8 @@ const useApi = (auth) => {
       queryLocation: async (query) => {
         try {
           const response = await axios.get(
-            `${DATABASE_URL}/locations/search?query=${query}&userId=${userId}`,
+            `${DATABASE_URL}/locations/search?query=${query}`,
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           return { data: response.data };
         } catch (error) {
@@ -50,8 +53,9 @@ const useApi = (auth) => {
       saveLocation: async (name, lat, lng) => {
         try {
           const response = await axios.post(
-            `${DATABASE_URL}/locations?userId=${userId}`,
+            `${DATABASE_URL}/locations`,
             { name, lat, lng },
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           return { data: response.data };
         } catch (error) {
@@ -61,7 +65,9 @@ const useApi = (auth) => {
       saveActivity: async (activity) => {
         try {
           activity = { ...activity, userId };
-          await axios.post(`${STATIC_DATABASE_URL}/activities`, activity);
+          await axios.post(`${STATIC_DATABASE_URL}/activities`, activity, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           return { data: "ok" };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
@@ -70,7 +76,8 @@ const useApi = (auth) => {
       getRoute: async (start, end) => {
         try {
           const response = await axios.get(
-            `${DATABASE_URL}/routes/start/${start}/end/${end}?userId=${userId}`,
+            `${DATABASE_URL}/routes/start/${start}/end/${end}`,
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           const route = response.data;
           if (!route) {
@@ -86,7 +93,7 @@ const useApi = (auth) => {
           const response = await axios.get(`${DATABASE_URL}/users/getAll`, {
             headers: {
               'Authorization': `Bearer ${token}`
-            }
+            },
           });
           return { data: response.data };
         } catch (error) {
@@ -128,8 +135,7 @@ const useApi = (auth) => {
       },
       
     };
-  }, [userId, token]);
-
+  }, [token, userId]);
   return api;
 };
 

@@ -10,12 +10,18 @@ const SignInPage = () => {
   const api = useApi(auth);
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [error, setError] = useState("");
 
   const handleSignIn = async () => {
     const query = {login: inputEmail, password: inputPassword}
     const signin = await api.queryAuthenticate(query)
-    auth.setToken(signin.data.accessToken)
-    navigate('/profile');
+    if(signin.error){
+      setError(signin.error)
+    }
+    else{
+      auth.setToken(signin.data.accessToken)
+      navigate('/profile');
+    }
   };
 
   return (
@@ -61,6 +67,7 @@ const SignInPage = () => {
             Sign In
           </Button>
         </div>
+        <div>{error}</div>
       </div>
     </div>
   );
