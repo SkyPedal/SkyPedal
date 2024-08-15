@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { DATABASE_URL } from "../config.json";
 import axios from "axios";
 import ActivityOverview from "./info/ActivityOverview";
+import logo from "../assets/icons/skypedal.png"
 
 const ActivityFeed = () => {
   const [activities, setActivities] = useState([]);
@@ -56,6 +57,10 @@ const ActivityFeed = () => {
 
   return (
     <div className="mx-auto h-screen max-w-4xl bg-gray-100 p-6">
+      <div className="flex h-12 items-center hover:bg-red-100 transition rounded-lg md:p-4">
+      <img src={logo} alt="Home" className="w-8" />
+      <p className="pl-4 hidden md:block" style={{color: "var(--sky-indigo)"}}>Pedal Pushers</p>
+    </div>
       <div className="h-[10%]">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Activity Feed</h1>
         <div className='h-[10%] text-right'>

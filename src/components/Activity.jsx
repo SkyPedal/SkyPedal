@@ -4,7 +4,7 @@ import {DATABASE_URL} from '../config.json';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaBicycle, FaRunning, FaWalking, FaClock, FaMapMarkerAlt, FaLeaf, FaPiggyBank, FaMap } from 'react-icons/fa';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Activity = () => {
     const [activity, setActivity] = useState([]);
@@ -13,6 +13,7 @@ const Activity = () => {
     const [names, setNames] = useState([]);
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const activityIcons = {
         cycling: <FaBicycle className="text-blue-500 text-4xl" />,
@@ -71,7 +72,7 @@ const Activity = () => {
             setError(error);
             setLoading(false);
         }
-        window.location.href = "http://localhost:5173";
+       navigate('/');
     }
 
     if (loading) {
