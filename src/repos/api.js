@@ -3,9 +3,30 @@ import { DATABASE_URL, STATIC_DATABASE_URL } from "../config";
 import axios from "axios";
 
 const useApi = (auth) => {
+  const { token } = auth;
   const { userId } = auth;
   const api = useMemo(() => {
     return {
+      queryRegister: async (query) => {
+        try {
+          const response = await axios.post(
+            `${DATABASE_URL}/users/register`, query
+          );
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+      },
+      queryAuthenticate: async (query) => {
+        try {
+          const response = await axios.post(
+            `${DATABASE_URL}/authenticate`, query
+          );
+          return { data: response.data };
+        } catch (error) {
+          return { error: `Error fetching data: ${error}` };
+        }
+      },
       getLocations: async () => {
         try {
           const response = await axios.get(
@@ -62,7 +83,10 @@ const useApi = (auth) => {
       },
       getUsers: async () => {
         try {
-          const response = await axios.get(`${STATIC_DATABASE_URL}/users`);
+          const response = await axios.get(`${DATABASE_URL}/users/getAll?`, { headers: {
+            'Authorization': `Bearer ${token}`
+            
+        } });
           return { data: response.data };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };

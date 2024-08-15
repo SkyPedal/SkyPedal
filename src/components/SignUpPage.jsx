@@ -1,12 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useApi from "../repos/api";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
+  const api = useApi(auth);
+  const [inputFirstName, setInputFirstName] = useState('');
+  const [inputLastName, setInputLastName] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputConfirmPassword, setInputConfirmPassword] = useState('');
+  const [inputOffice, setInputOffice] = useState('');
 
-  const handleSignUp = () => {
-    //handle sign up
-    navigate('/profile');
+  const handleSignUp = async () => {
+    const query = {name: inputFirstName, email: inputEmail, password: inputPassword}
+    const signup = await api.queryRegister(query)
+    navigate('/signin');
   };
 
   return (
@@ -20,6 +33,8 @@ const SignUpPage = () => {
             type="email"
             placeholder="Enter your email"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo "
+            value={inputEmail}
+            onChange={(e) => setInputEmail(e.target.value)}
           />
         </div>
 
@@ -27,8 +42,10 @@ const SignUpPage = () => {
           <label className="block text-lg mb-2 text-sky-indigo">First Name:</label>
           <input
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter your firstname"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputFirstName}
+            onChange={(e) => setInputFirstName(e.target.value)}
           />
         </div>
 
@@ -36,8 +53,10 @@ const SignUpPage = () => {
           <label className="block text-lg mb-2 text-sky-indigo">Surname:</label>
           <input
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter your surname"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputLastName}
+            onChange={(e) => setInputLastName(e.target.value)}
           />
         </div>
 
@@ -45,8 +64,10 @@ const SignUpPage = () => {
           <label className="block text-lg mb-2 text-sky-indigo">Office:</label>
           <input
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter your office"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputOffice}
+            onChange={(e) => setInputOffice(e.target.value)}
           />
         </div>
 
@@ -56,6 +77,8 @@ const SignUpPage = () => {
             type="password"
             placeholder="Enter your password"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputPassword}
+            onChange={(e) => setInputPassword(e.target.value)}
           />
         </div>
 
@@ -65,6 +88,8 @@ const SignUpPage = () => {
             type="password"
             placeholder="Confirm your password"
             className="w-full p-3 border border-gray-300 rounded text-sky-indigo"
+            value={inputConfirmPassword}
+            onChange={(e) => setInputConfirmPassword(e.target.value)}
           />
         </div>
 
