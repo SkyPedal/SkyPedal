@@ -6,38 +6,10 @@ import TabSelector from "./TabSelector";
 import DragDrop from "./DragDrop";
 import useFormData from "./FormData";
 
-const ActivityForm = ({ handleSave, locations, setError, api }) => {
+const ActivityForm = ({ handleSave, api, setError }) => {
   const [tab, setTab] = useState("startEnd");
   const [reset, setReset] = useState(false);
   const formData = useFormData();
-
-  useEffect(() => {
-    const { start, end } = formData.data;
-    console.log("Update Route Info");
-    console.log(start, end);
-    const startEndSet =
-      start !== "Add New" &&
-      start !== "none" &&
-      end !== "Add New" &&
-      end !== "none";
-    if (startEndSet) {
-      console.log("hm");
-      setError("");
-      api.getRoute(start, end).then((res) => {
-        if (res.error) {
-          setError(res.error);
-          return;
-        }
-        if (
-          res.data.distance !== formData.data.distance ||
-          res.data.duration !== formData.data.duration
-        ) {
-          formData.setField("distance", res.data.distance);
-          formData.setField("duration", res.data.duration);
-        }
-      });
-    }
-  }, [formData, api, setError]);
 
   useEffect(() => {
     if (reset) {
@@ -61,33 +33,6 @@ const ActivityForm = ({ handleSave, locations, setError, api }) => {
       duration: formData.data.duration,
       geoJson: formData.data.geoJson,
     });
-  };
-
-  useEffect(() => {
-    if (
-      formData.data.title === "Commute to Work" &&
-      formData.data.start !== "none" &&
-      formData.data.start !== "Add New" &&
-      formData.data.end !== "none" &&
-      formData.data.end !== "Add New"
-    ) {
-      console.log(
-        `Setting title with ${formData.data.start} and ${formData.data.end}`,
-      );
-      const start_title = locations.find(
-        (loc) => loc.id.toString() === formData.data.start,
-      ).name;
-      const end_title = locations.find(
-        (loc) => loc.id.toString() === formData.data.end,
-      ).name;
-      formData.setField("title", `${start_title} to ${end_title}`);
-    }
-  }, [formData, locations]);
-
-  const handleAddLocation = (location, start = true) => {
-    // TODO: Do callback to fetch locations
-    if (start) formData.setField("start", locations[locations.length - 1]);
-    else formData.setField("end", locations[locations.length - 1]);
   };
 
   const canTabChange =
@@ -143,18 +88,14 @@ const ActivityForm = ({ handleSave, locations, setError, api }) => {
         </div>
         {/* Tab Content */}
         <div className="mt-5 flex h-[65%] flex-col justify-between border-y-2 py-2">
-          <div className="pt-2">
+          <div className="flex-grow pt-2">
             <TabSelector
               currentTab={tab}
               changeTab={changeTab}
               lock={!canTabChange}
             />
             {tab === "startEnd" && (
-              <StartEnd
-                locations={locations}
-                formData={formData}
-                handleAddLocation={handleAddLocation}
-              />
+              <StartEnd formData={formData} api={api} setError={setError} />
             )}
             {tab === "distanceDuration" && (
               <DistanceDuration formData={formData} reset={reset} />

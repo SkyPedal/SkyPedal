@@ -1,58 +1,110 @@
+import { useEffect, useState } from "react";
+import useApi from "../repos/api";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import profilePicture from '../assets/icons/user.png'; // Corrected import path
+import profilePicture from "../assets/icons/user.png";
 
 const Profile = () => {
+  const [userData, setUserData] = useState(null);
+  const auth = useAuth();
+  const api = useApi(auth);
   const navigate = useNavigate();
 
-  const handleDeleteAccount = () => {
-    // Account deletion logic
-    navigate('/signin');
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data, error } = await api.queryUserById();
+      if (data) {
+        setUserData(data);
+      } else {
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
+  }, [api, auth.userId]);
+
+  const handleDeleteAccount = async () => {
+    await api.deleteAccount(auth.userId);
+    auth.logout();
+    navigate("/signin");
+  };
+  const handleLogout = async () => {
+    auth.logout();
+    navigate("/signin");
   };
 
   return (
-    <div className="flex items-center justify-center h-full w-full p-8">
-      <div className="bg-white border rounded-lg shadow-lg p-8 w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-6 sky-gradient-text">Profile Settings</h1>
+    <div className="flex h-full w-full items-center justify-center p-8">
+      <div className="w-full max-w-2xl rounded-lg border bg-white p-8 shadow-lg">
+        <h1 className="sky-gradient-text mb-6 text-3xl font-bold">
+          Profile Settings
+        </h1>
 
         <div className="mb-6">
-  
           <img
             src={profilePicture}
             alt="Profile"
-            className="w-full p-3 border border-gray-300 rounded"
+            className="mx-auto w-1/2 rounded border border-gray-300 p-3"
           />
         </div>
 
         <div className="mb-6">
-          <label className="block text-lg mb-2 text-sky-indigo">Email</label>
-          <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Sam@mail.com</p>
+          <label className="text-sky-indigo mb-2 block text-lg">Email</label>
+          <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
+            {userData?.email}
+          </p>
         </div>
 
-        <div className="flex mb-6">
-          <div className="w-1/2 mr-2">
-            <label className="block text-lg mb-2 text-sky-indigo">First Name</label>
-            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Sam</p>
+        <div className="mb-6 flex">
+          <div className="mr-2 w-1/2">
+            <label className="text-sky-indigo mb-2 block text-lg">
+              First Name
+            </label>
+            <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
+              {userData?.firstName}
+            </p>
           </div>
-          <div className="w-1/2 ml-2">
-            <label className="block text-lg mb-2 text-sky-indigo">Last Name</label>
-            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Elliott</p>
-          </div>
-        </div>
-
-        <div className="flex mb-6">
-          <div className="w-1/2 mr-2">
-            <label className="block text-lg mb-2 text-sky-indigo">Office</label>
-            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">Brentwood</p>
-          </div>
-          <div className="w-1/2 ml-2">
-            <label className="block text-lg mb-2 text-sky-indigo">Points Remaining</label>
-            <p className="w-full p-3 border border-gray-300 rounded bg-gray-100">42</p>
+          <div className="ml-2 w-1/2">
+            <label className="text-sky-indigo mb-2 block text-lg">
+              Last Name
+            </label>
+            <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
+              {userData?.lastName}
+            </p>
           </div>
         </div>
 
-        <button onClick={handleDeleteAccount} className="bg-red-600 text-white p-3 rounded">
-          Delete My Account
-        </button>
+        <div className="mb-6 flex">
+          <div className="mr-2 w-1/2">
+            <label className="text-sky-indigo mb-2 block text-lg">Office</label>
+            <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
+              {userData?.officeLocation}
+            </p>
+          </div>
+          <div className="ml-2 w-1/2">
+            <label className="text-sky-indigo mb-2 block text-lg">
+              Points Remaining
+            </label>
+            <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
+              {auth.userPoints}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleLogout}
+            className="mr-5 rounded bg-blue-600 p-3 text-white"
+          >
+            Logout
+          </button>
+          <button
+            onClick={handleDeleteAccount}
+            className="rounded bg-red-600 p-3 text-white"
+          >
+            Delete My Account
+          </button>
+        </div>
       </div>
     </div>
   );
