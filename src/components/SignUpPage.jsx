@@ -25,9 +25,21 @@ const SignUpPage = () => {
       rewardPoints: 0,
       officeLocation: inputOffice,
     };
+
+    let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+
+    if(!emailRegex.test(inputEmail)) {
+      setError("Not a valid email")
+      return
+    }
+
+    if(inputPassword.length < 8) {
+      setError("Password is too short")
+      return
+    }
     
     if(inputConfirmPassword !== inputPassword) {
-      setError("passwords to not match")
+      setError("Passwords do not match")
       return
     }
     
@@ -137,7 +149,7 @@ const SignUpPage = () => {
         >
           Sign Up
         </button>
-        <div>{error}</div>
+        <div className="err">{error}</div>
       </div>
     </div>
   );
