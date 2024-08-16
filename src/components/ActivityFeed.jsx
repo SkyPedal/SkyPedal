@@ -46,7 +46,7 @@ const ActivityFeed = () => {
     } else {
       setOnlyYou(true);
       //Will change this to which user is signed in, or even better the backend will know which user is logged in so no need to pass in userId
-      getData("getUserActivities?userId=1");
+      getData(`getUserActivities?userId=${auth.userId}`);
     }
   };
 
