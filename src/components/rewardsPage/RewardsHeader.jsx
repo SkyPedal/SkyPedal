@@ -8,13 +8,14 @@ const RewardsHeader = () => {
     const [getError, setGetError] = useState(``);
 
     const auth = useAuth();
-    const { userId, token } = auth;
+    const { userId, token, userPoints } = auth;
     const api = useApi(auth);
 
     useEffect(() => {
         const getData = async () => {
           const res = await api.queryUserById()
           setUser(res);
+          auth.setUserPoints(user?.data?.rewardPoints);
           console.log("user: ", user);
           if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
         };
