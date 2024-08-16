@@ -6,7 +6,7 @@ import ActivityOverview from "./info/ActivityOverview";
 import logo from "../assets/icons/skypedal.png";
 import { useAuth } from "../context/AuthContext";
 
-const ActivityFeed = ( {statusSetter} ) => {
+const ActivityFeed = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,7 +91,7 @@ const ActivityFeed = ( {statusSetter} ) => {
       </div>
       <div className="h-[85%] space-y-6 overflow-y-auto">
         {activities.map((activity) => (
-          <ActivityOverview activity={activity} key={activity.id} statusSetter={statusSetter} />
+          <ActivityOverview activity={activity} key={activity.id} />
         ))}
       </div>
     </div>

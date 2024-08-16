@@ -19,7 +19,7 @@ const RewardsPage = () => {
   // get active user rewards: (identical to available rewards code snippet below this one)
   useEffect(() => {
     const getData = async () => {
-      const res = await api.getRewardsActive()
+      const res = await api.getRewardsActive();
       setRewardsActive(res);
       if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
     };
