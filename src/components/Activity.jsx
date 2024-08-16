@@ -89,7 +89,7 @@ const Activity = () => {
   if (loading) {
     return <div className="mx-auto max-w-4xl p-4">Loading...</div>;
   }
-
+  
   if (error) {
     return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }

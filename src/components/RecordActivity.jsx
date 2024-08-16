@@ -23,6 +23,7 @@ const RecordActivity = () => {
     const activity = { title, date, time, distance, duration, geoJson };
     setError("");
     const success = await api.saveActivity(activity);
+    auth.setUserPoints(0);
     console.log("Submit: ", success, error);
     navigate("/");
   };
