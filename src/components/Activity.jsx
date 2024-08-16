@@ -92,7 +92,7 @@ const Activity = () => {
   if (loading) {
     return <div className="mx-auto max-w-4xl p-4">Loading...</div>;
   }
-  
+
   if (error) {
     return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }
@@ -128,7 +128,9 @@ const Activity = () => {
             <FaMapMarkerAlt className="mr-2 inline-block text-gray-500" />
             Distance:{" "}
             <span className="font-medium text-gray-800">
-              {activity.distance} km
+              {activity.distance > 1000
+                ? (activity.distance / 1000).toFixed(2) + " km"
+                : activity.distance + " metres"}
             </span>
           </p>
         </div>
@@ -141,14 +143,14 @@ const Activity = () => {
             <FaLeaf className="mr-2 inline-block text-green-500" />
             CO2 Saving:{" "}
             <span className="font-medium text-gray-800">
-              {activity.co2_saving} kg
+              {activity.co2_saving} g
             </span>
           </p>
           <p className="text-gray-600">
             <FaPiggyBank className="mr-2 inline-block text-yellow-500" />
             Cost Saving:{" "}
             <span className="font-medium text-gray-800">
-              £{activity.cost_saving}
+              £{(activity.cost_saving / 100.0).toFixed(2)}
             </span>
           </p>
           <p className="text-gray-600">
