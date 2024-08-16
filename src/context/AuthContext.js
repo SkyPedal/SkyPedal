@@ -6,6 +6,8 @@ const AuthContext = createContext({
   setUserId: () => {},
   setToken: () => {},
   logout: () => {},
+  userPoints: 0,
+  setUserPoints: () => {},
 });
 
 export default AuthContext;

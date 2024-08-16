@@ -99,6 +99,20 @@ const useApi = (auth) => {
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
         }
+    },
+      getRewardsActive: async () => {
+        try {
+          const res = await axios.get(`${DATABASE_URL}/users_rewards/user`, { headers: {
+            'Authorization': `Bearer ${token}`
+            
+        } });
+          //   console.log(res);
+          return res.data.length
+            ? { rewards: res.data }
+            : { error: `There are no rewards claimed` };
+        } catch (e) {
+          return { error: `Data not available from server: ${e.message}` };
+        }
       },
       getUsers: async () => {
         try {

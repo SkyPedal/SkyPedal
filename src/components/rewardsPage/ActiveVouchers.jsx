@@ -22,14 +22,14 @@ const ActiveVouchers = ({ data }) => {
     }, [data]);
 
     const populateTable = (data) => {
-        console.log("Populate table");
-        console.log(data);
+        // console.log("Populate table");
+        // console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
-                const { id, reward_id, user_id, date_redeemed, date_expiry, has_used } = currentReward;
+                const { id, dateRedeemed, dateExpiry, hasUsed, rewardId, userId, rewardName } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-                const reward = new ActiveRewardModel( reward_id, user_id, date_redeemed, date_expiry, has_used, id );
-                console.log(reward);
+                const reward = new ActiveRewardModel( rewardName, rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id );
+                // console.log(reward);
                 return <RewardActive reward={reward} key={reward.id} />;
             });
         }
@@ -46,7 +46,7 @@ const ActiveVouchers = ({ data }) => {
                 <thead>
                     <tr className="text-sm text-slate-500">
                         <th className="font-medium">Name</th>
-                        <th className="font-medium">Expires in</th>
+                        <th className="font-medium">Expires on</th>
                     </tr>
                 </thead>
                 <tbody>{populateTable(data)}</tbody>

@@ -1,38 +1,32 @@
 import ActiveVouchers from "./rewardsPage/ActiveVouchers";
 import AvailableVouchers from "./rewardsPage/AvailableVouchers";
-import Header from "./rewardsPage/Header";
-import { STATIC_DATABASE_URL } from "../config";
+import RewardsHeader from "./rewardsPage/RewardsHeader";
+import { STATIC_DATABASE_URL, DATABASE_URL } from "../config";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import useApi from "../repos/api";
 
 const RewardsPage = () => {
   const [rewardsAvailable, setRewardsAvailable] = useState({});
   const [rewardsActive, setRewardsActive] = useState({});
   const [getError, setGetError] = useState(``);
 
-  //TO DO: rename to active and available rewards!!
+  const auth = useAuth();
+  const { userId, token } = auth;
+  const api = useApi(auth);
 
   // get active user rewards: (identical to available rewards code snippet below this one)
   useEffect(() => {
     const getData = async () => {
-      setRewardsActive(await getRewardsActive());
+      const res = await api.getRewardsActive();
+      setRewardsActive(res);
+      if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
     };
 
     getData();
   }, []);
 
-  const getRewardsActive = async () => {
-    try {
-      const res = await axios.get(`${STATIC_DATABASE_URL}/users_rewards`);
-      //   console.log(res);
-      return res.data.length
-        ? { rewards: res.data }
-        : { error: `There are no rewards claimed` };
-    } catch (e) {
-      setGetError(`Data not available from server: ${e.message}`);
-      return { error: `Data not available from server: ${e.message}` };
-    }
-  };
 
   // get available rewards to the user:
   useEffect(() => {
@@ -45,7 +39,10 @@ const RewardsPage = () => {
 
   const getRewardsAvailable = async () => {
     try {
-      const res = await axios.get(`${STATIC_DATABASE_URL}/rewards`);
+      const res = await axios.get(`${DATABASE_URL}/rewards/getActive`, { headers: {
+        'Authorization': `Bearer ${token}`
+        
+    } });
       //   console.log(res.data);
       return res.data.length
         ? { rewards: res.data }
@@ -60,7 +57,7 @@ const RewardsPage = () => {
     <>
       {/* {getError && <Modal handleClose={() => setGetError(``)} message={getError} />} */}
       {/* Rewards header */}
-      <Header />
+      <RewardsHeader />
       {/* Active Vouchers Table */}
       <ActiveVouchers data={rewardsActive} />
       {/* Available Vouchers Table */}

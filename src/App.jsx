@@ -12,9 +12,13 @@ import Profile from "./components/Profile";
 import RecordActivity from "./components/RecordActivity";
 import Leaderboard from "./components/Leaderboard";
 import RewardsPage from "./components/RewardsPage";
+import Reward from "./components/rewardsPage/Reward";
+import { useState } from "react";
 import Activity from "./components/Activity";
 
 function App() {
+  const [rewardStatus, setRewardStatus] = useState("");
+
   return (
     <AuthProvider>
       <Router>
@@ -29,6 +33,7 @@ function App() {
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
               <Route path="/rewards" element={<RewardsPage />} />
+              <Route path="/rewards/:rewardId/:rewardStatus/:urId" element={<Reward />}/>
               <Route path="/activity/:id" element={<Activity />}></Route>
             </Routes>
           </div>

@@ -86,7 +86,7 @@ const Profile = () => {
               Points Remaining
             </label>
             <p className="w-full rounded border border-gray-300 bg-gray-100 p-3">
-              0
+              {auth.userPoints}
             </p>
           </div>
         </div>
