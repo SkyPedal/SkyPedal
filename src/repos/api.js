@@ -65,7 +65,7 @@ const useApi = (auth) => {
       saveActivity: async (activity) => {
         try {
           activity = { ...activity, userId };
-          await axios.post(`${STATIC_DATABASE_URL}/activities`, activity, {
+          await axios.post(`${DATABASE_URL}/activities`, activity, {
             headers: { Authorization: `Bearer ${token}` },
           });
           return { data: "ok" };
@@ -90,9 +90,11 @@ const useApi = (auth) => {
       },
       getCurrentUser: async (query) => {
         try {
-          const response = await axios.get(`${DATABASE_URL}/users/whoami`, { headers: {
-            'Authorization': `Bearer ${query}`
-        } });
+          const response = await axios.get(`${DATABASE_URL}/users/whoami`, {
+            headers: {
+              Authorization: `Bearer ${query}`,
+            },
+          });
           return { data: response.data };
         } catch (error) {
           return { error: `Error fetching data: ${error}` };
@@ -116,7 +118,7 @@ const useApi = (auth) => {
         try {
           const response = await axios.get(`${DATABASE_URL}/users/all?`, {
             headers: {
-              'Authorization': `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
           });
           return { data: response.data };
@@ -128,8 +130,8 @@ const useApi = (auth) => {
         try {
           const response = await axios.get(`${DATABASE_URL}/users/whoami`, {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
           return { data: response.data };
         } catch (error) {
@@ -149,7 +151,7 @@ const useApi = (auth) => {
 
           const response = await axios.delete(`${DATABASE_URL}/users/${id}`, {
             headers: {
-              'Authorization': `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           return { data: response.data };
@@ -157,7 +159,6 @@ const useApi = (auth) => {
           return { error: `Error deleting account: ${error}` };
         }
       },
-      
     };
   }, [token, userId]);
   return api;
