@@ -23,8 +23,8 @@ const SignInPage = () => {
       else setError(signin.error);
     } else {
       auth.setToken(signin.data.accessToken);
-      const me = await api.getCurrentUser(signin.data.accessToken); 
-      auth.setUserId(me.data.id)
+      const me = await api.getCurrentUser(signin.data.accessToken);
+      auth.setUserId(me.data.id);
       navigate("/");
     }
   };
