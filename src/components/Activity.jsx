@@ -27,12 +27,12 @@ const Activity = () => {
   const auth = useAuth();
 
   const activityIcons = {
-    cycling: <FaBicycle className="text-blue-500" />,
-    running: <FaRunning className="text-red-500" />,
-    walking: <FaWalking className="text-green-500" />,
-    Cycling: <FaBicycle className="text-blue-500" />,
-    Running: <FaRunning className="text-red-500" />,
-    Walking: <FaWalking className="text-green-500" />,
+    cycling: <FaBicycle className="text-blue-500" size={50} />,
+    running: <FaRunning className="text-red-500" size={50} />,
+    walking: <FaWalking className="text-green-500" size={50} />,
+    Cycling: <FaBicycle className="text-blue-500" size={50} />,
+    Running: <FaRunning className="text-red-500" size={50} />,
+    Walking: <FaWalking className="text-green-500" size={50} />,
   };
 
   useEffect(() => {
