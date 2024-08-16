@@ -21,12 +21,12 @@ const RewardsPage = () => {
     const getData = async () => {
       const res = await api.getRewardsActive();
       setRewardsActive(res);
-      if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
+      if (res.error)
+        setGetError(`Data not available from server: ${res.error.message}`);
     };
 
     getData();
   }, []);
-
 
   // get available rewards to the user:
   useEffect(() => {
@@ -39,10 +39,11 @@ const RewardsPage = () => {
 
   const getRewardsAvailable = async () => {
     try {
-      const res = await axios.get(`${DATABASE_URL}/rewards/getActive`, { headers: {
-        'Authorization': `Bearer ${token}`
-        
-    } });
+      const res = await axios.get(`${DATABASE_URL}/rewards/getActive`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       //   console.log(res.data);
       return res.data.length
         ? { rewards: res.data }
