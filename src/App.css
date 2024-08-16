@@ -41,3 +41,8 @@ html {
 .read-the-docs {
     color: #888;
 }
+
+.err {
+    margin-top: 10px;
+    color: #f30004;
+}
