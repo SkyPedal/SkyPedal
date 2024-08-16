@@ -2,7 +2,7 @@
 
 const ForgotPasswordLink = () => {
   return (
-    <div className="text-right mb-6">
+    <div className="mb-6 text-right">
       <a href="/forgot-password" className="text-gray-500">
         Forgot Password?
       </a>

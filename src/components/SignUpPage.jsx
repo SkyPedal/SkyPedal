@@ -28,21 +28,21 @@ const SignUpPage = () => {
 
     let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
-    if(!emailRegex.test(inputEmail)) {
-      setError("Not a valid email")
-      return
+    if (!emailRegex.test(inputEmail)) {
+      setError("Not a valid email");
+      return;
     }
 
-    if(inputPassword.length < 8) {
-      setError("Password is too short")
-      return
+    if (inputPassword.length < 8) {
+      setError("Password is too short");
+      return;
     }
-    
-    if(inputConfirmPassword !== inputPassword) {
-      setError("Passwords do not match")
-      return
+
+    if (inputConfirmPassword !== inputPassword) {
+      setError("Passwords do not match");
+      return;
     }
-    
+
     const signup = await api.queryRegister(query);
     if (signup.error) {
       if (signup.error.includes("403"))
@@ -57,8 +57,8 @@ const SignUpPage = () => {
         setError(signin.error);
       } else {
         auth.setToken(signin.data.accessToken);
-        const me = await api.getCurrentUser(signin.data.accessToken); 
-        auth.setUserId(me.data.id); 
+        const me = await api.getCurrentUser(signin.data.accessToken);
+        auth.setUserId(me.data.id);
         navigate("/");
       }
     }

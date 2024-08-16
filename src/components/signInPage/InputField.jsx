@@ -5,11 +5,11 @@ import React from "react";
 const InputField = ({ label, type = "text", placeholder = "" }) => {
   return (
     <div className="mb-6">
-      <label className="block text-lg mb-2">{label}</label>
+      <label className="mb-2 block text-lg">{label}</label>
       <input
         type={type}
         placeholder={placeholder}
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full rounded border border-gray-300 p-2"
       />
     </div>
   );

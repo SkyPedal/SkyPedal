@@ -4,68 +4,66 @@
 
 /* Your other CSS styles */
 
-
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-    /* color-scheme: light dark;
+  /* color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424; */
 
-    --sky-gradient-shape: linear-gradient(
-        #ff8c00 5%,
-        #f80032 25%,
-        #ff00a0 45%,
-        #8c28ff 65%,
-        #0023ff 82%,
-        #19a0ff 92%
-    );
+  --sky-gradient-shape: linear-gradient(
+    #ff8c00 5%,
+    #f80032 25%,
+    #ff00a0 45%,
+    #8c28ff 65%,
+    #0023ff 82%,
+    #19a0ff 92%
+  );
 
-    --sky-red: #ff0000;
-    --sky-orange: #ff9e00;
-    --sky-purple: #b5007d;
-    --sky-indigo: #21429c;
-    --sky-blue: #0071ff;
+  --sky-red: #ff0000;
+  --sky-orange: #ff9e00;
+  --sky-purple: #b5007d;
+  --sky-indigo: #21429c;
+  --sky-blue: #0071ff;
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
 
 .sky-gradient-text {
-    background: linear-gradient(to right, 
-        #ff7800 8%, 
-        #f80032 28%, 
-        #ff00a0 40%, 
-        #8c28ff 60%, 
-        #0023ff 80%, 
-        #1798ff 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  background: linear-gradient(
+    to right,
+    #ff7800 8%,
+    #f80032 28%,
+    #ff00a0 40%,
+    #8c28ff 60%,
+    #0023ff 80%,
+    #1798ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-
 .bg-sky-gradient-shape {
-    background: linear-gradient(
-        #ff8c00 5%,
-        #f80032 25%,
-        #ff00a0 45%,
-        #8c28ff 65%,
-        #0023ff 82%,
-        #19a0ff 92%
-    );
+  background: linear-gradient(
+    #ff8c00 5%,
+    #f80032 25%,
+    #ff00a0 45%,
+    #8c28ff 65%,
+    #0023ff 82%,
+    #19a0ff 92%
+  );
 }
 
 .text-sky-indigo {
-    color: var(--sky-indigo);
+  color: var(--sky-indigo);
 }
 
 .bg-sky-indigo {
-    background-color: var(--sky-indigo);
+  background-color: var(--sky-indigo);
 }

@@ -18,8 +18,9 @@ const RewardsOverview = () => {
     const getData = async () => {
       const res = await api.getRewardsActive();
       setRewardsActive(res);
-      if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
-      console.log("response of rewards: ", rewards)
+      if (res.error)
+        setGetError(`Data not available from server: ${res.error.message}`);
+      console.log("response of rewards: ", rewards);
     };
 
     getData();
@@ -27,11 +28,12 @@ const RewardsOverview = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await api.queryUserById()
+      const res = await api.queryUserById();
       setUser(res);
       auth.setUserPoints(res.data?.rewardPoints);
 
-      if (res.error) setGetError(`Data not available from server: ${res.error.message}`);
+      if (res.error)
+        setGetError(`Data not available from server: ${res.error.message}`);
     };
 
     getData();
@@ -44,7 +46,7 @@ const RewardsOverview = () => {
       <i className={categoryHeaderCSS}>Points</i>
       <p className={categoryDataCSS}>{userPoints}</p>
       <i className={categoryHeaderCSS}>Active Rewards</i>
-      {rewards?.rewards?.slice(0,3).map((reward) => {
+      {rewards?.rewards?.slice(0, 3).map((reward) => {
         const {
           id,
           dateRedeemed,
@@ -55,7 +57,14 @@ const RewardsOverview = () => {
           rewardName,
         } = reward;
         // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
-        return <Link className={categoryDataCSS} to={`/rewards/${rewardId}/activate/${id}`}>{rewardName}</Link>;
+        return (
+          <Link
+            className={categoryDataCSS}
+            to={`/rewards/${rewardId}/activate/${id}`}
+          >
+            {rewardName}
+          </Link>
+        );
       })}
     </div>
   );

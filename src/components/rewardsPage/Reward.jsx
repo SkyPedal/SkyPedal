@@ -86,11 +86,11 @@ const Reward = () => {
       setError(`reward status failed to be set successfully: ${rewardStatus}`);
     }
     console.log("Submit: ", success, error);
-    
+
     if (error == null && success.data) {
-        navigate("/rewards");
+      navigate("/rewards");
     } else {
-        setError(success.error);
+      setError(success.error);
     }
   };
 
@@ -136,7 +136,10 @@ const Reward = () => {
               {reward?.rewards?.name}
             </td>
             <td rowSpan="4" className="rounded-r-lg bg-slate-200">
-                <img src={reward?.rewards?.imageLink} className="m-auto w-2/3"></img>
+              <img
+                src={reward?.rewards?.imageLink}
+                className="m-auto w-2/3"
+              ></img>
             </td>
           </tr>
           <tr>

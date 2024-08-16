@@ -6,7 +6,7 @@ import RewardsOverview from "./info/RewardsOverview";
 const InfoSidebar = () => {
   return (
     <div
-      className="hidden md:flex md:flex-col justify-evenly basis-52 h-full sticky right-0 border-l-4 border-solid"
+      className="sticky right-0 hidden h-full basis-52 justify-evenly border-l-4 border-solid md:flex md:flex-col"
       style={{
         borderImage: "var(--sky-gradient-shape) 1",
         color: "var(--sky-indigo)",
