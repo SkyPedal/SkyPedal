@@ -9,10 +9,14 @@ import {
 import { Link } from "react-router-dom";
 
 const activityIcons = {
-  cycling: <FaBicycle className="text-blue-500" />,
-  running: <FaRunning className="text-red-500" />,
-  walking: <FaWalking className="text-green-500" />,
-};
+    cycling: <FaBicycle className="text-blue-500" size={32} />,
+    running: <FaRunning className="text-red-500" size={32} />,
+    walking: <FaWalking className="text-green-500" size={32} />,
+    Cycling: <FaBicycle className="text-blue-500" size={32} />,
+    Running: <FaRunning className="text-red-500" size={32} />,
+    Walking: <FaWalking className="text-green-500" size={32} />,
+  };
+  
 
 const ActivityOverview = ({ activity }, key) => {
   return (
