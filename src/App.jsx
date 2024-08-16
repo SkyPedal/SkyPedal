@@ -33,7 +33,7 @@ function App() {
               <Route path="/record" element={<RecordActivity />} />
               <Route path="/compete" element={<Leaderboard />} />
               <Route path="/rewards" element={<RewardsPage />} />
-              <Route path="/rewards/:id/:rewardStatus" element={<Reward />}/>
+              <Route path="/rewards/:rewardId/:rewardStatus/:urId" element={<Reward />}/>
               <Route path="/activity/:id" element={<Activity />}></Route>
             </Routes>
           </div>

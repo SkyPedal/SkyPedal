@@ -12,8 +12,8 @@ const RewardsPage = () => {
   const [rewardsActive, setRewardsActive] = useState({});
   const [getError, setGetError] = useState(``);
 
-  // how do I set this to realise what user it is? //
   const auth = useAuth();
+  const { userId, token } = auth;
   const api = useApi(auth);
 
   // get active user rewards: (identical to available rewards code snippet below this one)

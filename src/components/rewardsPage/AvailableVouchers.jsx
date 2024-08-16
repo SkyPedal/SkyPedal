@@ -22,14 +22,14 @@ const AvailableVouchers = ({ data }) => {
     }, [data]);
 
     const populateTable = (data) => {
-        console.log("Populate table");
-        console.log(data);
+        // console.log("Populate table");
+        // console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
                 const { id, name, description, pointCost, numberAvailable, imageLink, active } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
                 const reward = new AvailableRewardModel( name, null, numberAvailable, pointCost, null, null, id );
-                console.log(reward);
+                // console.log(reward);
                 return <RewardAvailable reward={reward} key={reward.id} />;
             });
         }

@@ -22,14 +22,14 @@ const ActiveVouchers = ({ data }) => {
     }, [data]);
 
     const populateTable = (data) => {
-        console.log("Populate table");
-        console.log(data);
+        // console.log("Populate table");
+        // console.log(data);
         if (data?.rewards?.length > 0) {
             return data.rewards.map(currentReward => {
                 const { id, dateRedeemed, dateExpiry, hasUsed, rewardId, userId, rewardName } = currentReward;
                 // const reward = new RewardModel( rewardName={rewardName}, rewardAmountRemaining={rewardAmountRemaining}, rewardPointCost={rewardPointCost}, _id={_id});
                 const reward = new ActiveRewardModel( rewardName, rewardId, userId, dateRedeemed, dateExpiry, hasUsed, id );
-                console.log(reward);
+                // console.log(reward);
                 return <RewardActive reward={reward} key={reward.id} />;
             });
         }

@@ -11,8 +11,9 @@ const Reward = () => {
   const [reward, setReward] = useState({});
   const [error, setError] = useState(null);
 
-  const { rewardId, rewardStatus } = useParams();
+  const { rewardId, rewardStatus, urId } = useParams();
   const auth = useAuth();
+  const { userId, token } = auth;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,12 +25,13 @@ const Reward = () => {
   }, [rewardId]);
 
   const getReward = async () => {
+
     try {
       const res = await axios.get(`${DATABASE_URL}/rewards/${rewardId}`, { headers: {
         'Authorization': `Bearer ${token}`
         
     } });
-      console.log(res);
+    //   console.log(res);
       return res.data.usersRewards.length
         ? { rewards: res.data }
         : { error: `No information about this reward available` };
@@ -39,23 +41,26 @@ const Reward = () => {
     }
   };
 
-  const redeemUserReward = async (rewardId, userId) => {
+  const redeemUserReward = async () => {
     try {
       const response = await axios.post(
-        `${DATABASE_URL}/users_rewards`,
-        { rewardId, userId },
-      );
+        `${DATABASE_URL}/users_rewards/redeem/${rewardId}`, { headers: {
+            'Authorization': `Bearer ${token}`
+            
+        } });
       return { data: response.data };
     } catch (error) {
       return { error: `Error fetching data: ${error}` };
     }
   }
 
-  const activateUserReward = async (userRewardId) => {
+  const activateUserReward = async () => {
     try {
         const response = await axios.patch(
-          `${DATABASE_URL}/users_rewards/${userRewardId}`,
-        );
+          `${DATABASE_URL}/users_rewards/${urId}`, { headers: {
+            'Authorization': `Bearer ${token}`
+            
+        } });
         return { data: response.data };
       } catch (error) {
         return { error: `Error fetching data: ${error}` };
@@ -70,12 +75,16 @@ const Reward = () => {
 
   const handleSave = async () => {
     setError("");
+    console.log("made it to handleSave!")
+    console.log("urId = ", urId);
 
-    if (rewardStatus == "activate") {
-        const success = await redeemUserReward(reward?.rewards?.id, auth.userId);
-    } else if (rewardStatus == "redeem") {
-        const success = await activateUserReward(reward?.rewards?.usersRewards.id);
-    }
+    
+    let success;
+    if (rewardStatus == "redeem") {
+        success = await redeemUserReward();
+    } else if (rewardStatus == "activate") {
+        success = await activateUserReward();
+    } else { setError(`reward status failed to be set successfully: ${rewardStatus}`) }
     console.log("Submit: ", success, error);
     navigate("/rewards");
   };
@@ -107,7 +116,7 @@ const Reward = () => {
   }
 
   if (error) {
-    return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
+    return <div className="mx-auto max-w-4xl p-4">Error: {error}</div>;
   }
 
   return (
@@ -117,7 +126,7 @@ const Reward = () => {
         <table className="w-full p-5 border-spacing-2 border-separate"><tbody>
         <tr>
             <td className="rounded-l-lg bg-slate-200">{reward?.rewards?.name}</td>
-            <td rowspan="4" className="rounded-r-lg bg-slate-200">Image Link: {reward?.rewards?.imageLink}</td>
+            <td rowSpan="4" className="rounded-r-lg bg-slate-200">Image Link: {reward?.rewards?.imageLink}</td>
         </tr>
         <tr>
             <td className="rounded-l-lg bg-slate-200">{reward?.rewards?.description}</td>
@@ -131,8 +140,6 @@ const Reward = () => {
         </table>
 
         {addButton()}
-
-        <p>{reward?.rewards?.usersRewards}</p>
     </form>
   );
 };
