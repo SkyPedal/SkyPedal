@@ -23,8 +23,8 @@ const Activity = () => {
   const [names, setNames] = useState([]);
 
   const { id } = useParams();
-  const auth = useAuth();
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const activityIcons = {
     cycling: <FaBicycle className="text-4xl text-blue-500" />,
@@ -44,24 +44,21 @@ const Activity = () => {
         }
         setActivity(response.data);
 
-        const listOfFriends = [];
-        for (const friendId of response.data.joined_friends) {
-          try {
-            const friend = await axios.get(
-              `${DATABASE_URL}/users/${friendId}`,
-              { headers: { Authorization: `Bearer ${auth.token}` } },
-            );
-            if (friend.status != 200) {
-              throw new Error("Network response was not ok");
-            }
+        // const listOfFriends = [];
+        // for (const friendId of response.data.joined_friends) {
+        //   try {
+        //     const friend = await axios.get(`${DATABASE_URL}/users/${friendId}`);
+        //     if (friend.status != 200) {
+        //       throw new Error("Network response was not ok");
+        //     }
 
-            listOfFriends.push(friend.data.name);
-          } catch (error) {
-            setError(error);
-            setLoading(false);
-          }
-        }
-        setNames(listOfFriends);
+        //     listOfFriends.push(friend.data.name);
+        //   } catch (error) {
+        //     setError(error);
+        //     setLoading(false);
+        //   }
+        // }
+        // setNames(listOfFriends);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -76,6 +73,7 @@ const Activity = () => {
     try {
       const response = await axios.delete(
         `${DATABASE_URL}/activities/delete?id=${id}`,
+        { headers: { Authorization: `Bearer ${auth.token}` } },
       );
       if (response.status != 200) {
         throw new Error("Network response was not ok");
@@ -91,7 +89,7 @@ const Activity = () => {
   if (loading) {
     return <div className="mx-auto max-w-4xl p-4">Loading...</div>;
   }
-
+  
   if (error) {
     return <div className="mx-auto max-w-4xl p-4">Error: {error.message}</div>;
   }
@@ -178,9 +176,10 @@ const Activity = () => {
         </h2>
         <div className="rounded-lg bg-gray-100 p-4">
           <div className="h-[90%] space-y-6 overflow-y-auto">
-            {names.map((name) => (
-              <p key={"activity-" + name}>{name}</p>
-            ))}
+            <p> Friends Placeholder</p>
+            {/* {names.map((name) => (
+              <p>{name}</p>
+            ))} */}
           </div>
         </div>
       </div>
